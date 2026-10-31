@@ -20,12 +20,12 @@ labs/student/
 ├── images/
 ├── AWS/
 │   ├── 00-AWS-Lab-Setup-AWS/
-│   ├── 01-AWS-Lab-bedrock/
-│   └── 02-AWS-Lab-RAG-Python/
+│   └── 01-AWS-Lab-bedrock/
 └── Google-AI-Studio/
     ├── 00-GAIS-Lab-Setup-Google-Gemini/
     ├── 01-GAIS-Lab-JSON-Schema/
-    └── 02-GAIS-Lab-Embedding-File-Search/
+    ├── 02-GAIS-Lab-RAG-Python/
+    └── 03-GAIS-Lab-Embedding-File-Search/
 ```
 
 Every lab folder has a README. The existing combined HTML guide also remains
@@ -35,14 +35,14 @@ under `labs/student` for offline use.
 |---|---|---|
 | [00-AWS-Lab-Setup-AWS](labs/student/AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
 | [01-AWS-Lab-bedrock](labs/student/AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
-| [02-AWS-Lab-RAG-Python](labs/student/AWS/02-AWS-Lab-RAG-Python/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
 | [00-GAIS-Lab-Setup-Google-Gemini](labs/student/Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
 | [01-GAIS-Lab-JSON-Schema](labs/student/Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
-| [02-GAIS-Lab-Embedding-File-Search](labs/student/Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
+| [02-GAIS-Lab-RAG-Python](labs/student/Google-AI-Studio/02-GAIS-Lab-RAG-Python/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
+| [03-GAIS-Lab-Embedding-File-Search](labs/student/Google-AI-Studio/03-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
 
-The Python RAG exercise is grouped under AWS for course navigation, but its
-existing implementation uses local embeddings and Gemini for answers. It is
-not an AWS Bedrock RAG implementation.
+The Google sequence is setup, JSON Schema, Python RAG, then Embedding/File
+Search. Python RAG uses local embeddings and Gemini for answers; File Search
+builds on its documents and evaluation set.
 
 Each lab has its own folder and full README instructions, viewable directly on
 GitHub like 00-setup-lab. The folders contain course instructions, not your

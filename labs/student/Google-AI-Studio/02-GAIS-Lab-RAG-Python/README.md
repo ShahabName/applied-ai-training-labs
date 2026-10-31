@@ -1,5 +1,5 @@
 ---
-title: "02-AWS-Lab-RAG-Python"
+title: "02-GAIS-Lab-RAG-Python"
 description: Build and evaluate multilingual retrieval with cited answers and a test exercise.
 id: P01
 cloud: Local Python and Google Gemini
@@ -11,8 +11,8 @@ dependencies: [CH00, G01]
 ---
 
 [All student labs](../../../../README.md) |
-[Prerequisite: Google Lab 1](../../Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
-[Next: Google Lab 2](../../Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md)
+[Prerequisite: 01-GAIS-Lab-JSON-Schema](../01-GAIS-Lab-JSON-Schema/README.md) |
+[Next: 03-GAIS-Lab-Embedding-File-Search](../03-GAIS-Lab-Embedding-File-Search/README.md)
 
 Complete the steps in your separate portfolio repository. This lab includes the
 75-minute exercise and Part 2 in Week 2, Session 4. Retrieval and evaluation can
@@ -20,7 +20,7 @@ run without a Gemini key; answer generation uses the key from Google Lab 1.
 Preserve document attribution and never commit secrets. Source testing notes
 below are historical, not a new live-cloud validation.
 
-This is the original Python Lab 1, grouped under AWS for course navigation.
+This is the original Python Lab 1 in the Google AI Studio learning sequence.
 Retrieval runs locally and answer generation uses Gemini. No AWS service or
 Bedrock Knowledge Base is created by this exercise.
 

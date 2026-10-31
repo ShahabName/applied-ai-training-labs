@@ -13,7 +13,7 @@ dependencies: [CH00, A00, G01]
 [All student labs](../../../../README.md) |
 [AWS setup](../00-AWS-Lab-Setup-AWS/README.md) |
 [Prerequisite: Google Lab 1](../../Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
-[Next: Python Lab 1](../02-AWS-Lab-RAG-Python/README.md)
+[Continue: 02-GAIS-Lab-RAG-Python](../../Google-AI-Studio/02-GAIS-Lab-RAG-Python/README.md)
 
 Complete the steps in your separate portfolio repository. Google Lab 1 provides
 the prompts, JSON schema and comparison table used here. Check current AWS
