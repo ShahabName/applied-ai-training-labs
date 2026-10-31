@@ -137,6 +137,46 @@ An embedding is a list of numbers. Texts with similar meaning get vectors that p
 
    ![Screenshot of the similarity matrix printed by the local embedding model.](../../images/google-lab-2-gemini-embeddings-and-file-search/img01-cd5d7bc0.png)
 
+   The printed array has no labels. Both its rows (top to bottom) and its
+   columns (left to right) follow the order of the four entries in `TEXTS`:
+
+   | Row and column number | Text represented | Meaning |
+   | --- | --- | --- |
+   | 1 | How do I renew my residence visa? | English visa-renewal question |
+   | 2 | Steps to extend an Emirates residency permit | Related English paraphrase |
+   | 3 | Best beaches in Dubai | Unrelated beach topic |
+   | 4 | كيف أجدد تأشيرة الإقامة؟ | Arabic translation of the first question |
+
+   Each cell compares the row's text with the column's text using cosine
+   similarity. For example, row 1, column 4 compares the English visa
+   question with its Arabic translation. Here is the screenshot's matrix
+   with short labels added:
+
+   | Compared text | 1: English visa | 2: Residency steps | 3: Beaches | 4: Arabic visa |
+   | --- | --- | --- | --- | --- |
+   | 1: English visa | 1.000 | 0.470 | 0.020 | 0.832 |
+   | 2: Residency steps | 0.470 | 1.000 | 0.393 | 0.440 |
+   | 3: Beaches | 0.020 | 0.393 | 1.000 | 0.006 |
+   | 4: Arabic visa | 0.832 | 0.440 | 0.006 | 1.000 |
+
+   `vectors @ vectors.T` compares all four normalized embeddings with
+   one another, producing 16 scores. This is not a table of embedding
+   dimensions: `dimensions: 384` means each sentence has 384 coordinates,
+   while the 4 × 4 matrix compares the four sentences.
+
+   The diagonal is 1 because each text is compared with itself. The matrix
+   is symmetric: comparing text 1 with text 4 gives the same score as
+   comparing text 4 with text 1. Off-diagonal scores show how closely the
+   model represents different meanings; higher means closer embedding
+   directions, while values near zero suggest little similarity.
+   Scores are not percentages or probabilities of correctness.
+
+   The significance is that retrieval can find related wording and
+   cross-language evidence without an exact keyword match. Compare related
+   and unrelated pairs to judge the embedding model's behavior. A nonzero
+   score for an unrelated pair does not make it relevant, and these example
+   values are not universal thresholds; your model/version may differ.
+
    * The English question and its Arabic translation score about 0.83: the multilingual model matches meaning across languages.
    * The visa question and the residency-permit sentence score 0.47 although they share almost no words.
    * The beach sentence is unrelated to the visa question (about 0.02).
