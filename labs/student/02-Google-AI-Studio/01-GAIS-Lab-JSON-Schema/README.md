@@ -255,10 +255,19 @@ A response schema makes the model return JSON in an exact shape. You still valid
    * The Pydantic class `Review` is the contract. `Review.model_json_schema()` turns it into the JSON schema sent to Gemini.
    * `response_format` asks for `application/json` that follows that schema.
    * `Review.model_validate_json` checks the answer; a failure is printed instead of crashing.
-2. Run `python review_json.py`. Each line shows `valid` or `INVALID`, the latency and the parsed fields. The last line counts how many answers were valid on the first try.
+2. In the terminal in `week1/gemini`, run the exact command:
+
+   ```powershell
+   python review_json.py
+   ```
+
+   Allow about a minute, depending on API latency. The script pauses between
+   calls to reduce request frequency; your project's free-tier rate limits
+   still apply.
+3. Check the output. Each line shows `valid` or `INVALID`, the latency and the parsed fields. The last line counts how many answers were valid on the first try.
 
    Check the values, not only the format: is `needs_follow_up` true for the two complaints? Is `language` correct for the Arabic reviews?
-3. Add at least six more synthetic reviews to the `REVIEWS` list (three of them in Arabic, one that mixes Arabic and English) and run the script again. Record the number of valid answers.
+4. Add at least six more synthetic reviews to the `REVIEWS` list (three of them in Arabic, one that mixes Arabic and English) and run the script again. Record the number of valid answers.
 
 ## Troubleshooting
 
