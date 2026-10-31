@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applied AI Engineering: four released student labs</title>
+<style>
+:root { --fg:#1b1b1f; --muted:#5b5f6b; --accent:#0f6cbd; --bg:#ffffff; --code:#f4f6fa; --border:#d9dee8; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color:var(--fg); background:var(--bg); line-height:1.55; }
+header.top { padding:28px 40px; background:#0a1c3d; color:#fff; }
+header.top h1 { margin:0 0 6px; font-size:28px; }
+header.top p { margin:4px 0; color:#c7d3e6; }
+nav.toc { padding:20px 40px; border-bottom:1px solid var(--border); background:#f8fafd; }
+nav.toc ol { columns: 2; column-gap: 40px; margin:8px 0 0; }
+nav.toc li { margin:3px 0; break-inside: avoid; }
+main { padding: 10px 40px 60px; max-width: 1100px; }
+section.lab { border-top:3px solid var(--accent); margin-top:36px; padding-top:8px; }
+section.lab > h2 { font-size:24px; margin:10px 0; }
+table.meta { border-collapse:collapse; margin:10px 0 18px; font-size:14px; }
+table.meta td, table.meta th { border:1px solid var(--border); padding:4px 10px; text-align:left; vertical-align:top; }
+table.meta th { background:#eef3fb; font-weight:600; }
+.page { margin:18px 0 28px; padding:6px 0 0; border-top:1px dashed var(--border); }
+.page-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+.page h1 { font-size:22px; } .page h2 { font-size:20px; } .page h3 { font-size:17px; }
+pre { background:var(--code); border:1px solid var(--border); border-radius:6px; padding:10px 12px; overflow:auto; font-size:13px; }
+code { font-family: Consolas, "Cascadia Code", monospace; font-size:0.92em; }
+code.inline-value { background:#eef3fb; border:1px solid #d5e0f2; border-radius:4px; padding:0 4px; }
+img { max-width:100%; height:auto; border:1px solid var(--border); border-radius:4px; }
+blockquote, .alert { margin:10px 0; padding:6px 14px; border-left:4px solid #ffb81c; background:#fffaf0; }
+.code-lang { font-size:11px; color:var(--muted); margin:10px 0 -6px; text-transform:lowercase; }
+.kwd, .tag { color:#0033b3; } .str, .atv { color:#067d17; } .com { color:#8c8c8c; font-style:italic; }
+.typ { color:#7a3e9d; } .lit { color:#1750eb; } .pun, .pln, .opn, .clo { color:inherit; }
+.note { font-size:13px; color:var(--muted); }
+a { color:var(--accent); }
+@media print { nav.toc { display:none; } section.lab { page-break-before: always; } }
+.typeText { font-family: Consolas, "Cascadia Code", monospace; font-size: 0.92em; background: #fff8e1;
+            border: 1px solid #f0d58c; border-radius: 4px; padding: 0 4px; }
+table.data { border-collapse: collapse; margin: 10px 0 16px; font-size: 14px; }
+table.data td, table.data th { border: 1px solid var(--border); padding: 4px 10px; text-align: left; vertical-align: top; }
+table.data th { background: #eef3fb; font-weight: 600; }
+nav.toc .tag, section.lab > h2 .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px;
+            border-radius: 9px; margin-right: 6px; color: #fff; vertical-align: 2px; }
+.tag.google { background: #1a73e8; } .tag.aws { background: #ff9900; color: #1b1b1f; }
+.tag.azure { background: #0f6cbd; } .tag.python { background: #3776ab; }
+nav.toc ol { columns: 1; }
+
+</style>
+</head>
+<body>
+<header class="top">
+<h1>Applied AI Engineering: released student labs</h1>
+<p>Google Lab 1, AWS Lab 1, Python Lab 1 and Google Lab 2 &middot; released 31 October 2026</p>
+<p>Complete these labs in order, after Challenge 0. Work in your separate portfolio repository, not in this materials clone. Use one Google account and one AWS account; never commit keys or account details.</p>
+<p>The original course slide dates and testing notes are retained. Provider pricing, eligibility and model availability can change: check the linked official documentation before using your own account. Budget alerts do not stop spending. Only these four practical labs are included in this release.</p>
+</header>
+<nav class="toc" aria-label="Released labs">
+<strong>Labs</strong>
+<ol>
+<li><a href="#lab-g1">Google Lab 1: Call Gemini from Python with a JSON response schema</a> <span class="note">(45 to 60 minutes &middot; slide 90)</span></li>
+<li><a href="#lab-a1">AWS Lab 1: Free plan account, budget alert and Bedrock playground</a> <span class="note">(45 to 60 minutes &middot; slide 91)</span></li>
+<li><a href="#lab-p1">Python Lab 1: Cited RAG pipeline over public UAE policy documents</a> <span class="note">(75 minutes, plus Part 2 in Week 2, Session 4 &middot; slide 126)</span></li>
+<li><a href="#lab-g2">Google Lab 2: Gemini embeddings and File Search</a> <span class="note">(45 minutes &middot; slide 141)</span></li>
+</ol>
+</nav>
+<main>
+<section class="lab" id="lab-g1"><h2><span class="tag google">Google</span>Google Lab 1: Call Gemini from Python with a JSON response schema</h2><table class="meta"><tr><th>Lab type</th><td>Hands-on lab</td></tr><tr><th>Course slide</th><td>Slide 90 &middot; Week 1, Session 3 &middot; Sat 26 Sep 2026</td></tr><tr><th>Expected duration</th><td>45 to 60 minutes</td></tr><tr><th>Environment</th><td>Your laptop: Python, VS Code; Google AI Studio in a web browser</td></tr><tr><th>Account and cost</th><td>Gemini API free tier (no payment method)</td></tr><tr><th>Related labs</th><td>Skillable Lab 01 and Lab 03 (same prompts in Foundry); AWS Lab 1 (same prompts in Bedrock)</td></tr><tr><th>Public docs</th><td><a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/structured-output" target="_blank" rel="noopener">Structured outputs</a> &middot; <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">API keys</a></td></tr><tr><th>Tested</th><td>2026-10-09 &middot; see the note at the end of the lab</td></tr></table><div class="page"><div class="page-label">Page 1 of 2</div><h2 id="lab-g1-before-you-start">Before you start</h2>
+<p>You need one personal Google account (Gmail) for all four Google labs. You must be 18 or older. The United Arab Emirates is a supported country for Google AI Studio and the Gemini API (<a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/available-regions" target="_blank" rel="noopener">available regions</a>). Turn off any VPN.</p>
+<ul>
+<li>The Gemini API free tier needs <strong>no payment method</strong>. Rate limits apply per project; you can see them in Google AI Studio.</li>
+<li>Content you send on the free tier may be used to improve Google products. Use only public, synthetic or non-sensitive data, never personal data.</li>
+<li>Keep your API key in a <code class="inline-value">.env</code> file that is listed in <code class="inline-value">.gitignore</code>. Never paste a key into code, chats, screenshots or commits.</li></ul>
+<p>Values that you type or select are shown like this: <span class="typeText" title="Type Text">example</span>. Replace anything in angle brackets, such as <code class="inline-value">&lt;your key&gt;</code>, with your own value.</p>
+<p>Now, when you're ready, go to the next page to start the exercise.</p></div><div class="page"><div class="page-label">Page 2 of 2</div><h1 id="lab-g1-call-gemini-from-python-with-a-json-response-schema">Call Gemini from Python with a JSON response schema</h1>
+<p>In this exercise, you create a free Gemini API key in Google AI Studio, call the Gemini API from Python, run the Week 1 prompts, and ask for JSON output that follows a response schema. You add the results to the Week 1 model comparison table, next to Microsoft Foundry (Skillable Labs 01 and 03) and Amazon Bedrock (AWS Lab 1).</p>
+<p>This exercise takes approximately <strong>45</strong> minutes.</p>
+<h2 id="lab-g1-prerequisites">Prerequisites</h2>
+<p>Before starting this exercise, ensure you have:</p>
+<ul>
+<li>A personal Google account (18 or older)</li>
+<li><a class="icon-link external-link" href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> with the Python extension</li>
+<li>Python 3.12, 3.13 or 3.14 and Git</li>
+<li>Your portfolio repository cloned on your laptop</li></ul>
+<h2 id="lab-g1-create-a-gemini-api-key">Create a Gemini API key</h2>
+<p>Google AI Studio is Google's web tool for trying Gemini models and managing API keys.</p>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g1-taskIndex0"><p>In a web browser, open <a class="icon-link external-link" href="https://aistudio.google.com" target="_blank" rel="noopener">Google AI Studio</a> at <code class="inline-value">https://aistudio.google.com</code> and select <strong>Get started</strong>. Sign in with your personal Google account.</p>
+<p>
+<img src="images/google-lab-1-call-gemini-from-python-with-a-json-response-sc/img01-927fa1b7.png" alt="Screenshot of the Google AI Studio welcome page with the Get started button." loading="lazy"></p></li>
+<li class="task-list-item" id="lab-g1-taskIndex1"><p>If you are asked to, accept the Google APIs Terms of Service and the Gemini API Additional Terms. New users get a default Google Cloud project and an API key automatically.</p></li>
+<li class="task-list-item" id="lab-g1-taskIndex2"><p>Open <a class="icon-link external-link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">https://aistudio.google.com/apikey</a> at <code class="inline-value">https://aistudio.google.com/apikey</code>. If no key is listed, select <strong>Create API key</strong> and follow the dialog to create a key in a new or existing project. Copy the key.</p>
+<blockquote>
+  <p><strong>Note</strong>: Keys created in AI Studio only work with the Gemini API, but they still identify you. Treat the key like a password: if it is ever exposed, delete it on this page and create a new one.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-g1-taskIndex3"><p>Read how free usage works before you continue.</p>
+<ul>
+<li>The Gemini API <strong>free tier</strong> is free usage within rate limits (requests per minute, tokens per minute and requests per day). It is not a credit balance and needs no card.</li>
+<li>The <a class="icon-link external-link" href="https://cloud.google.com/free" target="_blank" rel="noopener">Google Cloud Free Trial</a> (USD 300 for 90 days, card for verification) is for Google Cloud services such as BigQuery. It cannot be used for the Gemini API in AI Studio, and you do not need it for this lab.</li></ul></li>
+</ol>
+<h2 id="lab-g1-set-up-the-project">Set up the project</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g1-taskIndex4"><p>In VS Code, open your portfolio repository and create the folder <code class="inline-value">week1/gemini</code>. Right-click the folder and select <strong>Open in Integrated Terminal</strong>.</p></li>
+<li class="task-list-item" id="lab-g1-taskIndex5"><p>Create and activate a virtual environment, then install the packages:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python -m venv </span><span class="pun">.</span><span class="pln">venv
+</span><span class="pun">.</span><span class="pln">venv</span><span class="pun">\</span><span class="pln">Scripts</span><span class="pun">\</span><span class="pln">Activate</span><span class="pun">.</span><span class="pln">ps1
+pip install -U google-genai pydantic python-dotenv</span></code></pre>
+<p>On macOS or Linux use <code class="inline-value">source .venv/bin/activate</code> instead of the second line.</p></li>
+<li class="task-list-item" id="lab-g1-taskIndex6"><p>Create the files that keep your key out of Git and start the comparison table:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">gitignore </span><span class="str">".venv/`n.env"</span><span class="pln">
+</span><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">env </span><span class="str">"GEMINI_API_KEY=&lt;your key&gt;"</span><span class="pln">
+</span><span class="typ">Set-Content</span><span class="pln"> model_comparison</span><span class="pun">.</span><span class="pln">csv </span><span class="str">"provider,model,prompt_id,correct,latency_s,valid_json,notes"</span><span class="pln"></span></code></pre>
+<p>Open <code class="inline-value">.env</code> in VS Code and replace <code class="inline-value">&lt;your key&gt;</code> with the key you copied. The Google Gen AI SDK reads <code class="inline-value">GEMINI_API_KEY</code> automatically.</p></li>
+</ol>
+<h2 id="lab-g1-make-your-first-call">Make your first call</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g1-taskIndex7"><p>Create a file named <code class="inline-value">hello.py</code> with the following code:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="kwd">import</span><span class="pln"> time
+
+</span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+</span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+
+load_dotenv</span><span class="pun">()</span><span class="pln">  </span><span class="com"># reads GEMINI_API_KEY from the .env file</span><span class="pln">
+client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
+
+start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
+interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">
+    model</span><span class="pun">=</span><span class="str">"gemini-3.8-flash"</span><span class="pun">,</span><span class="pln">
+    </span><span class="typ">input</span><span class="pun">=</span><span class="str">"Explain in two sentences what an AI engineer does."</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="pln">interaction</span><span class="pun">.</span><span class="pln">output_text</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="str">f"Latency: {</span><span class="pln">time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> start</span><span class="str">:.2f} s"</span><span class="pun">)</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-g1-taskIndex8"><p>Run it:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python hello</span><span class="pun">.</span><span class="pln">py</span></code></pre>
+<p>You should see a two-sentence answer and a latency figure, for example <code class="inline-value">Latency: 1.84 s</code>.</p>
+<blockquote>
+  <p><strong>Note</strong>: The current Gemini documentation uses the <strong>Interactions API</strong> (<code class="inline-value">client.interactions.create</code>) shown here. Older tutorials use <code class="inline-value">client.models.generate_content</code>; both work with the same key.</p>
+</blockquote></li>
+</ol>
+<h2 id="lab-g1-run-the-week-1-prompts">Run the Week 1 prompts</h2>
+<p>Use the same prompts as in the Foundry chat lab so that the comparison is fair.</p>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g1-taskIndex9"><p>Create <code class="inline-value">run_prompts.py</code>. It runs a zero-shot, a few-shot, a reasoning and an Arabic prompt three times each and appends every answer to <code class="inline-value">model_comparison.csv</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Run the Week 1 prompts three times each and log answers and latency."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> csv
+</span><span class="kwd">import</span><span class="pln"> time
+
+</span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+</span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+RUNS </span><span class="pun">=</span><span class="pln"> </span><span class="lit">3</span><span class="pln">
+
+PROMPTS </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"zero-shot"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">
+        </span><span class="str">"Classify this hotel review as positive, neutral or negative. Reply with one word.\n"</span><span class="pln">
+        </span><span class="str">"Review: The room was clean but the Wi-Fi kept dropping all evening."</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+    </span><span class="str">"few-shot"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">
+        </span><span class="str">"Classify each hotel review as positive, neutral or negative. Reply with one word.\n"</span><span class="pln">
+        </span><span class="str">"Review: Friendly staff and a great view of the Creek. Label: positive\n"</span><span class="pln">
+        </span><span class="str">"Review: The pool was closed and nobody told us. Label: negative\n"</span><span class="pln">
+        </span><span class="str">"Review: Average breakfast, convenient location. Label: neutral\n"</span><span class="pln">
+        </span><span class="str">"Review: Check-in was quick but the room smelled of smoke. Label:"</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+    </span><span class="str">"reasoning"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">
+        </span><span class="str">"Read the hotel review. First list the evidence for each possible label "</span><span class="pln">
+        </span><span class="str">"(positive, neutral, negative). Then give the final answer on the last line as 'Label: &lt;label&gt;'.\n"</span><span class="pln">
+        </span><span class="str">"Review: Beautiful lobby, but we waited 40 minutes for our room and the AC was noisy."</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+    </span><span class="str">"arabic"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">
+        </span><span class="str">"Classify this hotel review as positive, neutral or negative. Reply with one word.\n"</span><span class="pln">
+        </span><span class="str">"Review: الموقع ممتاز والغرفة واسعة، لكن الإفطار كان بارداً."</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+load_dotenv</span><span class="pun">()</span><span class="pln">
+client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"model_comparison.csv"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"a"</span><span class="pun">,</span><span class="pln"> newline</span><span class="pun">=</span><span class="str">""</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    log </span><span class="pun">=</span><span class="pln"> csv</span><span class="pun">.</span><span class="pln">writer</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> prompt_id</span><span class="pun">,</span><span class="pln"> prompt </span><span class="kwd">in</span><span class="pln"> PROMPTS</span><span class="pun">.</span><span class="pln">items</span><span class="pun">():</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> run </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">range</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> RUNS </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">):</span><span class="pln">
+            start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
+            interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">model</span><span class="pun">=</span><span class="pln">MODEL</span><span class="pun">,</span><span class="pln"> </span><span class="typ">input</span><span class="pun">=</span><span class="pln">prompt</span><span class="pun">)</span><span class="pln">
+            latency </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> start
+            answer </span><span class="pun">=</span><span class="pln"> interaction</span><span class="pun">.</span><span class="pln">output_text</span><span class="pun">.</span><span class="pln">strip</span><span class="pun">().</span><span class="pln">replace</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">,</span><span class="pln"> </span><span class="str">" "</span><span class="pun">)</span><span class="pln">
+            </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{</span><span class="pln">prompt_id</span><span class="str">:&lt;10} run {</span><span class="pln">run</span><span class="str">}  {</span><span class="pln">latency</span><span class="str">:5.2f}s  {</span><span class="pln">answer</span><span class="pun">[:</span><span class="lit">80</span><span class="pun">]</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+            </span><span class="com"># columns: provider, model, prompt_id, correct, latency_s, valid_json, notes</span><span class="pln">
+            log</span><span class="pun">.</span><span class="pln">writerow</span><span class="pun">([</span><span class="str">"gemini"</span><span class="pun">,</span><span class="pln"> MODEL</span><span class="pun">,</span><span class="pln"> prompt_id</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">,</span><span class="pln"> </span><span class="str">f"{</span><span class="pln">latency</span><span class="str">:.2f}"</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">,</span><span class="pln"> </span><span class="str">f"run {</span><span class="pln">run</span><span class="str">}: {</span><span class="pln">answer</span><span class="pun">[:</span><span class="lit">60</span><span class="pun">]</span><span class="str">}"</span><span class="pun">])</span><span class="pln">
+            time</span><span class="pun">.</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)</span><span class="pln">  </span><span class="com"># stay well inside the free-tier rate limits</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-g1-taskIndex10"><p>Run <code class="inline-value">python run_prompts.py</code>. It takes about a minute because it pauses between calls to stay inside the free-tier limits.</p>
+<p>For each prompt, decide whether the answer is correct and whether it changed between the three runs. Open <code class="inline-value">model_comparison.csv</code> and type <span class="typeText" title="Type Text">yes</span> or <span class="typeText" title="Type Text">no</span> in the <code class="inline-value">correct</code> column.</p></li>
+</ol>
+<h2 id="lab-g1-ask-for-json-with-a-response-schema">Ask for JSON with a response schema</h2>
+<p>A response schema makes the model return JSON in an exact shape. You still validate it in code, because a valid shape can still contain wrong values.</p>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g1-taskIndex11"><p>Create <code class="inline-value">review_json.py</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Ask Gemini for JSON that follows a schema, validate it with Pydantic and log the result."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> csv
+</span><span class="kwd">import</span><span class="pln"> time
+</span><span class="kwd">from</span><span class="pln"> typing </span><span class="kwd">import</span><span class="pln"> Literal
+
+</span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+</span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+</span><span class="kwd">from</span><span class="pln"> pydantic </span><span class="kwd">import</span><span class="pln"> BaseModel</span><span class="pun">,</span><span class="pln"> Field</span><span class="pun">,</span><span class="pln"> ValidationError
+
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Review</span><span class="pun">(</span><span class="pln">BaseModel</span><span class="pun">):</span><span class="pln">
+    sentiment</span><span class="pun">:</span><span class="pln"> Literal</span><span class="pun">[</span><span class="str">"positive"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"neutral"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"negative"</span><span class="pun">]</span><span class="pln">
+    topics</span><span class="pun">:</span><span class="pln"> </span><span class="typ">list</span><span class="pun">[</span><span class="typ">str</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> Field</span><span class="pun">(</span><span class="pln">description</span><span class="pun">=</span><span class="str">"Aspects mentioned, for example staff, cleanliness, location, price"</span><span class="pun">)</span><span class="pln">
+    language</span><span class="pun">:</span><span class="pln"> Literal</span><span class="pun">[</span><span class="str">"ar"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"en"</span><span class="pun">]</span><span class="pln">
+    needs_follow_up</span><span class="pun">:</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> Field</span><span class="pun">(</span><span class="pln">description</span><span class="pun">=</span><span class="str">"True if the guest reports a problem the hotel should act on"</span><span class="pun">)</span><span class="pln">
+
+
+REVIEWS </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+    </span><span class="str">"The room was spotless but check-in took 40 minutes and nobody apologised."</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"Great location next to the metro, friendly staff and a lovely breakfast."</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"الغرفة نظيفة جداً والموظفون متعاونون، والإفطار ممتاز."</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"انتظرنا ساعة كاملة لتسجيل الدخول، والمكيف لا يعمل."</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">]</span><span class="pln">
+
+load_dotenv</span><span class="pun">()</span><span class="pln">
+client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
+valid </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"model_comparison.csv"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"a"</span><span class="pun">,</span><span class="pln"> newline</span><span class="pun">=</span><span class="str">""</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    log </span><span class="pun">=</span><span class="pln"> csv</span><span class="pun">.</span><span class="pln">writer</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> number</span><span class="pun">,</span><span class="pln"> text </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">REVIEWS</span><span class="pun">,</span><span class="pln"> start</span><span class="pun">=</span><span class="lit">1</span><span class="pun">):</span><span class="pln">
+        start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
+        interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">
+            model</span><span class="pun">=</span><span class="pln">MODEL</span><span class="pun">,</span><span class="pln">
+            </span><span class="typ">input</span><span class="pun">=</span><span class="str">f"Analyze this hotel review: {</span><span class="pln">text</span><span class="str">}"</span><span class="pun">,</span><span class="pln">
+            response_format</span><span class="pun">={</span><span class="str">"type"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"mime_type"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"application/json"</span><span class="pun">,</span><span class="pln">
+                             </span><span class="str">"schema"</span><span class="pun">:</span><span class="pln"> Review</span><span class="pun">.</span><span class="pln">model_json_schema</span><span class="pun">()},</span><span class="pln">
+        </span><span class="pun">)</span><span class="pln">
+        latency </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> start
+        </span><span class="kwd">try</span><span class="pun">:</span><span class="pln">
+            review </span><span class="pun">=</span><span class="pln"> Review</span><span class="pun">.</span><span class="pln">model_validate_json</span><span class="pun">(</span><span class="pln">interaction</span><span class="pun">.</span><span class="pln">output_text</span><span class="pun">)</span><span class="pln">
+            valid </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+            ok </span><span class="pun">=</span><span class="pln"> </span><span class="str">"yes"</span><span class="pln">
+            </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{</span><span class="pln">number</span><span class="str">}. valid   {</span><span class="pln">latency</span><span class="str">:.2f}s  {</span><span class="pln">review</span><span class="pun">.</span><span class="pln">model_dump</span><span class="pun">()</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+        </span><span class="kwd">except</span><span class="pln"> ValidationError </span><span class="kwd">as</span><span class="pln"> err</span><span class="pun">:</span><span class="pln">
+            ok </span><span class="pun">=</span><span class="pln"> </span><span class="str">"no"</span><span class="pln">
+            </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{</span><span class="pln">number</span><span class="str">}. INVALID {</span><span class="pln">latency</span><span class="str">:.2f}s  {</span><span class="pln">err</span><span class="pun">.</span><span class="pln">errors</span><span class="pun">()[</span><span class="lit">0</span><span class="pun">][</span><span class="str">'msg'</span><span class="pun">]</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+        log</span><span class="pun">.</span><span class="pln">writerow</span><span class="pun">([</span><span class="str">"gemini"</span><span class="pun">,</span><span class="pln"> MODEL</span><span class="pun">,</span><span class="pln"> </span><span class="str">f"json-{</span><span class="pln">number</span><span class="str">}"</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">,</span><span class="pln"> </span><span class="str">f"{</span><span class="pln">latency</span><span class="str">:.2f}"</span><span class="pun">,</span><span class="pln"> ok</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">])</span><span class="pln">
+        time</span><span class="pun">.</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="str">f"Valid JSON on the first try: {</span><span class="pln">valid</span><span class="str">}/{</span><span class="typ">len</span><span class="pun">(</span><span class="pln">REVIEWS</span><span class="pun">)</span><span class="str">}"</span><span class="pun">)</span><span class="pln"></span></code></pre>
+<ul>
+<li>The Pydantic class <code class="inline-value">Review</code> is the contract. <code class="inline-value">Review.model_json_schema()</code> turns it into the JSON schema sent to Gemini.</li>
+<li><code class="inline-value">response_format</code> asks for <code class="inline-value">application/json</code> that follows that schema.</li>
+<li><code class="inline-value">Review.model_validate_json</code> checks the answer; a failure is printed instead of crashing.</li></ul></li>
+<li class="task-list-item" id="lab-g1-taskIndex12"><p>Run <code class="inline-value">python review_json.py</code>. Each line shows <code class="inline-value">valid</code> or <code class="inline-value">INVALID</code>, the latency and the parsed fields. The last line counts how many answers were valid on the first try.</p>
+<p>Check the values, not only the format: is <code class="inline-value">needs_follow_up</code> true for the two complaints? Is <code class="inline-value">language</code> correct for the Arabic reviews?</p></li>
+<li class="task-list-item" id="lab-g1-taskIndex13"><p>Add at least six more synthetic reviews to the <code class="inline-value">REVIEWS</code> list (three of them in Arabic, one that mixes Arabic and English) and run the script again. Record the number of valid answers.</p></li>
+</ol>
+<h2 id="lab-g1-troubleshooting">Troubleshooting</h2>
+<ul>
+<li><code class="inline-value">400 API key not valid</code>: the key in <code class="inline-value">.env</code> is wrong, has spaces or was deleted. Copy it again from the API keys page.</li>
+<li><code class="inline-value">429 RESOURCE_EXHAUSTED</code>: you hit a free-tier rate limit. Wait a minute and run again.</li>
+<li><code class="inline-value">404 ... model not found</code>: model names change. Check <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">the model list</a> and update <code class="inline-value">MODEL</code>.</li>
+<li><code class="inline-value">User location is not supported</code>: turn off your VPN or use another network.</li>
+<li><code class="inline-value">ModuleNotFoundError</code>: the virtual environment is not active; run the activation line again.</li></ul>
+<h2 id="lab-g1-summary">Summary</h2>
+<p>In this exercise, you created a free Gemini API key, called Gemini from Python, compared answers to the Week 1 prompts across three runs, and enforced a JSON contract with a response schema and Pydantic validation.</p>
+<h2 id="lab-g1-clean-up">Clean up</h2>
+<p>Nothing in this lab is billable. Keep your key for Google Labs 2 and 3. Before you commit, run <code class="inline-value">git status</code> and check that <code class="inline-value">.env</code> and <code class="inline-value">.venv</code> are not listed. Commit <code class="inline-value">hello.py</code>, <code class="inline-value">run_prompts.py</code>, <code class="inline-value">review_json.py</code>, <code class="inline-value">model_comparison.csv</code> and a short README with your observations.</p>
+<h3 id="lab-g1-end-the-lab">End the lab</h3>
+<p>Close the terminal. You will add Bedrock rows to the same comparison table in AWS Lab 1.</p>
+<h3 id="lab-g1-how-this-lab-was-tested">How this lab was tested</h3>
+<p>On 2026-10-09 the code was run on Windows 11 with Python 3.14 and google-genai 2.26.0. Without a personal key, every request shape in this lab (plain prompt, JSON schema) was sent with a deliberately invalid key: the SDK accepted the parameters and the service answered <code class="inline-value">API key not valid</code>, which confirms the calls are well formed.</p></div></section>
+<section class="lab" id="lab-a1"><h2><span class="tag aws">AWS</span>AWS Lab 1: Free plan account, budget alert and Bedrock playground</h2><table class="meta"><tr><th>Lab type</th><td>Hands-on lab</td></tr><tr><th>Course slide</th><td>Slide 91 &middot; Week 1, Session 3 &middot; Sat 26 Sep 2026</td></tr><tr><th>Expected duration</th><td>45 to 60 minutes</td></tr><tr><th>Environment</th><td>AWS Management Console in a web browser</td></tr><tr><th>Account and cost</th><td>AWS Free plan: USD 100 credit at sign-up, up to USD 100 more from onboarding activities, six months</td></tr><tr><th>Related labs</th><td>Google Lab 1 (same prompts in Gemini); Skillable Lab 03 (same prompts in Foundry)</td></tr><tr><th>Public docs</th><td><a class="icon-link external-link" href="https://aws.amazon.com/free/" target="_blank" rel="noopener">AWS Free Tier</a> &middot; <a class="icon-link external-link" href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html" target="_blank" rel="noopener">Free and paid account plans</a> &middot; <a class="icon-link external-link" href="https://docs.aws.amazon.com/bedrock/latest/userguide/playgrounds.html" target="_blank" rel="noopener">Bedrock playgrounds</a></td></tr><tr><th>Tested</th><td>2026-10-09 &middot; see the note at the end of the lab</td></tr></table><div class="page"><div class="page-label">Page 1 of 2</div><h2 id="lab-a1-before-you-start">Before you start</h2>
+<p>In this lab you create the AWS account that you will use in <strong>all six AWS labs</strong>. Have ready:</p>
+<ul>
+<li>An email address you control. It becomes the <strong>root user</strong> of the account.</li>
+<li>A mobile phone for SMS or voice verification.</li>
+<li>A credit or debit card. AWS uses it to verify your identity; on the Free plan you are not charged unless you upgrade.</li>
+<li>A password manager or another safe place for the root password.</li></ul>
+<p>Values that you type or select are shown like this: <span class="typeText" title="Type Text">example</span>. AWS console screens change from time to time; if a button has a slightly different name, look for the closest match.</p>
+<p>Now, when you're ready, go to the next page to start the exercise.</p></div><div class="page"><div class="page-label">Page 2 of 2</div><h1 id="lab-a1-free-plan-account-budget-alert-and-bedrock-playground">Free plan account, budget alert and Bedrock playground</h1>
+<p>In this exercise, you create an AWS account on the <strong>Free plan</strong>, secure it with MFA, create a budget alert, and use the Amazon Bedrock playground to rerun the Week 1 prompts. Two of these steps (the budget and the Bedrock playground) also earn onboarding credits. You add the results to the Week 1 model comparison table.</p>
+<p>This exercise takes approximately <strong>45</strong> minutes.</p>
+<h2 id="lab-a1-create-an-aws-account-on-the-free-plan">Create an AWS account on the Free plan</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex0"><p>In a web browser, open <a class="icon-link external-link" href="https://aws.amazon.com/free/" target="_blank" rel="noopener">https://aws.amazon.com/free/</a> at <code class="inline-value">https://aws.amazon.com/free/</code> and select <strong>Create a free account</strong>.</p>
+<p>
+<img src="images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img01-798c913c.png" alt="Screenshot of the AWS Free Tier page with the Create a free account button." loading="lazy"></p></li>
+<li class="task-list-item" id="lab-a1-taskIndex1"><p>On the <strong>Sign up for AWS</strong> page, enter your <strong>Root user email address</strong> and an <strong>AWS account name</strong>, for example <span class="typeText" title="Type Text">yourname-ai-course</span>. Select <strong>Verify email address</strong>.</p>
+<p>
+<img src="images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img02-87663ca9.png" alt="Screenshot of the Sign up for AWS page with the root user email address and account name fields." loading="lazy"></p></li>
+<li class="task-list-item" id="lab-a1-taskIndex2"><p>Enter the verification code from the email AWS sends you. Then create a strong root password and store it in your password manager.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex3"><p>Enter your contact information and choose <span class="typeText" title="Type Text">Personal</span> as the account type.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex4"><p>When you are asked to choose an account plan, select the <strong>Free plan</strong>. Know what it means:</p>
+<ul>
+<li>USD 100 in credits at sign-up, and up to USD 100 more for completing five onboarding activities: launch an EC2 instance, use a model in the Amazon Bedrock playground, set up a cost budget with AWS Budgets, create a web app with AWS Lambda, and create an Amazon RDS database.</li>
+<li>The Free plan ends after six months or when the credits are used, whichever comes first. The account then closes; AWS keeps your content for 90 days, during which you can upgrade to a paid plan.</li>
+<li>The Free plan blocks services that could use up credits very quickly, so you cannot run up a large bill by accident.</li></ul></li>
+<li class="task-list-item" id="lab-a1-taskIndex5"><p>Enter your card details for identity verification. A small temporary authorization can appear on your statement; it is released.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex6"><p>Verify your phone number by SMS or voice call, then choose the <strong>Basic support</strong> plan (free) and complete the sign-up.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex7"><p>Sign in to the console at <a class="icon-link external-link" href="https://console.aws.amazon.com" target="_blank" rel="noopener">https://console.aws.amazon.com</a> at <code class="inline-value">https://console.aws.amazon.com</code> as the root user. Activation is usually quick; if a service says your account is not activated yet, wait a few minutes and try again. Do not create a second account.</p></li>
+</ol>
+<h2 id="lab-a1-secure-the-account">Secure the account</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex8"><p>Select your account name at the top right of the console, then <strong>Security credentials</strong>. Under <strong>Multi-factor authentication (MFA)</strong>, select <strong>Assign MFA device</strong>, choose <strong>Authenticator app</strong>, scan the QR code with an authenticator app on your phone and enter two consecutive codes.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex9"><p>Never create access keys for the root user. Later labs use AWS CloudShell, which runs with your signed-in identity, so you do not need keys on your laptop.</p>
+<blockquote>
+  <p><strong>Tip</strong>: For daily work, companies create a separate administrator user with IAM Identity Center and keep the root user for account tasks only. You may do the same; it is optional for this course.</p>
+</blockquote></li>
+</ol>
+<h2 id="lab-a1-create-a-budget-alert">Create a budget alert</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex10"><p>In the search bar at the top of the console, type <span class="typeText" title="Type Text">Budgets</span> and select <strong>Budgets</strong> (Billing and Cost Management). Select <strong>Create budget</strong>.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex11"><p>Under <strong>Budget setup</strong>, choose <strong>Use a template (simplified)</strong>, then the <strong>Zero spend budget</strong> template. It notifies you as soon as spending goes above zero.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex12"><p>Enter your email address as the recipient and select <strong>Create budget</strong>. Confirm the subscription email that AWS sends you.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex13"><p>Optional: create a second budget with the <strong>Monthly cost budget</strong> template, for example <span class="typeText" title="Type Text">10</span> USD, to warn you before you reach that amount.</p>
+<blockquote class="alert">
+  <p>A budget <strong>sends alerts; it does not stop spending</strong>. Your real protection is deleting resources at the end of every lab.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-a1-taskIndex14"><p>Return to the console home page and open the <strong>Explore AWS</strong> panel. It shows your credit balance and which onboarding activities you have completed. Open <a class="icon-link external-link" href="https://console.aws.amazon.com/billing/" target="_blank" rel="noopener">Billing and Cost Management</a> and check <strong>Bills</strong> and <strong>Credits</strong>.</p></li>
+</ol>
+<h2 id="lab-a1-choose-a-region">Choose a Region</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex15"><p>In the Region selector at the top right, choose <strong>US East (N. Virginia) us-east-1</strong>. It offers the widest choice of Bedrock models. If a model or feature seems missing in a later lab, check the Region first.</p></li>
+</ol>
+<h2 id="lab-a1-rerun-the-week-1-prompts-in-the-bedrock-playground">Rerun the Week 1 prompts in the Bedrock playground</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex16"><p>In the console search bar, type <span class="typeText" title="Type Text">Bedrock</span> and open <strong>Amazon Bedrock</strong>. In the left menu, select <strong>Playgrounds</strong> and then <strong>Chat</strong> (or <strong>Text</strong>).</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex17"><p>Select <strong>Select model</strong> and choose an <strong>Amazon Nova</strong> model, for example Nova Lite.</p>
+<blockquote>
+  <p><strong>Note</strong>: Many models are enabled by default; third-party models are subscribed through AWS Marketplace the first time you use them. Anthropic models also need a one-time First Time Use form, so pick an Amazon model for this lab.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-a1-taskIndex18"><p>In the configuration panel, set <strong>Temperature</strong> to <span class="typeText" title="Type Text">0</span> (more repeatable answers for classification) and keep a modest maximum length.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex19"><p>Paste each Week 1 prompt (the same text as Google Lab 1) and run it. After each response, read the metrics the playground shows, such as latency and input and output tokens.</p>
+<p><strong>zero-shot</strong></p><div class="code-lang">text</div><pre><code class="text language-text prettyprint prettyprinted"><span class="pln">Classify this hotel review as positive, neutral or negative. Reply with one word.
+Review: The room was clean but the Wi-Fi kept dropping all evening.</span></code></pre>
+<p><strong>few-shot</strong></p><div class="code-lang">text</div><pre><code class="text language-text prettyprint prettyprinted"><span class="pln">Classify each hotel review as positive, neutral or negative. Reply with one word.
+Review: Friendly staff and a great view of the Creek. Label: positive
+Review: The pool was closed and nobody told us. Label: negative
+Review: Average breakfast, convenient location. Label: neutral
+Review: Check-in was quick but the room smelled of smoke. Label:</span></code></pre>
+<p><strong>reasoning</strong></p><div class="code-lang">text</div><pre><code class="text language-text prettyprint prettyprinted"><span class="pln">Read the hotel review. First list the evidence for each possible label (positive, neutral, negative). Then give the final answer on the last line as 'Label: &lt;label&gt;'.
+Review: Beautiful lobby, but we waited 40 minutes for our room and the AC was noisy.</span></code></pre>
+<p><strong>arabic</strong></p><div class="code-lang">text</div><pre><code class="text language-text prettyprint prettyprinted"><span class="pln">Classify this hotel review as positive, neutral or negative. Reply with one word.
+Review: الموقع ممتاز والغرفة واسعة، لكن الإفطار كان بارداً.</span></code></pre></li>
+<li class="task-list-item" id="lab-a1-taskIndex20"><p>If your playground offers a compare mode, run two models side by side on the same prompt.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex21"><p>Ask for JSON: paste the prompt below, then copy only the JSON from the answer into a file named <code class="inline-value">bedrock_review.json</code> in your <code class="inline-value">week1/gemini</code> folder.</p>
+<div class="code-lang">text</div><pre><code class="text language-text prettyprint prettyprinted"><span class="pln">Analyze this hotel review and reply with JSON only, with exactly these fields: "sentiment" (positive, neutral or negative), "topics" (list of strings), "language" ("ar" or "en") and "needs_follow_up" (true or false).
+Review: The room was spotless but check-in took 40 minutes and nobody apologised.</span></code></pre></li>
+<li class="task-list-item" id="lab-a1-taskIndex22"><p>Validate it with the same schema you used for Gemini. Create <code class="inline-value">validate_json.py</code> in <code class="inline-value">week1/gemini</code>, then run <code class="inline-value">python validate_json.py bedrock_review.json</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Validate JSON copied from the Bedrock playground against the Review schema from Google Lab 1."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> sys
+</span><span class="kwd">from</span><span class="pln"> typing </span><span class="kwd">import</span><span class="pln"> Literal
+
+</span><span class="kwd">from</span><span class="pln"> pydantic </span><span class="kwd">import</span><span class="pln"> BaseModel</span><span class="pun">,</span><span class="pln"> Field</span><span class="pun">,</span><span class="pln"> ValidationError
+
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Review</span><span class="pun">(</span><span class="pln">BaseModel</span><span class="pun">):</span><span class="pln">
+    sentiment</span><span class="pun">:</span><span class="pln"> Literal</span><span class="pun">[</span><span class="str">"positive"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"neutral"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"negative"</span><span class="pun">]</span><span class="pln">
+    topics</span><span class="pun">:</span><span class="pln"> </span><span class="typ">list</span><span class="pun">[</span><span class="typ">str</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> Field</span><span class="pun">(</span><span class="pln">description</span><span class="pun">=</span><span class="str">"Aspects mentioned, for example staff, cleanliness, location, price"</span><span class="pun">)</span><span class="pln">
+    language</span><span class="pun">:</span><span class="pln"> Literal</span><span class="pun">[</span><span class="str">"ar"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"en"</span><span class="pun">]</span><span class="pln">
+    needs_follow_up</span><span class="pun">:</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> Field</span><span class="pun">(</span><span class="pln">description</span><span class="pun">=</span><span class="str">"True if the guest reports a problem the hotel should act on"</span><span class="pun">)</span><span class="pln">
+
+
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="pln">sys</span><span class="pun">.</span><span class="pln">argv</span><span class="pun">[</span><span class="lit">1</span><span class="pun">],</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    text </span><span class="pun">=</span><span class="pln"> f</span><span class="pun">.</span><span class="pln">read</span><span class="pun">()</span><span class="pln">
+</span><span class="kwd">try</span><span class="pun">:</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">"valid:"</span><span class="pun">,</span><span class="pln"> Review</span><span class="pun">.</span><span class="pln">model_validate_json</span><span class="pun">(</span><span class="pln">text</span><span class="pun">))</span><span class="pln">
+</span><span class="kwd">except</span><span class="pln"> ValidationError </span><span class="kwd">as</span><span class="pln"> err</span><span class="pun">:</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">"INVALID:"</span><span class="pun">,</span><span class="pln"> err</span><span class="pun">)</span><span class="pln"></span></code></pre>
+<p>A valid answer prints <code class="inline-value">valid: sentiment='negative' ...</code>. Without a response schema, models sometimes add text around the JSON or invent field values; record what you see.</p></li>
+</ol>
+<h2 id="lab-a1-record-results-and-check-billing">Record results and check billing</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a1-taskIndex23"><p>Add one row per prompt to <code class="inline-value">week1/model_comparison.csv</code>: <span class="typeText" title="Type Text">aws-bedrock</span>, the model ID, the prompt ID, <code class="inline-value">correct</code>, the latency in seconds, <code class="inline-value">valid_json</code>, and a note with the token counts and the Region.</p></li>
+<li class="task-list-item" id="lab-a1-taskIndex24"><p>Open <a class="icon-link external-link" href="https://console.aws.amazon.com/billing/" target="_blank" rel="noopener">Billing and Cost Management</a> and check <strong>Bills</strong> and <strong>Credits</strong>. A few playground prompts cost very little and are covered by your credits.</p></li>
+</ol>
+<h2 id="lab-a1-troubleshooting">Troubleshooting</h2>
+<ul>
+<li>"You don't have access to the model": choose another model, check the Region, or complete the Anthropic form if you chose an Anthropic model.</li>
+<li>Marketplace subscription errors on first use: wait a few minutes and retry.</li>
+<li>Account still pending: activation can take longer for some cards. Wait; do not open a second account.</li>
+<li>No budget email: confirm the subscription email from AWS Notifications.</li></ul>
+<h2 id="lab-a1-summary">Summary</h2>
+<p>You created and secured an AWS Free plan account, set a zero-spend budget alert, and compared Bedrock models on the Week 1 prompts, including JSON validation.</p>
+<h2 id="lab-a1-clean-up">Clean up</h2>
+<p>The playground creates no resources. If you launched anything else for an onboarding activity, such as an EC2 instance, stop and terminate it now.</p>
+<h3 id="lab-a1-end-the-lab">End the lab</h3>
+<p>Commit the updated comparison table and a screenshot of your budget with no account number or card details visible.</p>
+<h3 id="lab-a1-how-this-lab-was-tested">How this lab was tested</h3>
+<p>On 2026-10-09 the AWS Free Tier and sign-up pages were captured as shown, and <code class="inline-value">validate_json.py</code> was run with valid and invalid samples. Console pages after sign-in are described, not shown, so that no account details appear.</p></div></section>
+<section class="lab" id="lab-p1"><h2><span class="tag python">Python</span>Python Lab 1: Cited RAG pipeline over public UAE policy documents</h2><table class="meta"><tr><th>Lab type</th><td>Hands-on lab</td></tr><tr><th>Course slide</th><td>Slide 126 &middot; Week 2, Session 2 &middot; Wed 30 Sep 2026 (Part 2 in Week 2, Session 4)</td></tr><tr><th>Expected duration</th><td>75 minutes, plus Part 2 in Week 2, Session 4</td></tr><tr><th>Environment</th><td>Your laptop: Python, VS Code; the embedding model runs locally</td></tr><tr><th>Account and cost</th><td>Free: local embedding model; Gemini API free tier for the answers</td></tr><tr><th>Related labs</th><td>Skillable Lab 04 (RAG with Foundry); Google Lab 2; AWS Lab 2</td></tr><tr><th>Public docs</th><td><a class="icon-link external-link" href="https://sbert.net/" target="_blank" rel="noopener">Sentence Transformers</a> &middot; <a class="icon-link external-link" href="https://github.com/facebookresearch/faiss" target="_blank" rel="noopener">FAISS</a> &middot; <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/text-generation" target="_blank" rel="noopener">Gemini text generation</a></td></tr><tr><th>Tested</th><td>2026-10-09 &middot; see the note at the end of the lab</td></tr></table><div class="page"><div class="page-label">Page 1 of 2</div><h2 id="lab-p1-before-you-start">Before you start</h2>
+<p>This lab runs on your own laptop or in Google Colab. Use Python 3.12, 3.13 or 3.14 with VS Code and the Python extension. Work inside your portfolio repository so that you can commit the evidence at the end.</p>
+<p>Values that you type are shown like this: <span class="typeText" title="Type Text">example</span>.</p>
+<ul>
+<li>You need the Gemini API key from Google Lab 1 for the answers. Retrieval and evaluation work without any key.</li>
+<li>The first run downloads the multilingual embedding model (about 470 MB). Use a good connection.</li>
+<li>The documents are public and published under Creative Commons Attribution 4.0 (the two PDFs) or on the official UAE Government portal (the Charter). Keep the attribution in your README.</li></ul>
+<p>Now, when you're ready, go to the next page to start the exercise.</p></div><div class="page"><div class="page-label">Page 2 of 2</div><h1 id="lab-p1-cited-rag-pipeline-over-public-uae-policy-documents">Cited RAG pipeline over public UAE policy documents</h1>
+<p>In this exercise, you build a retrieval-augmented generation (RAG) pipeline over public UAE AI policy documents: load, clean, chunk, embed and index them; retrieve the best passages for a question in English or Arabic; and answer with numbered citations. Then you measure retrieval quality with an evaluation set and improve it one change at a time.</p>
+<p>This exercise takes approximately <strong>75</strong> minutes.</p>
+<h2 id="lab-p1-get-the-documents">Get the documents</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex0"><p>In your repository create the folder <code class="inline-value">week2/rag</code> with a subfolder <code class="inline-value">data</code>.</p></li>
+<li class="task-list-item" id="lab-p1-taskIndex1"><p>Download the two PDFs into <code class="inline-value">data</code> with these file names:</p>
+<ul>
+<li><a class="icon-link external-link" href="https://assets.u.ae/api/public/content/893c940c21c4403ea8df7faad66a889e?v=b2f9c1a1" target="_blank" rel="noopener">UAE AI Ethics Principles and Guidelines (Dec 2022)</a> &rarr; <code class="inline-value">uae_ai_ethics_guidelines.pdf</code></li>
+<li><a class="icon-link external-link" href="https://www.digitaldubai.ae/docs/default-source/ai-principles-resources/ai-ethics.pdf" target="_blank" rel="noopener">Smart Dubai AI Ethics Principles and Guidelines</a> &rarr; <code class="inline-value">dubai_ai_ethics_guidelines.pdf</code></li></ul>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="typ">Invoke-WebRequest</span><span class="pln"> </span><span class="str">"https://assets.u.ae/api/public/content/893c940c21c4403ea8df7faad66a889e?v=b2f9c1a1"</span><span class="pln"> -OutFile data</span><span class="pun">\</span><span class="pln">uae_ai_ethics_guidelines</span><span class="pun">.</span><span class="pln">pdf
+</span><span class="typ">Invoke-WebRequest</span><span class="pln"> </span><span class="str">"https://www.digitaldubai.ae/docs/default-source/ai-principles-resources/ai-ethics.pdf"</span><span class="pln"> -OutFile data</span><span class="pun">\</span><span class="pln">dubai_ai_ethics_guidelines</span><span class="pun">.</span><span class="pln">pdf</span></code></pre></li>
+<li class="task-list-item" id="lab-p1-taskIndex2"><p>Open <a class="icon-link external-link" href="https://u.ae/en/about-the-uae/strategies-initiatives-and-awards/policies/Ai/The-UAE-Charter-for-the-Development-and-Use-of-Artificial-Intelligence" target="_blank" rel="noopener">The UAE Charter for the Development and Use of Artificial Intelligence</a> on the UAE Government portal. Select the page text from the title down to the end of the <strong>Expected Outcomes</strong> list, copy it, and save it as <code class="inline-value">data/uae_ai_charter.txt</code> (UTF-8). Add the page URL as the first line.</p>
+<blockquote>
+  <p><strong>Note</strong>: The Charter is published as a web page, not a PDF. The ingest script reads <code class="inline-value">.pdf</code>, <code class="inline-value">.txt</code> and <code class="inline-value">.md</code> files; a text file counts as one page.</p>
+</blockquote></li>
+</ol>
+<h2 id="lab-p1-set-up-the-project">Set up the project</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex3"><p>Open a terminal in <code class="inline-value">week2/rag</code>, create the environment and install the packages:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python -m venv </span><span class="pun">.</span><span class="pln">venv
+</span><span class="pun">.</span><span class="pln">venv</span><span class="pun">\</span><span class="pln">Scripts</span><span class="pun">\</span><span class="pln">Activate</span><span class="pun">.</span><span class="pln">ps1
+pip install pypdf sentence-transformers faiss-cpu numpy google-genai python-dotenv</span></code></pre>
+<p>If <code class="inline-value">faiss-cpu</code> does not install on your Python version, skip it: the NumPy search below is just as fast for a few thousand chunks.</p></li>
+<li class="task-list-item" id="lab-p1-taskIndex4"><p>Create <code class="inline-value">.env</code> and <code class="inline-value">.gitignore</code>:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">env </span><span class="str">"GEMINI_API_KEY=&lt;your key&gt;"</span><span class="pln">
+</span><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">gitignore </span><span class="str">".venv/`n.env"</span><span class="pln"></span></code></pre></li>
+</ol>
+<h2 id="lab-p1-load-clean-chunk-embed-and-index">Load, clean, chunk, embed and index</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex5"><p>Create <code class="inline-value">ingest.py</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Load, clean, chunk, embed and index every document in the data folder."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> json
+</span><span class="kwd">import</span><span class="pln"> re
+</span><span class="kwd">import</span><span class="pln"> unicodedata
+</span><span class="kwd">from</span><span class="pln"> pathlib </span><span class="kwd">import</span><span class="pln"> Path
+
+</span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np
+</span><span class="kwd">from</span><span class="pln"> pypdf </span><span class="kwd">import</span><span class="pln"> PdfReader
+</span><span class="kwd">from</span><span class="pln"> sentence_transformers </span><span class="kwd">import</span><span class="pln"> SentenceTransformer
+
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pln">
+CHUNK_SIZE </span><span class="pun">=</span><span class="pln"> </span><span class="lit">800</span><span class="pln">  </span><span class="com"># characters per chunk</span><span class="pln">
+OVERLAP </span><span class="pun">=</span><span class="pln"> </span><span class="lit">150</span><span class="pln">  </span><span class="com"># characters shared by neighbouring chunks</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> chunk_text</span><span class="pun">(</span><span class="pln">text</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">=</span><span class="pln">CHUNK_SIZE</span><span class="pun">,</span><span class="pln"> overlap</span><span class="pun">=</span><span class="pln">OVERLAP</span><span class="pun">):</span><span class="pln">
+    chunks</span><span class="pun">,</span><span class="pln"> start </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[],</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+    </span><span class="kwd">while</span><span class="pln"> start </span><span class="pun">&lt;</span><span class="pln"> </span><span class="typ">len</span><span class="pun">(</span><span class="pln">text</span><span class="pun">):</span><span class="pln">
+        chunks</span><span class="pun">.</span><span class="pln">append</span><span class="pun">(</span><span class="pln">text</span><span class="pun">[</span><span class="pln">start</span><span class="pun">:</span><span class="pln">start </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">])</span><span class="pln">
+        start </span><span class="pun">+=</span><span class="pln"> size </span><span class="pun">-</span><span class="pln"> overlap
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">[</span><span class="pln">c </span><span class="kwd">for</span><span class="pln"> c </span><span class="kwd">in</span><span class="pln"> chunks </span><span class="kwd">if</span><span class="pln"> c</span><span class="pun">.</span><span class="pln">strip</span><span class="pun">()]</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> read_pages</span><span class="pun">(</span><span class="pln">path</span><span class="pun">):</span><span class="pln">
+    </span><span class="str">"""Yield (page number, text). A .txt or .md file counts as one page."""</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">suffix</span><span class="pun">.</span><span class="pln">lower</span><span class="pun">()</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="str">".pdf"</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> number</span><span class="pun">,</span><span class="pln"> page </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">PdfReader</span><span class="pun">(</span><span class="pln">path</span><span class="pun">).</span><span class="pln">pages</span><span class="pun">,</span><span class="pln"> start</span><span class="pun">=</span><span class="lit">1</span><span class="pun">):</span><span class="pln">
+            </span><span class="kwd">yield</span><span class="pln"> number</span><span class="pun">,</span><span class="pln"> page</span><span class="pun">.</span><span class="pln">extract_text</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">or</span><span class="pln"> </span><span class="str">""</span><span class="pln">
+    </span><span class="kwd">else</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">yield</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">read_text</span><span class="pun">(</span><span class="pln">encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> main</span><span class="pun">():</span><span class="pln">
+    records </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[]</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> path </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">sorted</span><span class="pun">(</span><span class="pln">Path</span><span class="pun">(</span><span class="str">"data"</span><span class="pun">).</span><span class="pln">iterdir</span><span class="pun">()):</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">suffix</span><span class="pun">.</span><span class="pln">lower</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">{</span><span class="str">".pdf"</span><span class="pun">,</span><span class="pln"> </span><span class="str">".txt"</span><span class="pun">,</span><span class="pln"> </span><span class="str">".md"</span><span class="pun">}:</span><span class="pln">
+            </span><span class="kwd">continue</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> page_no</span><span class="pun">,</span><span class="pln"> raw </span><span class="kwd">in</span><span class="pln"> read_pages</span><span class="pun">(</span><span class="pln">path</span><span class="pun">):</span><span class="pln">
+            text </span><span class="pun">=</span><span class="pln"> unicodedata</span><span class="pun">.</span><span class="pln">normalize</span><span class="pun">(</span><span class="str">"NFKC"</span><span class="pun">,</span><span class="pln"> raw</span><span class="pun">)</span><span class="pln">  </span><span class="com"># splits PDF ligatures (one glyph for "fi") into letters</span><span class="pln">
+            text </span><span class="pun">=</span><span class="pln"> re</span><span class="pun">.</span><span class="pln">sub</span><span class="pun">(</span><span class="str">r"\s+"</span><span class="pun">,</span><span class="pln"> </span><span class="str">" "</span><span class="pun">,</span><span class="pln"> text</span><span class="pun">).</span><span class="pln">strip</span><span class="pun">()</span><span class="pln">
+            </span><span class="kwd">for</span><span class="pln"> i</span><span class="pun">,</span><span class="pln"> chunk </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">chunk_text</span><span class="pun">(</span><span class="pln">text</span><span class="pun">)):</span><span class="pln">
+                records</span><span class="pun">.</span><span class="pln">append</span><span class="pun">({</span><span class="str">"id"</span><span class="pun">:</span><span class="pln"> </span><span class="str">f"{</span><span class="pln">path</span><span class="pun">.</span><span class="pln">stem</span><span class="str">}-p{</span><span class="pln">page_no</span><span class="str">}-c{</span><span class="pln">i</span><span class="str">}"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"source"</span><span class="pun">:</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+                                </span><span class="str">"page"</span><span class="pun">:</span><span class="pln"> page_no</span><span class="pun">,</span><span class="pln"> </span><span class="str">"text"</span><span class="pun">:</span><span class="pln"> chunk</span><span class="pun">})</span><span class="pln">
+    model </span><span class="pun">=</span><span class="pln"> SentenceTransformer</span><span class="pun">(</span><span class="pln">MODEL</span><span class="pun">)</span><span class="pln">
+    vectors </span><span class="pun">=</span><span class="pln"> model</span><span class="pun">.</span><span class="pln">encode</span><span class="pun">([</span><span class="pln">r</span><span class="pun">[</span><span class="str">"text"</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> r </span><span class="kwd">in</span><span class="pln"> records</span><span class="pun">],</span><span class="pln"> normalize_embeddings</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">,</span><span class="pln">
+                           show_progress_bar</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">)</span><span class="pln">
+    np</span><span class="pun">.</span><span class="pln">save</span><span class="pun">(</span><span class="str">"vectors.npy"</span><span class="pun">,</span><span class="pln"> vectors</span><span class="pun">.</span><span class="pln">astype</span><span class="pun">(</span><span class="str">"float32"</span><span class="pun">))</span><span class="pln">
+    Path</span><span class="pun">(</span><span class="str">"chunks.json"</span><span class="pun">).</span><span class="pln">write_text</span><span class="pun">(</span><span class="pln">json</span><span class="pun">.</span><span class="pln">dumps</span><span class="pun">(</span><span class="pln">records</span><span class="pun">,</span><span class="pln"> ensure_ascii</span><span class="pun">=</span><span class="kwd">False</span><span class="pun">,</span><span class="pln"> indent</span><span class="pun">=</span><span class="lit">1</span><span class="pun">),</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln">
+    files </span><span class="pun">=</span><span class="pln"> </span><span class="typ">len</span><span class="pun">({</span><span class="pln">r</span><span class="pun">[</span><span class="str">"source"</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> r </span><span class="kwd">in</span><span class="pln"> records</span><span class="pun">})</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{</span><span class="typ">len</span><span class="pun">(</span><span class="pln">records</span><span class="pun">)</span><span class="str">} chunks from {</span><span class="pln">files</span><span class="str">} files indexed; vectors {</span><span class="pln">vectors</span><span class="pun">.</span><span class="pln">shape</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+
+
+</span><span class="kwd">if</span><span class="pln"> __name__ </span><span class="pun">==</span><span class="pln"> </span><span class="str">"__main__"</span><span class="pun">:</span><span class="pln">
+    main</span><span class="pun">()</span><span class="pln"></span></code></pre>
+<ul>
+<li>Cleaning: <code class="inline-value">NFKC</code> normalization splits PDF ligatures (one glyph for "fi") into letters, and the regular expression collapses spaces and line breaks.</li>
+<li>Chunking: 800 characters with 150 characters of overlap, so a sentence cut at a boundary appears in both chunks.</li>
+<li>Metadata: every chunk keeps its source file and page, which is what makes citations possible.</li>
+<li><code class="inline-value">normalize_embeddings=True</code> makes cosine similarity equal to a simple dot product.</li></ul></li>
+<li class="task-list-item" id="lab-p1-taskIndex6"><p>Run <code class="inline-value">python ingest.py</code>. The first run downloads the model; then you should see:</p>
+<p>
+<img src="images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img01-4921b468.png" alt="Screenshot of ingest.py indexing 217 chunks and ask.py retrieving the Human Oversight passage." loading="lazy"></p>
+<p>217 chunks from 3 files, each a 384-dimension vector. You may also see download progress bars and a warning about an <code class="inline-value">HF_TOKEN</code>; you can ignore both.</p></li>
+</ol>
+<h2 id="lab-p1-retrieve-and-answer-with-citations">Retrieve and answer with citations</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex7"><p>Create <code class="inline-value">ask.py</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Retrieve the best chunks for a question and answer it with citations."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> argparse
+</span><span class="kwd">import</span><span class="pln"> json
+</span><span class="kwd">import</span><span class="pln"> time
+
+</span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np
+</span><span class="kwd">from</span><span class="pln"> sentence_transformers </span><span class="kwd">import</span><span class="pln"> SentenceTransformer
+
+EMBED_MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pln">
+GEMINI_MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"chunks.json"</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    records </span><span class="pun">=</span><span class="pln"> json</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
+vectors </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">"vectors.npy"</span><span class="pun">)</span><span class="pln">
+embedder </span><span class="pun">=</span><span class="pln"> SentenceTransformer</span><span class="pun">(</span><span class="pln">EMBED_MODEL</span><span class="pun">)</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> retrieve</span><span class="pun">(</span><span class="pln">question</span><span class="pun">,</span><span class="pln"> k</span><span class="pun">=</span><span class="lit">5</span><span class="pun">):</span><span class="pln">
+    q </span><span class="pun">=</span><span class="pln"> embedder</span><span class="pun">.</span><span class="pln">encode</span><span class="pun">([</span><span class="pln">question</span><span class="pun">],</span><span class="pln"> normalize_embeddings</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">)[</span><span class="lit">0</span><span class="pun">]</span><span class="pln">
+    scores </span><span class="pun">=</span><span class="pln"> vectors </span><span class="pun">@</span><span class="pln"> q  </span><span class="com"># cosine similarity, because all vectors are normalized</span><span class="pln">
+    best </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">argsort</span><span class="pun">(-</span><span class="pln">scores</span><span class="pun">)[:</span><span class="pln">k</span><span class="pun">]</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">[(</span><span class="pln">records</span><span class="pun">[</span><span class="pln">i</span><span class="pun">],</span><span class="pln"> </span><span class="typ">float</span><span class="pun">(</span><span class="pln">scores</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]))</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> i </span><span class="kwd">in</span><span class="pln"> best</span><span class="pun">]</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> build_prompt</span><span class="pun">(</span><span class="pln">question</span><span class="pun">,</span><span class="pln"> hits</span><span class="pun">):</span><span class="pln">
+    sources </span><span class="pun">=</span><span class="pln"> </span><span class="str">"\n\n"</span><span class="pun">.</span><span class="pln">join</span><span class="pun">(</span><span class="str">f"[{</span><span class="pln">n</span><span class="str">}] ({</span><span class="pln">h</span><span class="pun">[</span><span class="str">'source'</span><span class="pun">]</span><span class="str">} p.{</span><span class="pln">h</span><span class="pun">[</span><span class="str">'page'</span><span class="pun">]</span><span class="str">}) {</span><span class="pln">h</span><span class="pun">[</span><span class="str">'text'</span><span class="pun">]</span><span class="str">}"</span><span class="pln">
+                          </span><span class="kwd">for</span><span class="pln"> n</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">h</span><span class="pun">,</span><span class="pln"> _</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">hits</span><span class="pun">,</span><span class="pln"> start</span><span class="pun">=</span><span class="lit">1</span><span class="pun">))</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">(</span><span class="str">"Answer the question using only the numbered sources. Cite the source numbers "</span><span class="pln">
+            </span><span class="str">"you used, like [1]. If the sources do not contain the answer, say that you do not know.\n\n"</span><span class="pln">
+            </span><span class="str">f"Sources:\n{</span><span class="pln">sources</span><span class="str">}\n\nQuestion: {</span><span class="pln">question</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> generate</span><span class="pun">(</span><span class="pln">prompt</span><span class="pun">):</span><span class="pln">
+    </span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+    </span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+
+    load_dotenv</span><span class="pun">()</span><span class="pln">
+    client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">  </span><span class="com"># reads GEMINI_API_KEY from the environment</span><span class="pln">
+    interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">model</span><span class="pun">=</span><span class="pln">GEMINI_MODEL</span><span class="pun">,</span><span class="pln"> </span><span class="typ">input</span><span class="pun">=</span><span class="pln">prompt</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> interaction</span><span class="pun">.</span><span class="pln">output_text
+
+
+</span><span class="kwd">if</span><span class="pln"> __name__ </span><span class="pun">==</span><span class="pln"> </span><span class="str">"__main__"</span><span class="pun">:</span><span class="pln">
+    parser </span><span class="pun">=</span><span class="pln"> argparse</span><span class="pun">.</span><span class="pln">ArgumentParser</span><span class="pun">()</span><span class="pln">
+    parser</span><span class="pun">.</span><span class="pln">add_argument</span><span class="pun">(</span><span class="str">"question"</span><span class="pun">)</span><span class="pln">
+    parser</span><span class="pun">.</span><span class="pln">add_argument</span><span class="pun">(</span><span class="str">"--k"</span><span class="pun">,</span><span class="pln"> </span><span class="typ">type</span><span class="pun">=</span><span class="typ">int</span><span class="pun">,</span><span class="pln"> default</span><span class="pun">=</span><span class="lit">5</span><span class="pun">)</span><span class="pln">
+    parser</span><span class="pun">.</span><span class="pln">add_argument</span><span class="pun">(</span><span class="str">"--retrieve-only"</span><span class="pun">,</span><span class="pln"> action</span><span class="pun">=</span><span class="str">"store_true"</span><span class="pun">,</span><span class="pln">
+                        help</span><span class="pun">=</span><span class="str">"show the retrieved chunks without calling Gemini"</span><span class="pun">)</span><span class="pln">
+    args </span><span class="pun">=</span><span class="pln"> parser</span><span class="pun">.</span><span class="pln">parse_args</span><span class="pun">()</span><span class="pln">
+    start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
+    hits </span><span class="pun">=</span><span class="pln"> retrieve</span><span class="pun">(</span><span class="pln">args</span><span class="pun">.</span><span class="pln">question</span><span class="pun">,</span><span class="pln"> args</span><span class="pun">.</span><span class="pln">k</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> args</span><span class="pun">.</span><span class="pln">retrieve_only</span><span class="pun">:</span><span class="pln">
+        </span><span class="typ">print</span><span class="pun">(</span><span class="pln">generate</span><span class="pun">(</span><span class="pln">build_prompt</span><span class="pun">(</span><span class="pln">args</span><span class="pun">.</span><span class="pln">question</span><span class="pun">,</span><span class="pln"> hits</span><span class="pun">)),</span><span class="pln"> </span><span class="str">"\n"</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> n</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">h</span><span class="pun">,</span><span class="pln"> score</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">hits</span><span class="pun">,</span><span class="pln"> start</span><span class="pun">=</span><span class="lit">1</span><span class="pun">):</span><span class="pln">
+        </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"[{</span><span class="pln">n</span><span class="str">}] {</span><span class="pln">h</span><span class="pun">[</span><span class="str">'source'</span><span class="pun">]</span><span class="str">} p.{</span><span class="pln">h</span><span class="pun">[</span><span class="str">'page'</span><span class="pun">]</span><span class="str">} score {</span><span class="pln">score</span><span class="str">:.3f} | {</span><span class="pln">h</span><span class="pun">[</span><span class="str">'text'</span><span class="pun">][:</span><span class="lit">70</span><span class="pun">]</span><span class="str">}..."</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"Time: {</span><span class="pln">time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> start</span><span class="str">:.2f} s"</span><span class="pun">)</span><span class="pln"></span></code></pre>
+<ul>
+<li><code class="inline-value">retrieve</code> embeds the question with the same model and returns the five closest chunks.</li>
+<li><code class="inline-value">build_prompt</code> numbers the chunks [1] to [5] and tells the model to cite them and to say when it does not know.</li>
+<li><code class="inline-value">--retrieve-only</code> shows the retrieved chunks without calling Gemini: always check retrieval first.</li></ul></li>
+<li class="task-list-item" id="lab-p1-taskIndex8"><p>Check retrieval for an English and an Arabic question:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python ask</span><span class="pun">.</span><span class="pln">py </span><span class="str">"Which principle of the UAE AI Charter is about human oversight?"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">-retrieve-only
+python ask</span><span class="pun">.</span><span class="pln">py </span><span class="str">"ما المبدأ في ميثاق الإمارات للذكاء الاصطناعي الذي يؤكد على الإشراف البشري؟"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">-retrieve-only</span></code></pre>
+<p>In both cases the top result should be the Charter chunk that contains <strong>Human Oversight</strong>. The Arabic question finds the English passage because the embedding model is multilingual.</p></li>
+<li class="task-list-item" id="lab-p1-taskIndex9"><p>Now generate an answer with citations:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python ask</span><span class="pun">.</span><span class="pln">py </span><span class="str">"Which principle of the UAE AI Charter is about human oversight?"</span><span class="pln"></span></code></pre>
+<p>Expected: a short answer that names the Human Oversight principle and cites [1], followed by the list of sources with file names and pages.</p></li>
+<li class="task-list-item" id="lab-p1-taskIndex10"><p>Optional: the same search with FAISS. Create <code class="inline-value">faiss_search.py</code> and run it; the scores match the NumPy search exactly.</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Optional: the same search with FAISS instead of a NumPy dot product."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> json
+
+</span><span class="kwd">import</span><span class="pln"> faiss
+</span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np
+</span><span class="kwd">from</span><span class="pln"> sentence_transformers </span><span class="kwd">import</span><span class="pln"> SentenceTransformer
+
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"chunks.json"</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    records </span><span class="pun">=</span><span class="pln"> json</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
+vectors </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">"vectors.npy"</span><span class="pun">)</span><span class="pln">
+index </span><span class="pun">=</span><span class="pln"> faiss</span><span class="pun">.</span><span class="pln">IndexFlatIP</span><span class="pun">(</span><span class="pln">vectors</span><span class="pun">.</span><span class="pln">shape</span><span class="pun">[</span><span class="lit">1</span><span class="pun">])</span><span class="pln">  </span><span class="com"># inner product = cosine for normalized vectors</span><span class="pln">
+index</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">vectors</span><span class="pun">)</span><span class="pln">
+
+model </span><span class="pun">=</span><span class="pln"> SentenceTransformer</span><span class="pun">(</span><span class="str">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pun">)</span><span class="pln">
+query </span><span class="pun">=</span><span class="pln"> model</span><span class="pun">.</span><span class="pln">encode</span><span class="pun">([</span><span class="str">"Which principle of the UAE AI Charter is about human oversight?"</span><span class="pun">],</span><span class="pln">
+                     normalize_embeddings</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">)</span><span class="pln">
+scores</span><span class="pun">,</span><span class="pln"> ids </span><span class="pun">=</span><span class="pln"> index</span><span class="pun">.</span><span class="pln">search</span><span class="pun">(</span><span class="pln">query</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> score</span><span class="pun">,</span><span class="pln"> i </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">zip</span><span class="pun">(</span><span class="pln">scores</span><span class="pun">[</span><span class="lit">0</span><span class="pun">],</span><span class="pln"> ids</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]):</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{</span><span class="pln">records</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'source'</span><span class="pun">]</span><span class="str">} p.{</span><span class="pln">records</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'page'</span><span class="pun">]</span><span class="str">} score {</span><span class="pln">score</span><span class="str">:.3f}"</span><span class="pun">)</span><span class="pln"></span></code></pre></li>
+</ol>
+<h2 id="lab-p1-measure-retrieval-with-an-evaluation-set">Measure retrieval with an evaluation set</h2>
+<p>Before you tune anything, write questions with known answers and the page that contains each answer (the gold page). Every later change is judged against this set.</p>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex11"><p>Create <code class="inline-value">eval.csv</code>. It has 13 answerable questions (three in Arabic) and two questions the documents cannot answer. <code class="inline-value">gold_page</code> can list several pages separated by <code class="inline-value">;</code>:</p>
+<div class="code-lang">csv</div><pre><code class="csv language-csv prettyprint prettyprinted"><span class="pln">question,expected_answer,gold_source,gold_page
+Which principle of the UAE AI Charter stresses human judgement and oversight over AI?,Human Oversight,uae_ai_charter.txt,1
+What does the UAE AI Charter aim to do about algorithmic bias?,Address algorithmic bias so that AI is fair and equitable for all community members,uae_ai_charter.txt,1
+"According to the Dubai AI principles, what should the data ingested by AI systems be?",Representative of the affected population,dubai_ai_ethics_guidelines.pdf,8;21
+"Which Dubai AI principle says AI systems will be safe, secure and controllable by humans?",Security,dubai_ai_ethics_guidelines.pdf,10
+Who is accountable for the outcomes of an AI system under the UAE AI ethics guidelines?,"Not the AI system itself; the organisations that develop and operate it",uae_ai_ethics_guidelines.pdf,11
+Should people be told when they are interacting with an AI system?,Yes - people should be informed of the extent of their interaction with AI systems,uae_ai_ethics_guidelines.pdf,15
+Which UAE AI ethics principle covers sustainable and environmentally friendly AI?,Principle 7 - Sustainable and Environmentally Friendly AI,uae_ai_ethics_guidelines.pdf,20
+How much intrusion into privacy do the UAE AI ethics guidelines accept?,The minimum intrusion necessary,uae_ai_ethics_guidelines.pdf,21
+Can people challenge significant automated decisions under the Dubai guidelines?,"Yes, and where appropriate opt out of such decisions",dubai_ai_ethics_guidelines.pdf,26;8
+Which office published the Dubai AI Ethics Principles and Guidelines?,Smart Dubai Office,dubai_ai_ethics_guidelines.pdf,4;5
+ما المبدأ في ميثاق الإمارات للذكاء الاصطناعي الذي يؤكد على الإشراف البشري؟,Human Oversight,uae_ai_charter.txt,1
+هل يجب أن تكون قرارات أنظمة الذكاء الاصطناعي قابلة للتفسير؟,Yes - as explainable as technically possible,dubai_ai_ethics_guidelines.pdf,9;30
+كيف تحمي الإرشادات الإماراتية خصوصية الأفراد في أنظمة الذكاء الاصطناعي؟,Respect privacy and use the minimum intrusion necessary,uae_ai_ethics_guidelines.pdf,21;22
+What is the fine for breaking the UAE AI Charter?,Not in the documents - the system should say it does not know,,
+How many AI start-ups opened in Dubai in 2025?,Not in the documents - the system should say it does not know,,</span></code></pre></li>
+<li class="task-list-item" id="lab-p1-taskIndex12"><p>Create <code class="inline-value">evaluate.py</code>. It counts a hit when a gold page is in the top five (recall@5) and rewards hits near the top (MRR):</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Measure retrieval quality on eval.csv: recall@k and mean reciprocal rank (MRR)."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> csv
+</span><span class="kwd">import</span><span class="pln"> datetime
+
+</span><span class="kwd">from</span><span class="pln"> ask </span><span class="kwd">import</span><span class="pln"> retrieve
+
+K </span><span class="pun">=</span><span class="pln"> </span><span class="lit">5</span><span class="pln">
+CONFIG </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="str">"chunking"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"800/150"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"embedding"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"search"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"numpy-cosine"</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"eval.csv"</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    rows </span><span class="pun">=</span><span class="pln"> </span><span class="typ">list</span><span class="pun">(</span><span class="pln">csv</span><span class="pun">.</span><span class="pln">DictReader</span><span class="pun">(</span><span class="pln">f</span><span class="pun">))</span><span class="pln">
+answerable </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">r </span><span class="kwd">for</span><span class="pln"> r </span><span class="kwd">in</span><span class="pln"> rows </span><span class="kwd">if</span><span class="pln"> r</span><span class="pun">[</span><span class="str">"gold_source"</span><span class="pun">]]</span><span class="pln">
+
+found</span><span class="pun">,</span><span class="pln"> reciprocal </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.0</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> r </span><span class="kwd">in</span><span class="pln"> answerable</span><span class="pun">:</span><span class="pln">
+    hits </span><span class="pun">=</span><span class="pln"> retrieve</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="str">"question"</span><span class="pun">],</span><span class="pln"> K</span><span class="pun">)</span><span class="pln">
+    gold_pages </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">[</span><span class="str">"gold_page"</span><span class="pun">].</span><span class="pln">split</span><span class="pun">(</span><span class="str">";"</span><span class="pun">)</span><span class="pln">  </span><span class="com"># a passage can appear on more than one page</span><span class="pln">
+    ranks </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">n </span><span class="kwd">for</span><span class="pln"> n</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">h</span><span class="pun">,</span><span class="pln"> _</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">enumerate</span><span class="pun">(</span><span class="pln">hits</span><span class="pun">,</span><span class="pln"> start</span><span class="pun">=</span><span class="lit">1</span><span class="pun">)</span><span class="pln">
+             </span><span class="kwd">if</span><span class="pln"> h</span><span class="pun">[</span><span class="str">"source"</span><span class="pun">]</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> r</span><span class="pun">[</span><span class="str">"gold_source"</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> </span><span class="typ">str</span><span class="pun">(</span><span class="pln">h</span><span class="pun">[</span><span class="str">"page"</span><span class="pun">])</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> gold_pages</span><span class="pun">]</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> ranks</span><span class="pun">:</span><span class="pln">
+        found </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+        reciprocal </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="pun">/</span><span class="pln"> ranks</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]</span><span class="pln">
+    </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"{'HIT '</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> ranks </span><span class="kwd">else</span><span class="pln"> </span><span class="str">'MISS'} rank={</span><span class="pln">ranks</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> ranks </span><span class="kwd">else</span><span class="pln"> </span><span class="str">'-'} | {</span><span class="pln">r</span><span class="pun">[</span><span class="str">'question'</span><span class="pun">][:</span><span class="lit">68</span><span class="pun">]</span><span class="str">}"</span><span class="pun">)</span><span class="pln">
+
+recall </span><span class="pun">=</span><span class="pln"> found </span><span class="pun">/</span><span class="pln"> </span><span class="typ">len</span><span class="pun">(</span><span class="pln">answerable</span><span class="pun">)</span><span class="pln">
+mrr </span><span class="pun">=</span><span class="pln"> reciprocal </span><span class="pun">/</span><span class="pln"> </span><span class="typ">len</span><span class="pun">(</span><span class="pln">answerable</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="str">f"\nrecall@{</span><span class="pln">K</span><span class="str">} = {</span><span class="pln">recall</span><span class="str">:.2f}   MRR = {</span><span class="pln">mrr</span><span class="str">:.2f}   ({</span><span class="typ">len</span><span class="pun">(</span><span class="pln">answerable</span><span class="pun">)</span><span class="str">} answerable questions)"</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"results.csv"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"a"</span><span class="pun">,</span><span class="pln"> newline</span><span class="pun">=</span><span class="str">""</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+    csv</span><span class="pun">.</span><span class="pln">writer</span><span class="pun">(</span><span class="pln">f</span><span class="pun">).</span><span class="pln">writerow</span><span class="pun">([</span><span class="pln">datetime</span><span class="pun">.</span><span class="pln">datetime</span><span class="pun">.</span><span class="pln">now</span><span class="pun">().</span><span class="pln">astimezone</span><span class="pun">().</span><span class="pln">date</span><span class="pun">().</span><span class="pln">isoformat</span><span class="pun">(),</span><span class="pln"> </span><span class="pun">*</span><span class="pln">CONFIG</span><span class="pun">.</span><span class="pln">values</span><span class="pun">(),</span><span class="pln"> K</span><span class="pun">,</span><span class="pln">
+                            </span><span class="str">f"{</span><span class="pln">recall</span><span class="str">:.2f}"</span><span class="pun">,</span><span class="pln"> </span><span class="str">f"{</span><span class="pln">mrr</span><span class="str">:.2f}"</span><span class="pun">])</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-p1-taskIndex13"><p>Run <code class="inline-value">python evaluate.py</code>:</p>
+<p>
+<img src="images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img02-9e32161b.png" alt="Screenshot of retrieval for the Arabic question and the evaluation results with recall@5 0.46 and MRR 0.37." loading="lazy"></p>
+<p>A first run often scores low. Ours scored <strong>recall@5 = 0.46</strong> and <strong>MRR = 0.37</strong>. Look at the misses with <code class="inline-value">--retrieve-only</code>: short title pages and introduction pages that appear twice in the Dubai PDF crowd out the real passages.</p></li>
+</ol>
+<h2 id="lab-p1-improve-one-setting-at-a-time">Improve one setting at a time</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex14"><p>Add a cleaning step to <code class="inline-value">ingest.py</code> just before <code class="inline-value">model = SentenceTransformer(MODEL)</code> to drop duplicate and very short chunks, then run <code class="inline-value">python ingest.py</code> and <code class="inline-value">python evaluate.py</code> again:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="pln">    seen</span><span class="pun">,</span><span class="pln"> unique </span><span class="pun">=</span><span class="pln"> </span><span class="typ">set</span><span class="pun">(),</span><span class="pln"> </span><span class="pun">[]</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> r </span><span class="kwd">in</span><span class="pln"> records</span><span class="pun">:</span><span class="pln">  </span><span class="com"># drop duplicate and very short chunks</span><span class="pln">
+        key </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">[</span><span class="str">"text"</span><span class="pun">].</span><span class="pln">strip</span><span class="pun">().</span><span class="pln">lower</span><span class="pun">()</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> </span><span class="typ">len</span><span class="pun">(</span><span class="pln">key</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&gt;=</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> key </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> seen</span><span class="pun">:</span><span class="pln">
+            seen</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">key</span><span class="pun">)</span><span class="pln">
+            unique</span><span class="pun">.</span><span class="pln">append</span><span class="pun">(</span><span class="pln">r</span><span class="pun">)</span><span class="pln">
+    records </span><span class="pun">=</span><span class="pln"> unique</span></code></pre></li>
+<li class="task-list-item" id="lab-p1-taskIndex15"><p>Then try a retrieval-trained embedding model. Change <code class="inline-value">MODEL</code> in <code class="inline-value">ingest.py</code> and <code class="inline-value">EMBED_MODEL</code> in <code class="inline-value">ask.py</code> to <code class="inline-value">intfloat/multilingual-e5-small</code>, and add the prefixes this model expects: <code class="inline-value">"passage: " + r["text"]</code> when you embed chunks and <code class="inline-value">"query: " + question</code> when you embed the question. Re-run both scripts.</p>
+<blockquote>
+  <p><strong>Note</strong>: Questions and documents must always be embedded with the same model. Re-index after every model change.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-p1-taskIndex16"><p>Compare your runs. Our results on 2026-10-09:</p>
+<table class="data"><tr><th>Run</th><th>Change</th><th>Chunks</th><th>recall@5</th><th>MRR</th></tr><tr><td>1</td><td>Baseline (800/150, MiniLM)</td><td>217</td><td>0.46</td><td>0.37</td></tr><tr><td>2</td><td>Chunks of 500/100 instead</td><td>333</td><td>0.46</td><td>0.37</td></tr><tr><td>3</td><td>Baseline + drop duplicate and short chunks</td><td>180</td><td>0.54</td><td>0.39</td></tr><tr><td>4</td><td>Run 3 + multilingual-e5-small with prefixes</td><td>180</td><td>0.62</td><td>0.46</td></tr></table>
+<p>Each run appends a line to <code class="inline-value">results.csv</code>. Change only one thing per run, and keep the table: it tells the story of your engineering decisions.</p></li>
+</ol>
+<h2 id="lab-p1-part-2-week-2-session-4-tests-with-github-copilot">Part 2 (Week 2, Session 4): tests with GitHub Copilot</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-p1-taskIndex17"><p>Ask GitHub Copilot to write pytest tests for <code class="inline-value">chunk_text</code> (chunks overlap by the overlap value, no chunk is empty) and for <code class="inline-value">retrieve</code> (returns k results sorted by score, using a small in-memory set so the test needs no PDFs).</p></li>
+<li class="task-list-item" id="lab-p1-taskIndex18"><p>Review every test before you keep it, run <code class="inline-value">pytest</code>, fix failures, and note in the README what you changed in Copilot's suggestions.</p></li>
+</ol>
+<h2 id="lab-p1-troubleshooting">Troubleshooting</h2>
+<ul>
+<li>Empty text from a PDF page: the page is an image (scanned). Choose a text-based PDF or skip the page.</li>
+<li>Arabic looks reversed or broken in the terminal: that is a display issue; open <code class="inline-value">chunks.json</code> in VS Code to check.</li>
+<li><code class="inline-value">429</code> from Gemini: wait a minute; retrieval and evaluation do not call Gemini.</li>
+<li>A very slow first run: the model is downloading; later runs use the cache.</li></ul>
+<h2 id="lab-p1-summary">Summary</h2>
+<p>You built a cited RAG pipeline that works in Arabic and English, measured retrieval with recall@5 and MRR, and improved it with evidence instead of guesses.</p>
+<h2 id="lab-p1-clean-up">Clean up</h2>
+<p>Nothing is billable. Commit <code class="inline-value">ingest.py</code>, <code class="inline-value">ask.py</code>, <code class="inline-value">evaluate.py</code>, <code class="inline-value">eval.csv</code>, <code class="inline-value">results.csv</code> and a README with your run table and three example answers with citations. Do not commit <code class="inline-value">.env</code>, <code class="inline-value">.venv</code> or the model cache. Committing the public documents with attribution is fine.</p>
+<h3 id="lab-p1-end-the-lab">End the lab</h3>
+<p>Keep <code class="inline-value">chunks.json</code>: Azure Lab 2 packages it into a container.</p>
+<h3 id="lab-p1-how-this-lab-was-tested">How this lab was tested</h3>
+<p>On 2026-10-09 all scripts were run on Windows 11 with Python 3.14 (sentence-transformers 6.1, FAISS 1.15, pypdf 6.19) against the documents downloaded from the links above; the screenshots and the run table are from those runs. The Gemini answer step was checked with an invalid key only.</p></div></section>
+<section class="lab" id="lab-g2"><h2><span class="tag google">Google</span>Google Lab 2: Gemini embeddings and File Search</h2><table class="meta"><tr><th>Lab type</th><td>Hands-on lab</td></tr><tr><th>Course slide</th><td>Slide 141 &middot; Week 2, Session 3 &middot; Mon 5 Oct 2026</td></tr><tr><th>Expected duration</th><td>45 minutes</td></tr><tr><th>Environment</th><td>Your laptop: the Python Lab 1 project folder and virtual environment</td></tr><tr><th>Account and cost</th><td>Gemini API free tier (File Search store up to 1 GB on the free tier)</td></tr><tr><th>Related labs</th><td>Python Lab 1 (your own pipeline); AWS Lab 2 (Bedrock Knowledge Bases)</td></tr><tr><th>Public docs</th><td><a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/embeddings" target="_blank" rel="noopener">Embeddings</a> &middot; <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/file-search" target="_blank" rel="noopener">File Search</a></td></tr><tr><th>Tested</th><td>2026-10-09 &middot; see the note at the end of the lab</td></tr></table><div class="page"><div class="page-label">Page 1 of 2</div><h2 id="lab-g2-before-you-start">Before you start</h2>
+<p>You need one personal Google account (Gmail) for all four Google labs. You must be 18 or older. The United Arab Emirates is a supported country for Google AI Studio and the Gemini API (<a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/available-regions" target="_blank" rel="noopener">available regions</a>). Turn off any VPN.</p>
+<ul>
+<li>The Gemini API free tier needs <strong>no payment method</strong>. Rate limits apply per project; you can see them in Google AI Studio.</li>
+<li>Content you send on the free tier may be used to improve Google products. Use only public, synthetic or non-sensitive data, never personal data.</li>
+<li>Keep your API key in a <code class="inline-value">.env</code> file that is listed in <code class="inline-value">.gitignore</code>. Never paste a key into code, chats, screenshots or commits.</li></ul>
+<p>Values that you type or select are shown like this: <span class="typeText" title="Type Text">example</span>. Replace anything in angle brackets, such as <code class="inline-value">&lt;your key&gt;</code>, with your own value.</p>
+<p>You also need the <code class="inline-value">data</code> folder and <code class="inline-value">eval.csv</code> from Python Lab 1: the public UAE AI Charter text and the two AI ethics guideline PDFs.</p>
+<p>Now, when you're ready, go to the next page to start the exercise.</p></div><div class="page"><div class="page-label">Page 2 of 2</div><h1 id="lab-g2-gemini-embeddings-and-file-search">Gemini embeddings and File Search</h1>
+<p>In this exercise, you compare sentence meanings with a local embedding model and with Gemini embeddings, then use the Gemini API <strong>File Search</strong> tool, which chunks, embeds, stores and retrieves your documents for you. You ask the same evaluation questions as in Python Lab 1 and compare answers, citations and effort.</p>
+<p>This exercise takes approximately <strong>45</strong> minutes.</p>
+<h2 id="lab-g2-set-up">Set up</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g2-taskIndex0"><p>Create the folder <code class="inline-value">week2/gemini</code> in your repository and copy the <code class="inline-value">data</code> folder and <code class="inline-value">eval.csv</code> from <code class="inline-value">week2/rag</code> into it. Open a terminal in <code class="inline-value">week2/gemini</code>.</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="typ">Copy-Item</span><span class="pln"> </span><span class="pun">..\</span><span class="pln">rag</span><span class="pun">\</span><span class="pln">data </span><span class="pun">.\</span><span class="pln">data -Recurse
+</span><span class="typ">Copy-Item</span><span class="pln"> </span><span class="pun">..\</span><span class="pln">rag</span><span class="pun">\</span><span class="pln">eval</span><span class="pun">.</span><span class="pln">csv </span><span class="pun">.</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-g2-taskIndex1"><p>Activate the Python Lab 1 virtual environment (it already has the local embedding model) and add the Gemini SDK. Create the <code class="inline-value">.env</code> file with your key:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pun">..\</span><span class="pln">rag</span><span class="pun">\.</span><span class="pln">venv</span><span class="pun">\</span><span class="pln">Scripts</span><span class="pun">\</span><span class="pln">Activate</span><span class="pun">.</span><span class="pln">ps1
+pip install -U google-genai python-dotenv
+</span><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">env </span><span class="str">"GEMINI_API_KEY=&lt;your key&gt;"</span><span class="pln">
+</span><span class="typ">Set-Content</span><span class="pln"> </span><span class="pun">.</span><span class="pln">gitignore </span><span class="str">".env"</span><span class="pln"></span></code></pre></li>
+</ol>
+<h2 id="lab-g2-compare-meanings-with-embeddings">Compare meanings with embeddings</h2>
+<p>An embedding is a list of numbers. Texts with similar meaning get vectors that point in similar directions, so their cosine similarity is close to 1.</p>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g2-taskIndex2"><p>Create <code class="inline-value">local_embeddings.py</code> to test the local model you used in Python Lab 1:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""The same similarity test with the local model from Python Lab 1 (no key needed)."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np
+</span><span class="kwd">from</span><span class="pln"> sentence_transformers </span><span class="kwd">import</span><span class="pln"> SentenceTransformer
+
+TEXTS </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+    </span><span class="str">"How do I renew my residence visa?"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"Steps to extend an Emirates residency permit"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"Best beaches in Dubai"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"كيف أجدد تأشيرة الإقامة؟"</span><span class="pun">,</span><span class="pln">  </span><span class="com"># Arabic: "How do I renew my residence visa?"</span><span class="pln">
+</span><span class="pun">]</span><span class="pln">
+
+model </span><span class="pun">=</span><span class="pln"> SentenceTransformer</span><span class="pun">(</span><span class="str">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pun">)</span><span class="pln">
+vectors </span><span class="pun">=</span><span class="pln"> model</span><span class="pun">.</span><span class="pln">encode</span><span class="pun">(</span><span class="pln">TEXTS</span><span class="pun">,</span><span class="pln"> normalize_embeddings</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="str">"dimensions:"</span><span class="pun">,</span><span class="pln"> vectors</span><span class="pun">.</span><span class="pln">shape</span><span class="pun">[</span><span class="lit">1</span><span class="pun">])</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="pln">np</span><span class="pun">.</span><span class="pln">round</span><span class="pun">(</span><span class="pln">vectors </span><span class="pun">@</span><span class="pln"> vectors</span><span class="pun">.</span><span class="pln">T</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">))</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-g2-taskIndex3"><p>Run <code class="inline-value">python local_embeddings.py</code>. The 4 &times; 4 table shows the similarity of every pair of texts:</p>
+<p>
+<img src="images/google-lab-2-gemini-embeddings-and-file-search/img01-cd5d7bc0.png" alt="Screenshot of the similarity matrix printed by the local embedding model." loading="lazy"></p>
+<ul>
+<li>The English question and its Arabic translation score about 0.83: the multilingual model matches meaning across languages.</li>
+<li>The visa question and the residency-permit sentence score 0.47 although they share almost no words.</li>
+<li>The beach sentence is unrelated to the visa question (about 0.02).</li></ul></li>
+<li class="task-list-item" id="lab-g2-taskIndex4"><p>Create <code class="inline-value">gemini_embeddings.py</code> to run the same test with <code class="inline-value">gemini-embedding-2</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Compare sentence meanings with Gemini embeddings (gemini-embedding-2)."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np
+</span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+</span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+</span><span class="kwd">from</span><span class="pln"> google.genai </span><span class="kwd">import</span><span class="pln"> types
+
+TEXTS </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+    </span><span class="str">"How do I renew my residence visa?"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"Steps to extend an Emirates residency permit"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"Best beaches in Dubai"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"كيف أجدد تأشيرة الإقامة؟"</span><span class="pun">,</span><span class="pln">  </span><span class="com"># Arabic: "How do I renew my residence visa?"</span><span class="pln">
+</span><span class="pun">]</span><span class="pln">
+
+load_dotenv</span><span class="pun">()</span><span class="pln">
+client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
+</span><span class="com"># One Content object per text gives one embedding per text. A plain list of strings</span><span class="pln">
+</span><span class="com"># would be aggregated into a single embedding by gemini-embedding-2.</span><span class="pln">
+contents </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">types</span><span class="pun">.</span><span class="pln">Content</span><span class="pun">(</span><span class="pln">parts</span><span class="pun">=[</span><span class="pln">types</span><span class="pun">.</span><span class="pln">Part</span><span class="pun">.</span><span class="pln">from_text</span><span class="pun">(</span><span class="pln">text</span><span class="pun">=</span><span class="str">f"task: sentence similarity | query: {</span><span class="pln">t</span><span class="str">}"</span><span class="pun">)])</span><span class="pln">
+            </span><span class="kwd">for</span><span class="pln"> t </span><span class="kwd">in</span><span class="pln"> TEXTS</span><span class="pun">]</span><span class="pln">
+result </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">models</span><span class="pun">.</span><span class="pln">embed_content</span><span class="pun">(</span><span class="pln">
+    model</span><span class="pun">=</span><span class="str">"gemini-embedding-2"</span><span class="pun">,</span><span class="pln">
+    contents</span><span class="pun">=</span><span class="pln">contents</span><span class="pun">,</span><span class="pln">
+    config</span><span class="pun">=</span><span class="pln">types</span><span class="pun">.</span><span class="pln">EmbedContentConfig</span><span class="pun">(</span><span class="pln">output_dimensionality</span><span class="pun">=</span><span class="lit">768</span><span class="pun">),</span><span class="pln">
+</span><span class="pun">)</span><span class="pln">
+vectors </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">array</span><span class="pun">([</span><span class="pln">e</span><span class="pun">.</span><span class="pln">values </span><span class="kwd">for</span><span class="pln"> e </span><span class="kwd">in</span><span class="pln"> result</span><span class="pun">.</span><span class="pln">embeddings</span><span class="pun">])</span><span class="pln">
+vectors </span><span class="pun">=</span><span class="pln"> vectors </span><span class="pun">/</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">linalg</span><span class="pun">.</span><span class="pln">norm</span><span class="pun">(</span><span class="pln">vectors</span><span class="pun">,</span><span class="pln"> axis</span><span class="pun">=</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> keepdims</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="str">"dimensions:"</span><span class="pun">,</span><span class="pln"> vectors</span><span class="pun">.</span><span class="pln">shape</span><span class="pun">[</span><span class="lit">1</span><span class="pun">])</span><span class="pln">
+</span><span class="typ">print</span><span class="pun">(</span><span class="pln">np</span><span class="pun">.</span><span class="pln">round</span><span class="pun">(</span><span class="pln">vectors </span><span class="pun">@</span><span class="pln"> vectors</span><span class="pun">.</span><span class="pln">T</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">))</span><span class="pln"></span></code></pre>
+<blockquote class="alert">
+  <p>With <code class="inline-value">gemini-embedding-2</code>, a plain list of strings is merged into <strong>one</strong> aggregated embedding. Wrap each text in its own <code class="inline-value">types.Content</code> object, as above, to get one embedding per text. The <code class="inline-value">task: sentence similarity | query:</code> prefix tells the model what the embedding is for; <code class="inline-value">gemini-embedding-2</code> uses prefixes instead of a task type.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-g2-taskIndex5"><p>Run <code class="inline-value">python gemini_embeddings.py</code> and compare the two tables. Note the vector size (768 here, because of <code class="inline-value">output_dimensionality</code>) and whether the Arabic sentence is still closest to its English translation.</p></li>
+</ol>
+<h2 id="lab-g2-index-the-documents-with-file-search">Index the documents with File Search</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g2-taskIndex6"><p>Create <code class="inline-value">file_search.py</code>:</p>
+<div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Index the policy documents in a Gemini File Search store and ask the evaluation questions."""</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> argparse
+</span><span class="kwd">import</span><span class="pln"> csv
+</span><span class="kwd">import</span><span class="pln"> time
+</span><span class="kwd">from</span><span class="pln"> pathlib </span><span class="kwd">import</span><span class="pln"> Path
+
+</span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
+</span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
+
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+STORE_FILE </span><span class="pun">=</span><span class="pln"> Path</span><span class="pun">(</span><span class="str">"store.txt"</span><span class="pun">)</span><span class="pln">  </span><span class="com"># remembers the store name between runs</span><span class="pln">
+
+load_dotenv</span><span class="pun">()</span><span class="pln">
+client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
+
+
+</span><span class="kwd">def</span><span class="pln"> get_or_create_store</span><span class="pun">():</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> STORE_FILE</span><span class="pun">.</span><span class="pln">exists</span><span class="pun">():</span><span class="pln">
+        </span><span class="kwd">return</span><span class="pln"> STORE_FILE</span><span class="pun">.</span><span class="pln">read_text</span><span class="pun">(</span><span class="pln">encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">).</span><span class="pln">strip</span><span class="pun">()</span><span class="pln">
+    store </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">file_search_stores</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">
+        config</span><span class="pun">={</span><span class="str">"display_name"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"uae-ai-policies"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"embedding_model"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"models/gemini-embedding-2"</span><span class="pun">})</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> path </span><span class="kwd">in</span><span class="pln"> </span><span class="typ">sorted</span><span class="pun">(</span><span class="pln">Path</span><span class="pun">(</span><span class="str">"data"</span><span class="pun">).</span><span class="pln">iterdir</span><span class="pun">()):</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">suffix</span><span class="pun">.</span><span class="pln">lower</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">{</span><span class="str">".pdf"</span><span class="pun">,</span><span class="pln"> </span><span class="str">".txt"</span><span class="pun">,</span><span class="pln"> </span><span class="str">".md"</span><span class="pun">}:</span><span class="pln">
+            </span><span class="kwd">continue</span><span class="pln">
+        operation </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">file_search_stores</span><span class="pun">.</span><span class="pln">upload_to_file_search_store</span><span class="pun">(</span><span class="pln">
+            file</span><span class="pun">=</span><span class="typ">str</span><span class="pun">(</span><span class="pln">path</span><span class="pun">),</span><span class="pln"> file_search_store_name</span><span class="pun">=</span><span class="pln">store</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln"> config</span><span class="pun">={</span><span class="str">"display_name"</span><span class="pun">:</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">name</span><span class="pun">})</span><span class="pln">
+        </span><span class="kwd">while</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> operation</span><span class="pun">.</span><span class="pln">done</span><span class="pun">:</span><span class="pln">  </span><span class="com"># the service chunks, embeds and indexes the file</span><span class="pln">
+            time</span><span class="pun">.</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span><span class="pln">
+            operation </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">operations</span><span class="pun">.</span><span class="pln">get</span><span class="pun">(</span><span class="pln">operation</span><span class="pun">)</span><span class="pln">
+        </span><span class="typ">print</span><span class="pun">(</span><span class="str">"indexed"</span><span class="pun">,</span><span class="pln"> path</span><span class="pun">.</span><span class="pln">name</span><span class="pun">)</span><span class="pln">
+    STORE_FILE</span><span class="pun">.</span><span class="pln">write_text</span><span class="pun">(</span><span class="pln">store</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> store</span><span class="pun">.</span><span class="pln">name
+
+
+</span><span class="kwd">def</span><span class="pln"> ask</span><span class="pun">(</span><span class="pln">store_name</span><span class="pun">,</span><span class="pln"> question</span><span class="pun">):</span><span class="pln">
+    start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
+    interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">
+        model</span><span class="pun">=</span><span class="pln">MODEL</span><span class="pun">,</span><span class="pln">
+        </span><span class="typ">input</span><span class="pun">=</span><span class="str">f"{</span><span class="pln">question</span><span class="str">} Answer in two sentences and cite the document."</span><span class="pun">,</span><span class="pln">
+        tools</span><span class="pun">=[{</span><span class="str">"type"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"file_search"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"file_search_store_names"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">store_name</span><span class="pun">]}],</span><span class="pln">
+    </span><span class="pun">)</span><span class="pln">
+    latency </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> start
+    citations </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[]</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> step </span><span class="kwd">in</span><span class="pln"> interaction</span><span class="pun">.</span><span class="pln">steps</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> step</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> </span><span class="str">"model_output"</span><span class="pun">:</span><span class="pln">
+            </span><span class="kwd">for</span><span class="pln"> block </span><span class="kwd">in</span><span class="pln"> step</span><span class="pun">.</span><span class="pln">content</span><span class="pun">:</span><span class="pln">
+                </span><span class="kwd">if</span><span class="pln"> block</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> block</span><span class="pun">.</span><span class="pln">annotations</span><span class="pun">:</span><span class="pln">
+                    </span><span class="kwd">for</span><span class="pln"> ann </span><span class="kwd">in</span><span class="pln"> block</span><span class="pun">.</span><span class="pln">annotations</span><span class="pun">:</span><span class="pln">
+                        </span><span class="kwd">if</span><span class="pln"> ann</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> </span><span class="str">"file_citation"</span><span class="pun">:</span><span class="pln">
+                            page </span><span class="pun">=</span><span class="pln"> </span><span class="typ">getattr</span><span class="pun">(</span><span class="pln">ann</span><span class="pun">,</span><span class="pln"> </span><span class="str">"page_number"</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">None</span><span class="pun">)</span><span class="pln">
+                            citations</span><span class="pun">.</span><span class="pln">append</span><span class="pun">(</span><span class="str">f"{</span><span class="pln">ann</span><span class="pun">.</span><span class="pln">file_name</span><span class="str">}"</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="pun">(</span><span class="str">f" p.{</span><span class="pln">page</span><span class="str">}"</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> page </span><span class="kwd">else</span><span class="pln"> </span><span class="str">""</span><span class="pun">))</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> interaction</span><span class="pun">.</span><span class="pln">output_text</span><span class="pun">,</span><span class="pln"> </span><span class="typ">sorted</span><span class="pun">(</span><span class="typ">set</span><span class="pun">(</span><span class="pln">citations</span><span class="pun">)),</span><span class="pln"> latency
+
+
+</span><span class="kwd">if</span><span class="pln"> __name__ </span><span class="pun">==</span><span class="pln"> </span><span class="str">"__main__"</span><span class="pun">:</span><span class="pln">
+    parser </span><span class="pun">=</span><span class="pln"> argparse</span><span class="pun">.</span><span class="pln">ArgumentParser</span><span class="pun">()</span><span class="pln">
+    parser</span><span class="pun">.</span><span class="pln">add_argument</span><span class="pun">(</span><span class="str">"--delete"</span><span class="pun">,</span><span class="pln"> action</span><span class="pun">=</span><span class="str">"store_true"</span><span class="pun">,</span><span class="pln"> help</span><span class="pun">=</span><span class="str">"delete the store and stop"</span><span class="pun">)</span><span class="pln">
+    args </span><span class="pun">=</span><span class="pln"> parser</span><span class="pun">.</span><span class="pln">parse_args</span><span class="pun">()</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> args</span><span class="pun">.</span><span class="pln">delete</span><span class="pun">:</span><span class="pln">
+        name </span><span class="pun">=</span><span class="pln"> STORE_FILE</span><span class="pun">.</span><span class="pln">read_text</span><span class="pun">(</span><span class="pln">encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">).</span><span class="pln">strip</span><span class="pun">()</span><span class="pln">
+        client</span><span class="pun">.</span><span class="pln">file_search_stores</span><span class="pun">.</span><span class="pln">delete</span><span class="pun">(</span><span class="pln">name</span><span class="pun">=</span><span class="pln">name</span><span class="pun">,</span><span class="pln"> config</span><span class="pun">={</span><span class="str">"force"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">True</span><span class="pun">})</span><span class="pln">
+        STORE_FILE</span><span class="pun">.</span><span class="pln">unlink</span><span class="pun">()</span><span class="pln">
+        </span><span class="typ">print</span><span class="pun">(</span><span class="str">"deleted"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">)</span><span class="pln">
+        </span><span class="kwd">raise</span><span class="pln"> SystemExit
+    store_name </span><span class="pun">=</span><span class="pln"> get_or_create_store</span><span class="pun">()</span><span class="pln">
+    </span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"eval.csv"</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+        questions </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">row</span><span class="pun">[</span><span class="str">"question"</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> row </span><span class="kwd">in</span><span class="pln"> csv</span><span class="pun">.</span><span class="pln">DictReader</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)]</span><span class="pln">
+    </span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"file_search_results.csv"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"w"</span><span class="pun">,</span><span class="pln"> newline</span><span class="pun">=</span><span class="str">""</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
+        out </span><span class="pun">=</span><span class="pln"> csv</span><span class="pun">.</span><span class="pln">writer</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
+        out</span><span class="pun">.</span><span class="pln">writerow</span><span class="pun">([</span><span class="str">"question"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"answer"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"citations"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"latency_s"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"answer_correct"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"citation_correct"</span><span class="pun">])</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> q </span><span class="kwd">in</span><span class="pln"> questions</span><span class="pun">:</span><span class="pln">
+            answer</span><span class="pun">,</span><span class="pln"> citations</span><span class="pun">,</span><span class="pln"> latency </span><span class="pun">=</span><span class="pln"> ask</span><span class="pun">(</span><span class="pln">store_name</span><span class="pun">,</span><span class="pln"> q</span><span class="pun">)</span><span class="pln">
+            </span><span class="typ">print</span><span class="pun">(</span><span class="str">f"\nQ: {</span><span class="pln">q</span><span class="str">}\nA: {</span><span class="pln">answer</span><span class="str">}\nSources: {</span><span class="pln">citations</span><span class="str">}  ({</span><span class="pln">latency</span><span class="str">:.1f} s)"</span><span class="pun">)</span><span class="pln">
+            out</span><span class="pun">.</span><span class="pln">writerow</span><span class="pun">([</span><span class="pln">q</span><span class="pun">,</span><span class="pln"> answer</span><span class="pun">,</span><span class="pln"> </span><span class="str">"; "</span><span class="pun">.</span><span class="pln">join</span><span class="pun">(</span><span class="pln">citations</span><span class="pun">),</span><span class="pln"> </span><span class="str">f"{</span><span class="pln">latency</span><span class="str">:.2f}"</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">,</span><span class="pln"> </span><span class="str">""</span><span class="pun">])</span><span class="pln">
+            time</span><span class="pun">.</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)</span><span class="pln"></span></code></pre>
+<ul>
+<li><code class="inline-value">file_search_stores.create</code> makes a store, a container for the embeddings of your documents.</li>
+<li><code class="inline-value">upload_to_file_search_store</code> uploads a file; the service chunks it, embeds the chunks and indexes them. The loop polls the operation until it is done.</li>
+<li>The store name is saved in <code class="inline-value">store.txt</code>, so the next run reuses the store instead of indexing again.</li>
+<li>The <code class="inline-value">file_search</code> tool lets the model retrieve chunks; citations come back as <code class="inline-value">file_citation</code> annotations with the file name and, for PDFs, the page number.</li></ul></li>
+<li class="task-list-item" id="lab-g2-taskIndex7"><p>Run <code class="inline-value">python file_search.py</code>. The first run prints <code class="inline-value">indexed ...</code> for each of the three files, then the answer, sources and latency for every question in <code class="inline-value">eval.csv</code>. Results are saved to <code class="inline-value">file_search_results.csv</code>.</p>
+<blockquote>
+  <p><strong>Note</strong>: Raw files uploaded this way are deleted after 48 hours, but the data imported into a File Search store stays until you delete the store. Storage and query-time embeddings are free; on a paid tier you pay for embeddings at indexing time.</p>
+</blockquote></li>
+<li class="task-list-item" id="lab-g2-taskIndex8"><p>Open <code class="inline-value">file_search_results.csv</code> and fill <code class="inline-value">answer_correct</code> and <code class="inline-value">citation_correct</code> (<span class="typeText" title="Type Text">yes</span>, <span class="typeText" title="Type Text">partly</span> or <span class="typeText" title="Type Text">no</span>) for each question. Use the <code class="inline-value">expected_answer</code> and <code class="inline-value">gold_source</code> columns of <code class="inline-value">eval.csv</code> as the reference.</p></li>
+</ol>
+<h2 id="lab-g2-compare-with-your-own-pipeline">Compare with your own pipeline</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g2-taskIndex9"><p>Add a row for File Search to your Week 2 results table and compare it with your Python Lab 1 pipeline:</p>
+<table class="data"><tr><th>Criterion</th><th>Python Lab 1 pipeline</th><th>Gemini File Search</th></tr><tr><td>Correct answers (of 13 answerable)</td><td></td><td></td></tr><tr><td>Correct citations</td><td></td><td></td></tr><tr><td>Unanswerable questions declined (of 2)</td><td></td><td></td></tr><tr><td>Median latency</td><td></td><td></td></tr><tr><td>Lines of retrieval code you wrote</td><td>about 60</td><td>about 20</td></tr><tr><td>What you control</td><td>chunking, model, top k, filters</td><td>chunk size, metadata filters</td></tr><tr><td>Where the data is stored</td><td>your laptop</td><td>the provider's store</td></tr></table></li>
+<li class="task-list-item" id="lab-g2-taskIndex10"><p>Write three sentences in your README: which approach you would choose for a public-sector FAQ bot, and why.</p></li>
+</ol>
+<h2 id="lab-g2-troubleshooting">Troubleshooting</h2>
+<ul>
+<li>Upload seems stuck: large PDFs take longer; the loop keeps polling. If it fails, check the file type.</li>
+<li><code class="inline-value">429</code> errors: wait, then run again; the script pauses two seconds between questions.</li>
+<li>No sources printed: print the whole <code class="inline-value">interaction.steps</code> object to see the response, and check <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/file-search" target="_blank" rel="noopener">the File Search page</a> for changes.</li></ul>
+<h2 id="lab-g2-summary">Summary</h2>
+<p>You compared local and Gemini embeddings, built a managed File Search index over the same documents, and measured its answers and citations against your own RAG pipeline.</p>
+<h2 id="lab-g2-clean-up">Clean up</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-g2-taskIndex11"><p>Delete the File Search store when you have recorded your results:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python file_search</span><span class="pun">.</span><span class="pln">py </span><span class="pun">-</span><span class="pln">-delete</span></code></pre>
+<p>The <code class="inline-value">force</code> option in the script deletes the store together with its documents.</p></li>
+</ol>
+<h3 id="lab-g2-end-the-lab">End the lab</h3>
+<p>Commit <code class="inline-value">local_embeddings.py</code>, <code class="inline-value">gemini_embeddings.py</code>, <code class="inline-value">file_search.py</code> and <code class="inline-value">file_search_results.csv</code>. Do not commit <code class="inline-value">.env</code> or <code class="inline-value">store.txt</code>.</p>
+<h3 id="lab-g2-how-this-lab-was-tested">How this lab was tested</h3>
+<p>On 2026-10-09 the local embedding script was run as shown. The Gemini embedding, File Search store and File Search query calls were checked with google-genai 2.26.0 using an invalid key: the SDK accepted every parameter and the service rejected only the key.</p></div></section>
+</main>
+</body>
+</html>
