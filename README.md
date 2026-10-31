@@ -26,7 +26,8 @@ labs/student/
 │   └── 02-GAIS-Lab-Embedding-File-Search/
 ├── 03-AWS/
 │   ├── 00-AWS-Lab-Setup-AWS/
-│   └── 01-AWS-Lab-bedrock/
+│   ├── 01-AWS-Lab-bedrock/
+│   └── 01a-AWS-Lab-Bedrock-BedTimeStory/
 └── images/
 ```
 
@@ -42,6 +43,7 @@ use and links to these learning briefs.
 | [01-Python-Lab-RAG](labs/student/01-Python/01-Python-Lab-RAG/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
 | [00-AWS-Lab-Setup-AWS](labs/student/03-AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
 | [01-AWS-Lab-bedrock](labs/student/03-AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
+| [01a-AWS-Lab-Bedrock-BedTimeStory](labs/student/03-AWS/01a-AWS-Lab-Bedrock-BedTimeStory/README.md) | 20 minutes | Extension |
 | [00-GAIS-Lab-Setup-Google-Gemini](labs/student/02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
 | [01-GAIS-Lab-JSON-Schema](labs/student/02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
 | [02-GAIS-Lab-Embedding-File-Search](labs/student/02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
@@ -75,7 +77,9 @@ limits before using your own account. Budget alerts do not cap spending.
 
 These instructions are for your separate work/submission repository. Do not put
 keys, account details, or your completed work into this distribution repository.
-The three category setup labs and four hands-on labs are released.
+The three category setup labs, four original hands-on labs and the AWS
+bedtime-story extension are released. The extension follows the Bedrock
+playground and requires separate approval for its Sydney/GPT OSS boundary.
 Later practical labs remain unpublished.
 
 ## Course Schedule
