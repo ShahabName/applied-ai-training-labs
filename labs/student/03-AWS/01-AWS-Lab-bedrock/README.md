@@ -12,7 +12,6 @@ dependencies: [CH00, A00, G01]
 
 [All student labs](../../../../README.md) |
 [AWS setup](../00-AWS-Lab-Setup-AWS/README.md) |
-[Next AWS lab: Knowledge Bases instructor demo](../02-AWS-Lab-Bedrock-Knowledge-Bases/README.md) |
 [Prerequisite: Google Lab 1](../../02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
 [Continue: 01-Python-Lab-RAG](../../01-Python/01-Python-Lab-RAG/README.md)
 

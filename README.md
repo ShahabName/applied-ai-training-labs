@@ -26,8 +26,7 @@ labs/student/
 │   └── 02-GAIS-Lab-Embedding-File-Search/
 ├── 03-AWS/
 │   ├── 00-AWS-Lab-Setup-AWS/
-│   ├── 01-AWS-Lab-bedrock/
-│   └── 02-AWS-Lab-Bedrock-Knowledge-Bases/
+│   └── 01-AWS-Lab-bedrock/
 └── images/
 ```
 
@@ -40,7 +39,6 @@ under `labs/student` for offline use.
 | [01-Python-Lab-RAG](labs/student/01-Python/01-Python-Lab-RAG/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
 | [00-AWS-Lab-Setup-AWS](labs/student/03-AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
 | [01-AWS-Lab-bedrock](labs/student/03-AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
-| [02-AWS-Lab-Bedrock-Knowledge-Bases (instructor demo)](labs/student/03-AWS/02-AWS-Lab-Bedrock-Knowledge-Bases/README.md) | 25 to 30 minutes | 142 |
 | [00-GAIS-Lab-Setup-Google-Gemini](labs/student/02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
 | [01-GAIS-Lab-JSON-Schema](labs/student/02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
 | [02-GAIS-Lab-Embedding-File-Search](labs/student/02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
@@ -74,10 +72,8 @@ limits before using your own account. Budget alerts do not cap spending.
 
 These instructions are for your separate work/submission repository. Do not put
 keys, account details, or your completed work into this distribution repository.
-The three category setup labs, four hands-on labs and AWS Knowledge Bases
-instructor demo are released. Students observe the demo without provisioning
-resources; later
-practical labs remain unpublished.
+The three category setup labs and four hands-on labs are released.
+Later practical labs remain unpublished.
 
 ## Course Schedule
 
