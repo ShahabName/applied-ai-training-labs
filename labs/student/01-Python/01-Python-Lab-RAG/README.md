@@ -347,6 +347,29 @@ This exercise takes approximately **75** minutes.
    for score, i in zip(scores[0], ids[0]):
        print(f"{records[i]['source']} p.{records[i]['page']} score {score:.3f}")
    ```
+5. Run the optional FAISS search from your `week2/rag` work folder, using
+   the same virtual environment as `ingest.py`. First confirm that ingestion
+   has created `chunks.json` and `vectors.npy`, then run:
+
+   ```powershell
+   python faiss_search.py
+   python ask.py "Which principle of the UAE AI Charter is about human oversight?" --retrieve-only
+   ```
+
+   The FAISS script prints five lines with a document filename, page number
+   and similarity score, ordered from highest score to lowest. Compare these
+   with the NumPy retrieval output for the same question. The top result
+   should point to the Charter's Human Oversight evidence; use the passage
+   text printed by `ask.py` to check this, rather than trusting the score alone.
+   Source/page results and scores should agree within floating-point
+   tolerance; equally scored chunks may appear in a different order.
+   Neither command calls Gemini, and FAISS prints retrieval results, not a
+   generated answer or latency.
+
+   If Python reports `No module named 'faiss'`, check that you are using the
+   RAG environment and that `faiss-cpu` was installed during setup. If that
+   package is unavailable for your Python version, skip this optional step
+   and retain the NumPy search.
 
 ## Measure retrieval with an evaluation set
 
