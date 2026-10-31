@@ -15,16 +15,22 @@ Google Lab 2 reuses the documents and evaluation set from Python Lab 1.
 
 | Lab | Duration | Course slide |
 |---|---|---|
-| [Google Lab 1: Call Gemini from Python with a JSON response schema](labs/student/released-labs.html#lab-g1) | 45 to 60 minutes | 90 |
-| [AWS Lab 1: Free plan account, budget alert and Bedrock playground](labs/student/released-labs.html#lab-a1) | 45 to 60 minutes | 91 |
-| [Python Lab 1: Cited RAG pipeline over public UAE policy documents](labs/student/released-labs.html#lab-p1) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
-| [Google Lab 2: Gemini embeddings and File Search](labs/student/released-labs.html#lab-g2) | 45 minutes | 141 |
+| [Google Lab 1: Call Gemini from Python with a JSON response schema](labs/student/google-lab-01-json-schema/README.md) | 45 to 60 minutes | 90 |
+| [AWS Lab 1: Free plan account, budget alert and Bedrock playground](labs/student/aws-lab-01-bedrock/README.md) | 45 to 60 minutes | 91 |
+| [Python Lab 1: Cited RAG pipeline over public UAE policy documents](labs/student/python-lab-01-cited-rag/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
+| [Google Lab 2: Gemini embeddings and File Search](labs/student/google-lab-02-embeddings-file-search/README.md) | 45 minutes | 141 |
 
-GitHub displays the HTML source rather than the formatted guide. After cloning or
-pulling this repository, open `labs/student/released-labs.html` in the standalone
-Microsoft Edge browser and use its lab navigation. Keep the adjacent `images`
-folder with the HTML file so the screenshots display. No web server is needed.
-For example, from the repository root on Windows:
+Each lab has its own folder and full README instructions, viewable directly on
+GitHub like Challenge 0. The folders contain course instructions, not your
+completed portfolio: create the working folders specified in each lab in your
+separate work/submission repository. Screenshots are shared under
+`labs/student/images` and render in every lab README.
+
+The [combined HTML guide](labs/student/released-labs.html) remains available for
+offline viewing. GitHub displays its source rather than the formatted guide.
+After cloning or pulling, open it in standalone Microsoft Edge. Keep the adjacent
+`images` folder with the HTML file. No web server is needed. From the repository
+root on Windows:
 
 ```powershell
 Start-Process msedge -ArgumentList ('"' + (Resolve-Path .\labs\student\released-labs.html).Path + '"')
