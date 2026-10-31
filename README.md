@@ -5,23 +5,47 @@ description: Staged original student challenges for Tecoholic and BITS Pilani Du
 
 ## Start Here
 
-[Challenge 0: setup and readiness](labs/student/challenge-00-setup/README.md) is the initial release. Later student-facing challenges are published on their assigned teaching days. Instructor solutions, quizzes, slides, and licensed courseware are not distributed in this repository.
+[00-setup-lab: setup and readiness](labs/student/00-setup-lab/README.md) is the starting point. Later student-facing challenges are published on their assigned teaching days. Instructor solutions, quizzes, slides, and licensed courseware are not distributed in this repository.
 
 ## Released Labs
 
-These four hands-on labs were published on 31 October 2026. Complete them in the
-order below. Google Lab 1 provides the key and JSON schema used by the next labs;
-Google Lab 2 reuses the documents and evaluation set from Python Lab 1.
+Complete 00-setup-lab first, then the appropriate provider setup. The four
+practical labs were published on 31 October 2026. Start with the Google JSON
+Schema lab before Bedrock or Python RAG; the File Search lab reuses the Python
+RAG documents and evaluation set.
+
+```text
+labs/student/
+├── 00-setup-lab/
+├── images/
+├── AWS/
+│   ├── 00-AWS-Lab-Setup-AWS/
+│   ├── 01-AWS-Lab-bedrock/
+│   └── 02-AWS-Lab-RAG-Python/
+└── Google-AI-Studio/
+    ├── 00-GAIS-Lab-Setup-Google-Gemini/
+    ├── 01-GAIS-Lab-JSON-Schema/
+    └── 02-GAIS-Lab-Embedding-File-Search/
+```
+
+Every lab folder has a README. The existing combined HTML guide also remains
+under `labs/student` for offline use.
 
 | Lab | Duration | Course slide |
 |---|---|---|
-| [Google Lab 1: Call Gemini from Python with a JSON response schema](labs/student/google-lab-01-json-schema/README.md) | 45 to 60 minutes | 90 |
-| [AWS Lab 1: Free plan account, budget alert and Bedrock playground](labs/student/aws-lab-01-bedrock/README.md) | 45 to 60 minutes | 91 |
-| [Python Lab 1: Cited RAG pipeline over public UAE policy documents](labs/student/python-lab-01-cited-rag/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
-| [Google Lab 2: Gemini embeddings and File Search](labs/student/google-lab-02-embeddings-file-search/README.md) | 45 minutes | 141 |
+| [00-AWS-Lab-Setup-AWS](labs/student/AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
+| [01-AWS-Lab-bedrock](labs/student/AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
+| [02-AWS-Lab-RAG-Python](labs/student/AWS/02-AWS-Lab-RAG-Python/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
+| [00-GAIS-Lab-Setup-Google-Gemini](labs/student/Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
+| [01-GAIS-Lab-JSON-Schema](labs/student/Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
+| [02-GAIS-Lab-Embedding-File-Search](labs/student/Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
+
+The Python RAG exercise is grouped under AWS for course navigation, but its
+existing implementation uses local embeddings and Gemini for answers. It is
+not an AWS Bedrock RAG implementation.
 
 Each lab has its own folder and full README instructions, viewable directly on
-GitHub like Challenge 0. The folders contain course instructions, not your
+GitHub like 00-setup-lab. The folders contain course instructions, not your
 completed portfolio: create the working folders specified in each lab in your
 separate work/submission repository. Screenshots are shared under
 `labs/student/images` and render in every lab README.
@@ -44,7 +68,8 @@ limits before using your own account. Budget alerts do not cap spending.
 
 These instructions are for your separate work/submission repository. Do not put
 keys, account details, or your completed work into this distribution repository.
-Only these four practical labs are released; later labs remain unpublished.
+The two provider setup labs and four practical labs are released; later
+practical labs remain unpublished.
 
 ## Course Schedule
 

@@ -1,5 +1,5 @@
 ---
-title: "AWS Lab 1: Free plan account, budget alert and Bedrock playground"
+title: "01-AWS-Lab-bedrock"
 description: Secure an AWS account, configure budget alerts and compare Bedrock responses.
 id: A01
 cloud: AWS
@@ -7,18 +7,23 @@ difficulty: Foundation
 release_date: 2026-10-31
 estimated_minutes: 60
 course_slide: 91
-dependencies: [CH00, G01]
+dependencies: [CH00, A00, G01]
 ---
 
-[All student labs](../../../README.md) |
-[Prerequisite: Google Lab 1](../google-lab-01-json-schema/README.md) |
-[Next: Python Lab 1](../python-lab-01-cited-rag/README.md)
+[All student labs](../../../../README.md) |
+[AWS setup](../00-AWS-Lab-Setup-AWS/README.md) |
+[Prerequisite: Google Lab 1](../../Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
+[Next: Python Lab 1](../02-AWS-Lab-RAG-Python/README.md)
 
 Complete the steps in your separate portfolio repository. Google Lab 1 provides
 the prompts, JSON schema and comparison table used here. Check current AWS
 eligibility and pricing; budget alerts do not stop spending. Never publish
 account details. Source testing notes below are historical, not a new live-cloud
 validation.
+
+Complete AWS setup first. If your account, MFA and budgets are already ready,
+verify them instead of repeating signup. Use a trainer-approved non-root
+temporary identity for playground work; root is for account administration.
 
 ## Lab Overview
 
@@ -56,10 +61,10 @@ This exercise takes approximately **45** minutes.
 
 1. In a web browser, open <https://aws.amazon.com/free/> at `https://aws.amazon.com/free/` and select **Create a free account**.
 
-   ![Screenshot of the AWS Free Tier page with the Create a free account button.](../images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img01-798c913c.png)
+   ![Screenshot of the AWS Free Tier page with the Create a free account button.](../../images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img01-798c913c.png)
 2. On the **Sign up for AWS** page, enter your **Root user email address** and an **AWS account name**, for example yourname-ai-course. Select **Verify email address**.
 
-   ![Screenshot of the Sign up for AWS page with the root user email address and account name fields.](../images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img02-87663ca9.png)
+   ![Screenshot of the Sign up for AWS page with the root user email address and account name fields.](../../images/aws-lab-1-free-plan-account-budget-alert-and-bedrock-playgro/img02-87663ca9.png)
 3. Enter the verification code from the email AWS sends you. Then create a strong root password and store it in your password manager.
 4. Enter your contact information and choose Personal as the account type.
 5. When you are asked to choose an account plan, select the **Free plan**. Know what it means:

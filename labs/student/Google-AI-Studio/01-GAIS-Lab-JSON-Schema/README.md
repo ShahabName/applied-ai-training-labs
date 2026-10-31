@@ -1,5 +1,5 @@
 ---
-title: "Google Lab 1: Call Gemini from Python with a JSON response schema"
+title: "01-GAIS-Lab-JSON-Schema"
 description: Call Gemini, compare prompts and validate structured JSON responses.
 id: G01
 cloud: Google Gemini
@@ -7,17 +7,22 @@ difficulty: Foundation
 release_date: 2026-10-31
 estimated_minutes: 60
 course_slide: 90
-dependencies: [CH00]
+dependencies: [CH00, G00]
 ---
 
-[All student labs](../../../README.md) |
-[Prerequisite: Challenge 0](../challenge-00-setup/README.md) |
-[Next: AWS Lab 1](../aws-lab-01-bedrock/README.md)
+[All student labs](../../../../README.md) |
+[Google Gemini setup](../00-GAIS-Lab-Setup-Google-Gemini/README.md) |
+[Prerequisite: Challenge 0](../../00-setup-lab/README.md) |
+[Next: AWS Lab 1](../../AWS/01-AWS-Lab-bedrock/README.md)
 
 Complete the steps in your separate portfolio repository. Check current provider
 pricing, model availability and eligibility before using your own account.
 Never commit your API key. Source testing notes below are historical, not a new
 live-cloud validation.
+
+Complete Google Gemini setup first. Reuse its course key, work folder and
+environment; verify the setup steps below rather than creating a second key
+or overwriting an existing comparison table.
 
 ## Lab Overview
 
@@ -65,7 +70,7 @@ Google AI Studio is Google's web tool for trying Gemini models and managing API 
 
 1. In a web browser, open [Google AI Studio](https://aistudio.google.com) at `https://aistudio.google.com` and select **Get started**. Sign in with your personal Google account.
 
-   ![Screenshot of the Google AI Studio welcome page with the Get started button.](../images/google-lab-1-call-gemini-from-python-with-a-json-response-sc/img01-927fa1b7.png)
+   ![Screenshot of the Google AI Studio welcome page with the Get started button.](../../images/google-lab-1-call-gemini-from-python-with-a-json-response-sc/img01-927fa1b7.png)
 2. If you are asked to, accept the Google APIs Terms of Service and the Gemini API Additional Terms. New users get a default Google Cloud project and an API key automatically.
 3. Open <https://aistudio.google.com/apikey> at `https://aistudio.google.com/apikey`. If no key is listed, select **Create API key** and follow the dialog to create a key in a new or existing project. Copy the key.
 

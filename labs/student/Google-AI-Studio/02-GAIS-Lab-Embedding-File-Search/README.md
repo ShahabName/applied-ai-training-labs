@@ -1,5 +1,5 @@
 ---
-title: "Google Lab 2: Gemini embeddings and File Search"
+title: "02-GAIS-Lab-Embedding-File-Search"
 description: Compare local and Gemini embeddings and evaluate a managed File Search store.
 id: G02
 cloud: Google Gemini
@@ -7,12 +7,12 @@ difficulty: Foundation
 release_date: 2026-10-31
 estimated_minutes: 45
 course_slide: 141
-dependencies: [CH00, G01, P01]
+dependencies: [CH00, G00, G01, P01]
 ---
 
-[All student labs](../../../README.md) |
-[Prerequisite: Google Lab 1](../google-lab-01-json-schema/README.md) |
-[Prerequisite: Python Lab 1](../python-lab-01-cited-rag/README.md)
+[All student labs](../../../../README.md) |
+[Prerequisite: Google Lab 1](../01-GAIS-Lab-JSON-Schema/README.md) |
+[Prerequisite: Python Lab 1](../../AWS/02-AWS-Lab-RAG-Python/README.md)
 
 Complete the steps in your separate portfolio repository. Reuse the documents,
 evaluation set and environment from Python Lab 1 and the key from Google Lab 1.
@@ -95,7 +95,7 @@ An embedding is a list of numbers. Texts with similar meaning get vectors that p
    ```
 2. Run `python local_embeddings.py`. The 4 × 4 table shows the similarity of every pair of texts:
 
-   ![Screenshot of the similarity matrix printed by the local embedding model.](../images/google-lab-2-gemini-embeddings-and-file-search/img01-cd5d7bc0.png)
+   ![Screenshot of the similarity matrix printed by the local embedding model.](../../images/google-lab-2-gemini-embeddings-and-file-search/img01-cd5d7bc0.png)
 
    * The English question and its Arabic translation score about 0.83: the multilingual model matches meaning across languages.
    * The visa question and the residency-permit sentence score 0.47 although they share almost no words.

@@ -1,5 +1,5 @@
 ---
-title: "Python Lab 1: Cited RAG pipeline over public UAE policy documents"
+title: "02-AWS-Lab-RAG-Python"
 description: Build and evaluate multilingual retrieval with cited answers and a test exercise.
 id: P01
 cloud: Local Python and Google Gemini
@@ -10,15 +10,19 @@ course_slide: 126
 dependencies: [CH00, G01]
 ---
 
-[All student labs](../../../README.md) |
-[Prerequisite: Google Lab 1](../google-lab-01-json-schema/README.md) |
-[Next: Google Lab 2](../google-lab-02-embeddings-file-search/README.md)
+[All student labs](../../../../README.md) |
+[Prerequisite: Google Lab 1](../../Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
+[Next: Google Lab 2](../../Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md)
 
 Complete the steps in your separate portfolio repository. This lab includes the
 75-minute exercise and Part 2 in Week 2, Session 4. Retrieval and evaluation can
 run without a Gemini key; answer generation uses the key from Google Lab 1.
 Preserve document attribution and never commit secrets. Source testing notes
 below are historical, not a new live-cloud validation.
+
+This is the original Python Lab 1, grouped under AWS for course navigation.
+Retrieval runs locally and answer generation uses Gemini. No AWS service or
+Bedrock Knowledge Base is created by this exercise.
 
 ## Lab Overview
 
@@ -152,7 +156,7 @@ This exercise takes approximately **75** minutes.
    * `normalize_embeddings=True` makes cosine similarity equal to a simple dot product.
 2. Run `python ingest.py`. The first run downloads the model; then you should see:
 
-   ![Screenshot of ingest.py indexing 217 chunks and ask.py retrieving the Human Oversight passage.](../images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img01-4921b468.png)
+   ![Screenshot of ingest.py indexing 217 chunks and ask.py retrieving the Human Oversight passage.](../../images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img01-4921b468.png)
 
    217 chunks from 3 files, each a 384-dimension vector. You may also see download progress bars and a warning about an `HF_TOKEN`; you can ignore both.
 
@@ -322,7 +326,7 @@ Before you tune anything, write questions with known answers and the page that c
    ```
 3. Run `python evaluate.py`:
 
-   ![Screenshot of retrieval for the Arabic question and the evaluation results with recall@5 0.46 and MRR 0.37.](../images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img02-9e32161b.png)
+   ![Screenshot of retrieval for the Arabic question and the evaluation results with recall@5 0.46 and MRR 0.37.](../../images/python-lab-1-cited-rag-pipeline-over-public-uae-policy-docum/img02-9e32161b.png)
 
    A first run often scores low. Ours scored **recall@5 = 0.46** and **MRR = 0.37**. Look at the misses with `--retrieve-only`: short title pages and introduction pages that appear twice in the Dubai PDF crowd out the real passages.
 

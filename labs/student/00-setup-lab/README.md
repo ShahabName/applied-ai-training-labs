@@ -1,5 +1,5 @@
 ---
-title: Challenge 0 - Setup and Readiness
+title: 00-setup-lab - Setup and Readiness
 description: Self-contained local readiness, safe GitHub workflow, and conditional cloud access without student Azure signup.
 id: CH00
 cloud: Neutral; Azure via Skillable only
@@ -12,6 +12,10 @@ dependencies: []
 ---
 
 ## Mission and Prerequisites
+
+[All student labs](../../../README.md) |
+[AWS setup](../AWS/00-AWS-Lab-Setup-AWS/README.md) |
+[Google AI Studio setup](../Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md)
 
 Prepare a reproducible workspace for the Service Operations Copilot portfolio using invented retailer tickets. Complete this readiness gate before the four required cloud challenges. No model, paid service, shared helper, or later challenge is required here. You need a supported laptop, permission to install development tools, your college identity for the course, and a personal GitHub account. A credit offer is not an eligibility guarantee.
 
@@ -29,7 +33,7 @@ py -3.13 --version
 code --version
 uv --version
 uv venv .venv --python 3.13
-.\.venv\Scripts\python.exe -I -B labs/student/challenge-00-setup/readiness.py --offline
+.\.venv\Scripts\python.exe -I -B labs/student/00-setup-lab/readiness.py --offline
 ```
 
 If `uv` is unavailable, `py -3.13 -m venv .venv` creates the same environment with the standard library. On macOS/Linux use `python3.13 -m venv .venv` and `.venv/bin/python`. Select that environment with VS Code's Python: Select Interpreter. Activation is optional when using the explicit executable. No package install is required for this exercise.
