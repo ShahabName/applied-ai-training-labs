@@ -12,8 +12,8 @@ dependencies: [CH00, G00]
 
 [All student labs](../../../../README.md) |
 [Google Gemini setup](../00-GAIS-Lab-Setup-Google-Gemini/README.md) |
-[Prerequisite: Challenge 0](../../00-setup-lab/README.md) |
-[Next: AWS Lab 1](../../AWS/01-AWS-Lab-bedrock/README.md)
+[Prerequisite: Challenge 0](../../00-Setup-Lab/README.md) |
+[Next: AWS Lab 1](../../03-AWS/01-AWS-Lab-bedrock/README.md)
 
 Complete the steps in your separate portfolio repository. Check current provider
 pricing, model availability and eligibility before using your own account.

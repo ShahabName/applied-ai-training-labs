@@ -1,5 +1,5 @@
 ---
-title: "03-GAIS-Lab-Embedding-File-Search"
+title: "02-GAIS-Lab-Embedding-File-Search"
 description: Compare local and Gemini embeddings and evaluate a managed File Search store.
 id: G02
 cloud: Google Gemini
@@ -12,7 +12,7 @@ dependencies: [CH00, G00, G01, P01]
 
 [All student labs](../../../../README.md) |
 [Prerequisite: Google Lab 1](../01-GAIS-Lab-JSON-Schema/README.md) |
-[Prerequisite: 02-GAIS-Lab-RAG-Python](../02-GAIS-Lab-RAG-Python/README.md)
+[Prerequisite: 01-Python-Lab-RAG](../../01-Python/01-Python-Lab-RAG/README.md)
 
 Complete the steps in your separate portfolio repository. Reuse the documents,
 evaluation set and environment from Python Lab 1 and the key from Google Lab 1.

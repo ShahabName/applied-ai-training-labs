@@ -12,7 +12,7 @@ dependencies: [CH00]
 ## Start here
 
 [All student labs](../../../../README.md) |
-[00-setup-lab](../../00-setup-lab/README.md) |
+[00-Setup-Lab](../../00-Setup-Lab/README.md) |
 [Next: 01-AWS-Lab-bedrock](../01-AWS-Lab-bedrock/README.md)
 
 This provider-specific setup adapts the general setup lab's safe GitHub,
@@ -23,7 +23,7 @@ details or credentials to the trainer or an AI assistant.
 
 ## Prerequisites
 
-* Complete the offline check in 00-setup-lab.
+* Complete the offline check in 00-Setup-Lab.
 * Use a separate work/submission repository, not this distribution repository.
 * Have an email address, phone and any identity-verification information AWS
   requires. Only the account owner may provide these to AWS.

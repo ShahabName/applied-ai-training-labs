@@ -5,27 +5,29 @@ description: Staged original student challenges for Tecoholic and BITS Pilani Du
 
 ## Start Here
 
-[00-setup-lab: setup and readiness](labs/student/00-setup-lab/README.md) is the starting point. Later student-facing challenges are published on their assigned teaching days. Instructor solutions, quizzes, slides, and licensed courseware are not distributed in this repository.
+[00-Setup-Lab: setup and readiness](labs/student/00-Setup-Lab/README.md) is the starting point. Later student-facing challenges are published on their assigned teaching days. Instructor solutions, quizzes, slides, and licensed courseware are not distributed in this repository.
 
 ## Released Labs
 
-Complete 00-setup-lab first, then the appropriate provider setup. The four
+Complete 00-Setup-Lab first, then the appropriate provider setup. The four
 practical labs were published on 31 October 2026. Start with the Google JSON
 Schema lab before Bedrock or Python RAG; the File Search lab reuses the Python
 RAG documents and evaluation set.
 
 ```text
 labs/student/
-├── 00-setup-lab/
-├── images/
-├── AWS/
+├── 00-Setup-Lab/
+├── 01-Python/
+│   ├── 00-Python-Lab-Setup-Python/
+│   └── 01-Python-Lab-RAG/
+├── 02-Google-AI-Studio/
+│   ├── 00-GAIS-Lab-Setup-Google-Gemini/
+│   ├── 01-GAIS-Lab-JSON-Schema/
+│   └── 02-GAIS-Lab-Embedding-File-Search/
+├── 03-AWS/
 │   ├── 00-AWS-Lab-Setup-AWS/
 │   └── 01-AWS-Lab-bedrock/
-└── Google-AI-Studio/
-    ├── 00-GAIS-Lab-Setup-Google-Gemini/
-    ├── 01-GAIS-Lab-JSON-Schema/
-    ├── 02-GAIS-Lab-RAG-Python/
-    └── 03-GAIS-Lab-Embedding-File-Search/
+└── images/
 ```
 
 Every lab folder has a README. The existing combined HTML guide also remains
@@ -33,19 +35,21 @@ under `labs/student` for offline use.
 
 | Lab | Duration | Course slide |
 |---|---|---|
-| [00-AWS-Lab-Setup-AWS](labs/student/AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
-| [01-AWS-Lab-bedrock](labs/student/AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
-| [00-GAIS-Lab-Setup-Google-Gemini](labs/student/Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
-| [01-GAIS-Lab-JSON-Schema](labs/student/Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
-| [02-GAIS-Lab-RAG-Python](labs/student/Google-AI-Studio/02-GAIS-Lab-RAG-Python/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
-| [03-GAIS-Lab-Embedding-File-Search](labs/student/Google-AI-Studio/03-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
+| [00-Python-Lab-Setup-Python](labs/student/01-Python/00-Python-Lab-Setup-Python/README.md) | 30 minutes | Setup |
+| [01-Python-Lab-RAG](labs/student/01-Python/01-Python-Lab-RAG/README.md) | 75 minutes, plus Part 2 in Week 2, Session 4 | 126 |
+| [00-AWS-Lab-Setup-AWS](labs/student/03-AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
+| [01-AWS-Lab-bedrock](labs/student/03-AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
+| [00-GAIS-Lab-Setup-Google-Gemini](labs/student/02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
+| [01-GAIS-Lab-JSON-Schema](labs/student/02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
+| [02-GAIS-Lab-Embedding-File-Search](labs/student/02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
 
-The Google sequence is setup, JSON Schema, Python RAG, then Embedding/File
-Search. Python RAG uses local embeddings and Gemini for answers; File Search
-builds on its documents and evaluation set.
+The Google sequence is setup, JSON Schema, then Embedding/File Search. Complete
+the Python RAG lab before File Search: it supplies the documents and evaluation
+set. Python RAG's retrieval and evaluation are local; its optional answer
+generation uses Gemini and requires the Google access setup.
 
 Each lab has its own folder and full README instructions, viewable directly on
-GitHub like 00-setup-lab. The folders contain course instructions, not your
+GitHub like 00-Setup-Lab. The folders contain course instructions, not your
 completed portfolio: create the working folders specified in each lab in your
 separate work/submission repository. Screenshots are shared under
 `labs/student/images` and render in every lab README.
@@ -68,7 +72,7 @@ limits before using your own account. Budget alerts do not cap spending.
 
 These instructions are for your separate work/submission repository. Do not put
 keys, account details, or your completed work into this distribution repository.
-The two provider setup labs and four practical labs are released; later
+The three category setup labs and four practical labs are released; later
 practical labs remain unpublished.
 
 ## Course Schedule

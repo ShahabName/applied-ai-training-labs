@@ -12,7 +12,7 @@ dependencies: [CH00]
 ## Start here
 
 [All student labs](../../../../README.md) |
-[00-setup-lab](../../00-setup-lab/README.md) |
+[00-Setup-Lab](../../00-Setup-Lab/README.md) |
 [Next: 01-GAIS-Lab-JSON-Schema](../01-GAIS-Lab-JSON-Schema/README.md)
 
 This setup adapts the general setup lab's local readiness, separate work
@@ -22,7 +22,7 @@ Free Trial. A Google Cloud trial credit balance does not fund AI Studio calls.
 
 ## Prerequisites and access gate
 
-1. Complete the offline tools and GitHub checks in 00-setup-lab.
+1. Complete the offline tools and GitHub checks in 00-Setup-Lab.
 2. Use one personal Google account for the course. Verify current age and regional
    eligibility in the [available regions documentation](https://ai.google.dev/gemini-api/docs/available-regions).
 3. Open websites in standalone Microsoft Edge. Complete account selection,
@@ -55,7 +55,7 @@ Free Trial. A Google Cloud trial credit balance does not fund AI Studio calls.
 
 1. In your own work/submission repository, create `week1/gemini`. Do not add
    credentials or completed work to the course materials clone.
-2. Apply the [.gitignore rules from 00-setup-lab](../../00-setup-lab/.gitignore)
+2. Apply the [.gitignore rules from 00-Setup-Lab](../../00-Setup-Lab/.gitignore)
    to your work repository. Ensure `.env`, `.env.*`, `.venv/`, private keys and
    credential files remain ignored.
 3. Create an isolated environment without activating it:

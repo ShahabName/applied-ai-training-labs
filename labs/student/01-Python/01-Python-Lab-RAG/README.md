@@ -1,5 +1,5 @@
 ---
-title: "02-GAIS-Lab-RAG-Python"
+title: "01-Python-Lab-RAG"
 description: Build and evaluate multilingual retrieval with cited answers and a test exercise.
 id: P01
 cloud: Local Python and Google Gemini
@@ -7,12 +7,13 @@ difficulty: Foundation
 release_date: 2026-10-31
 estimated_minutes: 75
 course_slide: 126
-dependencies: [CH00, G01]
+dependencies: [CH00, P00]
 ---
 
 [All student labs](../../../../README.md) |
-[Prerequisite: 01-GAIS-Lab-JSON-Schema](../01-GAIS-Lab-JSON-Schema/README.md) |
-[Next: 03-GAIS-Lab-Embedding-File-Search](../03-GAIS-Lab-Embedding-File-Search/README.md)
+[Prerequisite: Python setup](../00-Python-Lab-Setup-Python/README.md) |
+[Prerequisite: 01-GAIS-Lab-JSON-Schema](../../02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |
+[Next: 02-GAIS-Lab-Embedding-File-Search](../../02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md)
 
 Complete the steps in your separate portfolio repository. This lab includes the
 75-minute exercise and Part 2 in Week 2, Session 4. Retrieval and evaluation can
@@ -20,9 +21,10 @@ run without a Gemini key; answer generation uses the key from Google Lab 1.
 Preserve document attribution and never commit secrets. Source testing notes
 below are historical, not a new live-cloud validation.
 
-This is the original Python Lab 1 in the Google AI Studio learning sequence.
-Retrieval runs locally and answer generation uses Gemini. No AWS service or
-Bedrock Knowledge Base is created by this exercise.
+This is the original Python Lab 1 in the Python category. Retrieval and
+evaluation run locally without a cloud key. Optional answer generation uses
+Gemini and requires the linked Google JSON Schema lab; it is not Python-only.
+No AWS service or Bedrock Knowledge Base is created by this exercise.
 
 ## Lab Overview
 
