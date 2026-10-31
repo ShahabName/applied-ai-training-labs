@@ -152,6 +152,31 @@ This exercise takes approximately **75** minutes.
        main()
    ```
 
+   NFKC means Unicode Normalization Form Compatibility Composition. It
+   converts compatibility characters to a consistent representation, then
+   combines equivalent character sequences where possible. For example, the
+   single ligature character `ﬁ` becomes the two letters `fi`, and full-width
+   `Ａ` becomes `A`. This reduces formatting differences in extracted PDF text;
+   it does not translate text or fix all extraction errors. Compatibility
+   normalization can remove meaningful distinctions, so keep the original
+   documents as your reference.
+
+   Cosine similarity compares the directions of two embedding vectors:
+   `cosine(a, b) = dot(a, b) / (length(a) * length(b))`. For nonzero vectors,
+   values range from -1 to 1; larger values indicate closer directions.
+   With text embeddings this is a useful signal of semantic similarity,
+   not a probability or proof that a passage answers the question.
+   `normalize_embeddings=True` gives vectors unit length, so the dot product
+   calculates cosine similarity directly.
+
+   `SentenceTransformer(MODEL)` loads the named pretrained text-embedding
+   model, downloading it on the first use if it is not cached. Its `encode`
+   method turns each text chunk into a numeric vector; in this model each
+   vector has 384 dimensions. Retrieval encodes the question with the same
+   model so question and document vectors can be compared. This model does
+   not generate the final answer: Gemini performs that separate step.
+   If you change the embedding model, re-encode both documents and questions.
+
    * Cleaning: `NFKC` normalization splits PDF ligatures (one glyph for "fi") into letters, and the regular expression collapses spaces and line breaks.
    * Chunking: 800 characters with 150 characters of overlap, so a sentence cut at a boundary appears in both chunks.
    * Metadata: every chunk keeps its source file and page, which is what makes citations possible.
@@ -245,6 +270,20 @@ This exercise takes approximately **75** minutes.
    Expected: a short answer that names the Human Oversight principle and cites [1], followed by the list of sources with file names and pages.
 4. Optional: the same search with FAISS. Create `faiss_search.py` and run it; the scores match the NumPy search exactly.
 
+   NumPy is a Python library for numerical arrays and mathematical operations.
+   Here it stores the embedding matrix, loads `vectors.npy`, computes all
+   query-to-chunk dot products and sorts the scores. This direct search is
+   practical for a small document collection.
+
+   FAISS (Facebook AI Similarity Search) is a library for searching dense
+   vectors. An index stores vectors and returns the nearest matches to a
+   query. `IndexFlatIP` in this example performs an exact, exhaustive
+   inner-product search; with normalized vectors it ranks by cosine
+   similarity, just like NumPy. Scores should agree within floating-point
+   tolerance, although tied results may appear in a different order.
+   FAISS also offers approximate indexes for larger collections, but this
+   example does not use one.
+
    ```python
    """Optional: the same search with FAISS instead of a NumPy dot product."""
    import json
@@ -292,6 +331,42 @@ Before you tune anything, write questions with known answers and the page that c
    How many AI start-ups opened in Dubai in 2025?,Not in the documents - the system should say it does not know,,
    ```
 2. Create `evaluate.py`. It counts a hit when a gold page is in the top five (recall@5) and rewards hits near the top (MRR):
+
+   Recall describes how much relevant information a search retrieves.
+   Standard recall@k is the number of relevant items in the top `k` divided
+   by the total number of relevant items for that question. This lab's code
+   uses a simpler question-level hit rate, labelled `recall@5`: a question
+   counts as a hit if at least one of its accepted gold pages appears in the
+   first five results. It does not require retrieving every accepted page.
+   The reported value is `questions with a hit / answerable questions`.
+   For example, 6 hits among 13 answerable questions gives about `0.46`.
+
+   MRR means Mean Reciprocal Rank. For each answerable question, find the
+   rank of the first matching source/page: rank 1 contributes `1`, rank 2
+   contributes `1/2`, and rank 5 contributes `1/5`. A miss in the top five
+   contributes `0`. Add these contributions and divide by the number of
+   answerable questions. This lab therefore reports MRR truncated at five:
+   it rewards correct evidence appearing near the top of the retrieved list.
+
+   | Parameter or field | Role in this evaluation |
+   | --- | --- |
+   | `K = 5` | Retrieve the five highest-scoring chunks for each question |
+   | `question` | Text passed to the retrieval model |
+   | `expected_answer` | Reference for manually checking generated answers; the retrieval script does not score it |
+   | `gold_source` | Expected document filename; an empty value marks an unanswerable question |
+   | `gold_page` | Accepted page numbers, separated by `;`; both source and page must match |
+   | `ranks` | One-based positions of matching source/page results |
+   | `found` | Number of answerable questions with at least one match |
+   | `reciprocal` | Sum of reciprocal first-match ranks |
+   | `CONFIG` | Labels describing chunk size/overlap, embedding model and search method; update them when changing the pipeline |
+   | `results.csv` | Records date, configuration labels, `K`, hit rate and MRR for each run |
+
+   Both reported metrics range from 0 to 1; higher is better for this fixed
+   evaluation set. They measure retrieval, not answer correctness or citation
+   faithfulness. The two unanswerable questions are excluded from their
+   denominators; separately check whether generated answers decline them.
+   `SentenceTransformer(MODEL)` supplies the embeddings used by retrieval;
+   `evaluate.py` imports `retrieve` from `ask.py` and does not train a model.
 
    ```python
    """Measure retrieval quality on eval.csv: recall@k and mean reciprocal rank (MRR)."""
