@@ -10,6 +10,41 @@ course_slide: 90
 dependencies: [CH00, G00]
 ---
 
+## What you will learn
+
+### What we will do
+
+Call Gemini from Python, compare zero-shot, few-shot, reasoning and Arabic
+prompts, then classify synthetic hotel reviews into a validated JSON contract.
+Record correctness, response variability and latency.
+
+### Libraries and tools
+
+Use `google-genai` for requests, `pydantic` for the response contract and
+`python-dotenv` for local key loading. Standard-library `csv` records results
+and `time` measures latency and spaces requests.
+
+### Important calls and commands
+
+`load_dotenv()` loads local configuration; `genai.Client()` creates the SDK
+client; `client.interactions.create()` submits a prompt.
+`Review.model_json_schema()` describes the required output shape,
+`Review.model_validate_json()` validates a response and `model_dump()`
+exposes parsed fields. `time.perf_counter()` measures elapsed time.
+
+### Expected results
+
+Produce a first answer with latency, repeated prompt observations and
+`model_comparison.csv`. Review output reports `valid` or `INVALID` and the
+first-try validation count. Check sentiment and follow-up values manually:
+schema validity alone does not prove correctness, and live results can vary.
+
+### Connection to agentic AI
+
+Structured outputs become reliable inputs to later workflow steps and agent
+tools. Validation prevents malformed data from silently driving an action.
+This lab practices those building blocks, not an autonomous decision loop.
+
 [All student labs](../../../../README.md) |
 [Google Gemini setup](../00-GAIS-Lab-Setup-Google-Gemini/README.md) |
 [Prerequisite: Challenge 0](../../00-Setup-Lab/README.md) |

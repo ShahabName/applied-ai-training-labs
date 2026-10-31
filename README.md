@@ -30,8 +30,11 @@ labs/student/
 └── images/
 ```
 
-Every lab folder has a README. The existing combined HTML guide also remains
-under `labs/student` for offline use.
+Every lab folder has a README that begins with activities, libraries and tools,
+important calls, expected results, and its connection to agentic AI.
+Setup and console exercises explicitly identify when no Python SDK is needed.
+The existing combined HTML guide also remains under `labs/student` for offline
+use and links to these learning briefs.
 
 | Lab | Duration | Course slide |
 |---|---|---|

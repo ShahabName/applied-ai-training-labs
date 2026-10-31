@@ -10,6 +10,41 @@ course_slide: 91
 dependencies: [CH00, A00, G01]
 ---
 
+## What you will learn
+
+### What we will do
+
+Verify account security and budget alerts, select an approved Amazon Nova
+model in the Bedrock playground and rerun the Gemini lab's prompts. Compare
+classification, JSON behavior and the metrics shown by the console.
+
+### Libraries and tools
+
+Use the AWS Management Console and your existing model comparison CSV.
+This is a browser exercise: no Python package, boto3 code or local AWS
+access key is required.
+
+### Important calls and commands
+
+Choose the approved region/model, set temperature to zero and a modest
+output limit, then submit each prompt in the playground. These are console
+operations, not SDK calls. Read latency and token metrics when provided,
+and record the same comparison fields used in the Gemini exercise.
+
+### Expected results
+
+Add Bedrock observations to `model_comparison.csv`, including correctness,
+latency and JSON validity. Do not assume identical answers across providers
+or guaranteed repeatability at temperature zero. Record unavailable access
+honestly; budget notifications are not spending caps.
+
+### Connection to agentic AI
+
+Provider comparison helps you select a model for an agent's task based on
+evidence rather than brand or size. Output contracts, latency and cost
+boundaries matter when a model drives tools. This lab does not create a
+Bedrock Agent or Knowledge Base.
+
 [All student labs](../../../../README.md) |
 [AWS setup](../00-AWS-Lab-Setup-AWS/README.md) |
 [Prerequisite: Google Lab 1](../../02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |

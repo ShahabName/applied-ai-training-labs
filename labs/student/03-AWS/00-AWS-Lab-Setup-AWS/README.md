@@ -9,6 +9,38 @@ estimated_minutes: 45
 dependencies: [CH00]
 ---
 
+## What you will learn
+
+### What we will do
+
+Create or verify an eligible AWS course account, secure it with MFA, review
+credits and configure budget notifications. Establish an approved non-root
+identity and region/model boundary before Bedrock use.
+
+### Libraries and tools
+
+Use the AWS Management Console, an authenticator app and Git. No Python
+library, boto3 installation or model invocation is required in this setup.
+
+### Important calls and commands
+
+The important operations are console actions: verify the account plan,
+assign MFA, review a non-root service identity and create or verify budgets.
+`git status --short` checks that credential files are not being published.
+There is no SDK method to implement here.
+
+### Expected results
+
+Produce a sanitized checklist with account, identity, alerts and approved
+region/model readiness. Record blockers as pending or offline. Understand
+that budget alerts can be delayed and do not cap spending.
+
+### Connection to agentic AI
+
+Agents that invoke cloud tools need identity separation, limited permissions
+and cost controls. This lab develops that operational judgment without
+building an agent or creating a Knowledge Base.
+
 ## Start here
 
 [All student labs](../../../../README.md) |

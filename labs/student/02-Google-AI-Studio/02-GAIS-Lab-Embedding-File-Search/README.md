@@ -10,6 +10,46 @@ course_slide: 141
 dependencies: [CH00, G00, G01, P01]
 ---
 
+## What you will learn
+
+### What we will do
+
+Compare local and Gemini embeddings, upload the public policy documents to
+a managed File Search store and ask the RAG evaluation questions. Compare
+answers, citations, latency and implementation effort, then delete the store.
+
+### Libraries and tools
+
+Reuse `sentence-transformers` and `numpy` for local similarity calculations.
+Use `google-genai` and `python-dotenv` for Gemini, with standard-library
+`pathlib`, `csv`, `argparse` and `time` for files, results and operation polling.
+
+### Important calls and commands
+
+`model.encode()` creates local embeddings; `client.models.embed_content()`
+creates Gemini embeddings. `file_search_stores.create()` and
+`upload_to_file_search_store()` build the managed index;
+`client.operations.get()` checks upload completion.
+`client.interactions.create(..., tools=[...])` makes File Search available
+to the model. Inspect `file_citation` annotations and use
+`file_search_stores.delete()` through `python file_search.py --delete`
+to remove the lab-owned store.
+
+### Expected results
+
+Produce two similarity matrices, indexed document messages and
+`file_search_results.csv` with answers, citations and latency. Manually
+mark answer/citation correctness and compare with local RAG, including
+unsupported questions. Exact scores and answers can vary; missing citations
+are an observation to investigate, not proof of grounded answers.
+
+### Connection to agentic AI
+
+This lab introduces a model-accessible retrieval tool and its lifecycle.
+Comparing managed and local retrieval teaches you which controls and
+responsibilities move to the provider. It is a tool-enabled workflow,
+not a general-purpose autonomous agent.
+
 [All student labs](../../../../README.md) |
 [Prerequisite: Google Lab 1](../01-GAIS-Lab-JSON-Schema/README.md) |
 [Prerequisite: 01-Python-Lab-RAG](../../01-Python/01-Python-Lab-RAG/README.md)

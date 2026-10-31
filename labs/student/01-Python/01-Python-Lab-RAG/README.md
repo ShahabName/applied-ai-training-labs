@@ -10,6 +10,48 @@ course_slide: 126
 dependencies: [CH00, P00]
 ---
 
+## What you will learn
+
+### What we will do
+
+Load public UAE policy documents, clean and chunk their text, embed the
+chunks and retrieve evidence for English and Arabic questions. Optionally
+generate cited answers with Gemini, then evaluate retrieval and improve
+one pipeline choice at a time, including the later Part 2 exercise.
+
+### Libraries and tools
+
+Use `pypdf` for PDF extraction, `sentence-transformers` for local embeddings
+and `numpy` for vector storage and search. `faiss-cpu` is optional.
+`google-genai` and `python-dotenv` support the Gemini answer step.
+Standard-library `unicodedata`, `re`, `json`, `csv` and `pathlib` handle
+cleaning, files and evidence.
+
+### Important calls and commands
+
+`PdfReader` and `extract_text()` read PDFs; `unicodedata.normalize("NFKC", ...)`
+and `re.sub()` clean text. `SentenceTransformer(MODEL).encode()` produces
+embeddings. `vectors @ q` ranks normalized vectors by cosine similarity;
+optional `faiss.IndexFlatIP` creates an index, `index.add()` stores vectors
+and `index.search()` performs exhaustive inner-product retrieval.
+The lab's `retrieve()`
+function supplies evidence to the answer step and evaluation.
+
+### Expected results
+
+Create `chunks.json`, `vectors.npy`, top-ranked source/page passages and
+`results.csv` with the lab's question-level hit rate labelled recall@5 and
+top-five MRR. If Gemini access is available, inspect cited answers too.
+Counts, scores and answers depend on your documents and configuration;
+historical screenshots are examples, not required exact results.
+
+### Connection to agentic AI
+
+Retrieval can be an agent's evidence-gathering tool. Metadata, citations,
+evaluation and declining unsupported questions help keep its responses
+grounded. This fixed RAG pipeline is not itself an autonomous agent:
+you are learning a component that an agent can later call.
+
 [All student labs](../../../../README.md) |
 [Prerequisite: Python setup](../00-Python-Lab-Setup-Python/README.md) |
 [Prerequisite: 01-GAIS-Lab-JSON-Schema](../../02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) |

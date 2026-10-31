@@ -64,6 +64,17 @@ nav.toc ol { columns: 1; }
 </ol>
 </nav>
 <main>
+<aside aria-label="Learning briefs">
+<h2>Start with the learning briefs</h2>
+<p>Before each exercise, read its opening learning brief for activities, libraries and tools, important calls, expected results and the connection to agentic AI. These links open the adjacent lab README files; GitHub renders them when browsing the repository online.</p>
+<ul>
+<li><a href="02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md">Gemini JSON Schema learning brief</a>: model calls, validated structured outputs and comparison evidence.</li>
+<li><a href="03-AWS/01-AWS-Lab-bedrock/README.md">Bedrock learning brief</a>: console-only model comparison, identity and cost boundaries; no Python SDK required.</li>
+<li><a href="01-Python/01-Python-Lab-RAG/README.md">Python RAG learning brief</a>: extraction, embeddings, retrieval, citations and evaluation, including Part 2.</li>
+<li><a href="02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md">Embedding and File Search learning brief</a>: similarity matrices, managed retrieval tools, citation review and store cleanup.</li>
+</ul>
+<p>These exercises teach components and tool-enabled workflows. They do not claim that every exercise builds an autonomous agent.</p>
+</aside>
 <section class="lab" id="lab-g1"><h2><span class="tag google">Google</span>Google Lab 1: Call Gemini from Python with a JSON response schema</h2><table class="meta"><tr><th>Lab type</th><td>Hands-on lab</td></tr><tr><th>Course slide</th><td>Slide 90 &middot; Week 1, Session 3 &middot; Sat 26 Sep 2026</td></tr><tr><th>Expected duration</th><td>45 to 60 minutes</td></tr><tr><th>Environment</th><td>Your laptop: Python, VS Code; Google AI Studio in a web browser</td></tr><tr><th>Account and cost</th><td>Gemini API free tier (no payment method)</td></tr><tr><th>Related labs</th><td>Skillable Lab 01 and Lab 03 (same prompts in Foundry); AWS Lab 1 (same prompts in Bedrock)</td></tr><tr><th>Public docs</th><td><a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/structured-output" target="_blank" rel="noopener">Structured outputs</a> &middot; <a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">API keys</a></td></tr><tr><th>Tested</th><td>2026-10-09 &middot; see the note at the end of the lab</td></tr></table><div class="page"><div class="page-label">Page 1 of 2</div><h2 id="lab-g1-before-you-start">Before you start</h2>
 <p>You need one personal Google account (Gmail) for all four Google labs. You must be 18 or older. The United Arab Emirates is a supported country for Google AI Studio and the Gemini API (<a class="icon-link external-link" href="https://ai.google.dev/gemini-api/docs/available-regions" target="_blank" rel="noopener">available regions</a>). Turn off any VPN.</p>
 <ul>

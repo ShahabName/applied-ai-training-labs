@@ -11,6 +11,40 @@ objectives: [O01, O02, O13]
 dependencies: []
 ---
 
+## What you will learn
+
+### What we will do
+
+Prepare a reproducible workspace, run a small offline database exercise, and
+separate the course materials clone from your own work repository. Review
+cloud-access, credential and cost boundaries before any live exercise.
+
+### Libraries and tools
+
+Use Python's standard-library `sqlite3`, `json`, `argparse` and
+`importlib.metadata`, plus Git, uv and VS Code. No third-party Python package
+or cloud SDK is required; the script only checks optional package availability.
+
+### Important calls and commands
+
+`sqlite3.connect(":memory:")` creates a temporary database;
+`executemany(..., parameters)` inserts synthetic tickets using SQL parameters;
+`execute(...).fetchall()` retrieves them. `json.dumps()` formats the evidence.
+`git status --short` checks for local changes and `git pull --ff-only` downloads
+releases without creating a merge commit.
+
+### Expected results
+
+The readiness output reports `local_readiness_passed`, two synthetic rows and
+zero cloud calls. You also have an isolated interpreter, a separate work
+repository and an honest eligible/pending/offline access checklist.
+
+### Connection to agentic AI
+
+Agents need predictable runtimes, safe data access and explicit permissions.
+Parameterized SQL, reproducibility and sanitized evidence are foundations for
+later agent tools. This setup does not build or run an autonomous agent.
+
 ## Mission and Prerequisites
 
 [All student labs](../../../README.md) |
@@ -41,7 +75,7 @@ If `uv` is unavailable, `py -3.13 -m venv .venv` creates the same environment wi
 
 [readiness.py](readiness.py) verifies an in-memory SQLite query, JSON serialization and the virtual environment. Expected output includes `local_readiness_passed`, `synthetic_rows: 2`, `cloud_calls: 0`, and your actual Python version. Missing later packages are informative, not readiness failures. This is not proof of cloud entitlement. Keep the local output and explain why SQL parameters are preferable to concatenating untrusted text.
 
-If Python is not found, reopen your terminal after installation and check the launcher version. An execution-policy error is avoided by calling the interpreter directly; do not disable security controls globally. If a later installer encounters corporate TLS inspection, use your institution's approved HTTPS package mirror and certificate configuration. The trainer used `https://packagefeedproxy.microsoft.io/pypi/simple/`; public students may not have access. Never use `--trusted-host`, insecure TLS flags, or copied credentials to bypass a failure.
+If Python is not found, reopen your terminal after installation and check the launcher version. An execution-policy error is avoided by calling the interpreter directly; do not disable security controls globally. Later labs install public packages from [PyPI](https://pypi.org/), whose standard package index is `https://pypi.org/simple/`. pip uses this index by default unless your environment configures another one. No package installation is needed for this readiness check. If your institution requires an approved HTTPS mirror or certificates, follow its guidance. Never use `--trusted-host`, insecure TLS flags, or copied credentials to bypass a failure.
 
 ## GitHub and 15-Minute Checkpoint
 

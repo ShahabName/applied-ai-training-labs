@@ -9,6 +9,38 @@ estimated_minutes: 30
 dependencies: [CH00]
 ---
 
+## What you will learn
+
+### What we will do
+
+Review Gemini eligibility and usage limits, create or verify a course API key,
+and prepare a private local environment without making a model request.
+
+### Libraries and tools
+
+Use Google AI Studio, Git, uv (or `venv`) and VS Code. No Python library is
+installed in this setup. The next JSON Schema lab introduces `google-genai`,
+`pydantic` and `python-dotenv`.
+
+### Important calls and commands
+
+`uv venv` creates the isolated runtime. `git check-ignore .env` verifies that
+the key file is excluded, and `git status --short` checks what Git would
+publish. API-key creation and tier review are browser operations, not Python
+method calls; never display the real key in evidence.
+
+### Expected results
+
+Record eligible/pending/offline access, reviewed model limits, a selected
+interpreter and an ignored `.env` file. No model response is expected and no
+paid upgrade is required.
+
+### Connection to agentic AI
+
+An agent's provider connection must have safe credentials, appropriate data
+handling and clear cost limits. This lab establishes those boundaries before
+you learn model calls; it does not demonstrate autonomous tool use.
+
 ## Start here
 
 [All student labs](../../../../README.md) |

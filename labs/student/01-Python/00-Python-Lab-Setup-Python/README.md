@@ -9,6 +9,39 @@ estimated_minutes: 30
 dependencies: [CH00]
 ---
 
+## What you will learn
+
+### What we will do
+
+Create an isolated Python environment, select it in VS Code and run the
+existing offline readiness exercise before preparing your RAG work folder.
+
+### Libraries and tools
+
+Use uv (or Python's built-in `venv`), Git and VS Code. The readiness script
+uses standard-library `sqlite3`, `json` and `argparse`; no model, API key or
+third-party package is required here.
+
+### Important calls and commands
+
+`uv venv .venv --python 3.13` creates the environment. Invoking its Python
+executable selects that runtime without activation. The readiness script's
+`check_readiness()` uses `sqlite3.connect(":memory:")`, parameterized SQL and
+`json.dumps()` to verify data access and produce readable evidence.
+
+### Expected results
+
+You have a selected `.venv` interpreter and JSON evidence reporting two
+synthetic rows, `local_readiness_passed` and `cloud_calls: 0`. Missing optional
+packages do not invalidate the check. Your separate work repository is ready
+for the later RAG exercise.
+
+### Connection to agentic AI
+
+Isolated dependencies and repeatable checks help you diagnose agent-tool
+failures separately from model behavior. This is environment preparation,
+not an agent or cloud entitlement test.
+
 ## Start here
 
 [All student labs](../../../../README.md) |
