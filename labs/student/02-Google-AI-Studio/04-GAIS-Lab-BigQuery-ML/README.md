@@ -147,7 +147,21 @@ This exercise takes approximately **45** minutes.
    * The wildcard table plus `_TABLE_SUFFIX` selects one table per day from August 2016 to June 2017.
    * BigQuery ML keeps part of the training data aside for its own evaluation during training.
 
-3. When the statement finishes, `sample_model` appears under `bqml_tutorial` on the **Models** tab. Open it and look at the **Training** tab: the loss graph should go down with each iteration.
+3. When the statement finishes, `sample_model` appears under `bqml_tutorial` on the **Models** tab. Open it and look at the **Training metrics** tab: the loss graph should go down with each iteration.
+
+   ![BigQuery ML Training metrics tab showing the Loss line graph and Duration bar chart across iterations 0 to 8.](../../images/google-lab-4-train-and-evaluate-a-bigquery-ml-model-with-sql/img02-training-loss-duration.png)
+
+   ![BigQuery ML Training metrics tab showing the Learn rate line graph across iterations 0 to 8.](../../images/google-lab-4-train-and-evaluate-a-bigquery-ml-model-with-sql/img03-training-learn-rate.png)
+
+   ### How to read the three Training metrics graphs
+
+   For a complete offline visual walkthrough, open [training-metrics-tutorial.html](training-metrics-tutorial.html) in Microsoft Edge. Here is what each of the three graphs tells you about your `CREATE OR REPLACE MODEL` run across iterations `0` to `8`:
+
+   | Graph | Axes | What Happens in `sample_model` | How to Interpret It |
+   | --- | --- | --- | --- |
+   | **1. Loss** (Line chart) | **X:** Iteration (`0`–`8`)<br>**Y:** Log Loss (Binary Cross-Entropy) | Starts around `0.52` at Iteration 0, drops steeply to `~0.17` by Iteration 2, and flattens near `0.046` at Iterations 6–8. | Measures how wrong the predicted purchase probabilities are. A smooth downward curve that levels off means the model **converged** cleanly. BigQuery ML stops early at Iteration 8 (instead of running all 20 default iterations) because relative improvement fell below 1% (`min_rel_progress = 0.01`). |
+   | **2. Duration (seconds)** (Bar chart) | **X:** Iteration (`0`–`8`)<br>**Y:** Wall-clock seconds per iteration | Iteration 0 takes `~4.3 s`; Iterations 1–8 take `~5.8 s` to `~8.8 s` each (~65–70 s total iteration time). | Shows the compute time per gradient-descent pass over the 11 months of sessions. Uniform bar heights confirm stable distributed execution with no bottleneck spikes. |
+   | **3. Learn rate** (Line chart) | **X:** Iteration (`0`–`8`)<br>**Y:** Step size (`0E0` = 0, `1E1` = 10, `2E1` = 20, `3E1` = 30) | Starts at `0.1` (`0.01E1`) and doubles on each successful step (`0.2 → 0.4 → 0.8 → 1.6 → 3.2 → 6.4 → 12.8 → 25.6`), plateauing at `25.6` (`2.56E1`) on Iterations 7–8. | BigQuery ML defaults to `learn_rate_strategy = 'LINE_SEARCH'`, which automatically **doubles** the step size whenever a step reduces loss. As the loss curve flattens near the minimum, gradients become tiny, so a larger multiplier (`25.6`) still produces safe, small weight updates. |
 
 ## Evaluate on a later month
 

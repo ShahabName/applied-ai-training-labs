@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Lab 4 Tutorial: Understanding BigQuery ML Training Metrics Graphs</title>
+<style>
+:root {
+  --fg: #1b1b1f;
+  --muted: #5b5f6b;
+  --accent: #1a73e8;
+  --accent-dark: #0a1c3d;
+  --bg: #ffffff;
+  --code: #f4f6fa;
+  --border: #d9dee8;
+  --card-bg: #f8fafd;
+  --warn-border: #ffb81c;
+  --warn-bg: #fffaf0;
+  --good-border: #1e8e3e;
+  --good-bg: #f1f9f3;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.6;
+}
+header.top {
+  padding: 28px 40px;
+  background: var(--accent-dark);
+  color: #fff;
+}
+header.top .badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  margin-bottom: 8px;
+}
+header.top h1 { margin: 0 0 8px; font-size: 28px; }
+header.top p { margin: 4px 0; color: #c7d3e6; max-width: 900px; }
+nav.toc {
+  padding: 18px 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+}
+nav.toc ol { margin: 8px 0 0; padding-left: 20px; }
+nav.toc li { margin: 4px 0; }
+main { padding: 20px 40px 60px; max-width: 1080px; }
+section.section {
+  border-top: 3px solid var(--accent);
+  margin-top: 36px;
+  padding-top: 12px;
+}
+h2 { font-size: 23px; margin: 12px 0 10px; color: var(--accent-dark); }
+h3 { font-size: 18px; margin: 18px 0 8px; }
+pre {
+  background: var(--code);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  overflow: auto;
+  font-size: 13px;
+}
+code { font-family: Consolas, "Cascadia Code", monospace; font-size: 0.92em; }
+code.inline {
+  background: #eef3fb;
+  border: 1px solid #d5e0f2;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 10px 0;
+}
+figure { margin: 16px 0; }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
+table.data {
+  border-collapse: collapse;
+  margin: 14px 0 20px;
+  font-size: 14px;
+  width: 100%;
+}
+table.data td, table.data th {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+table.data th { background: #eef3fb; font-weight: 600; }
+.callout {
+  margin: 14px 0;
+  padding: 10px 16px;
+  border-left: 4px solid var(--warn-border);
+  background: var(--warn-bg);
+  border-radius: 0 6px 6px 0;
+}
+.callout.good {
+  border-left-color: var(--good-border);
+  background: var(--good-bg);
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--card-bg);
+}
+.card h3 { margin-top: 0; color: var(--accent); }
+a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="badge">Google Lab 4 &middot; BigQuery ML Tutorial</span>
+  <h1>Understanding the Three Training Metrics Graphs in BigQuery ML</h1>
+  <p>A step-by-step guide to reading the <strong>Loss</strong>, <strong>Duration (seconds)</strong>, and <strong>Learn rate</strong> charts generated for <code style="color:#fff;">bqml_tutorial.sample_model</code> in the Google Cloud BigQuery console.</p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <strong>Tutorial Sections</strong>
+  <ol>
+    <li><a href="#overview">1. Overview: What Happened When You Ran CREATE MODEL?</a></li>
+    <li><a href="#graph-1-loss">2. Graph 1: Loss (Log Loss Across Iterations)</a></li>
+    <li><a href="#graph-2-duration">3. Graph 2: Duration (Seconds per Iteration)</a></li>
+    <li><a href="#graph-3-learn-rate">4. Graph 3: Learn Rate (Line Search Step Size)</a></li>
+    <li><a href="#table-view">5. Querying the Exact Numbers with ML.TRAINING_INFO</a></li>
+    <li><a href="#checklist">6. Quick Diagnostic Checklist for Students</a></li>
+  </ol>
+</nav>
+
+<main>
+  <p><a href="README.md">&larr; Back to Google Lab 4 README</a> &middot; <a href="../../released-labs.html#lab-g4">Open Combined Offline Lab Guide</a></p>
+
+  <section class="section" id="overview">
+    <h2>1. Overview: What Happened When You Ran <code class="inline">CREATE MODEL</code>?</h2>
+    <p>In Google Lab 4, you trained a binary logistic regression model on 11 months of Google Merchandise Store sessions (August 2016 to June 2017) using this SQL statement:</p>
+    <pre><code>CREATE OR REPLACE MODEL `bqml_tutorial.sample_model`
+OPTIONS(model_type = 'logistic_reg') AS
+SELECT
+  IF(totals.transactions IS NULL, 0, 1) AS label,
+  IFNULL(device.operatingSystem, "") AS os,
+  device.isMobile AS is_mobile,
+  IFNULL(geoNetwork.country, "") AS country,
+  IFNULL(totals.pageviews, 0) AS pageviews
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+WHERE _TABLE_SUFFIX BETWEEN '20160801' AND '20170630';</code></pre>
+
+    <p>When <code class="inline">CREATE OR REPLACE MODEL</code> finishes and you open <code class="inline">ai-course-bqml &rarr; Datasets &rarr; bqml_tutorial &rarr; Models &rarr; sample_model &rarr; Training metrics</code>, BigQuery displays <strong>three graphs</strong> across iterations <code class="inline">0</code> through <code class="inline">8</code>:</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>1. Loss (Line Chart)</h3>
+        <p><strong>What it measures:</strong> How wrong the model's probability predictions are (<em>Log Loss / Cross-Entropy</em>) at each training iteration.</p>
+        <p><strong>Goal:</strong> Should drop steeply and flatten near the bottom (converge).</p>
+      </div>
+      <div class="card">
+        <h3>2. Duration (Bar Chart)</h3>
+        <p><strong>What it measures:</strong> How many wall-clock seconds BigQuery spent computing gradient updates in each iteration.</p>
+        <p><strong>Goal:</strong> Consistent, predictable compute time (~4.3s to ~8.8s per iteration).</p>
+      </div>
+      <div class="card">
+        <h3>3. Learn Rate (Line Chart)</h3>
+        <p><strong>What it measures:</strong> The step size (<code class="inline">learn_rate</code>) chosen by BigQuery ML's automatic <code>LINE_SEARCH</code> strategy at each iteration.</p>
+        <p><strong>Goal:</strong> Automatically doubles when steps consistently reduce loss.</p>
+      </div>
+    </div>
+
+    <figure>
+      <img src="../../images/google-lab-4-train-and-evaluate-a-bigquery-ml-model-with-sql/img02-training-loss-duration.png" alt="BigQuery ML Training metrics tab showing the Loss line graph and Duration bar chart across iterations 0 to 8.">
+      <figcaption>Figure 1: The top two charts on the <strong>Training metrics</strong> tab &mdash; <strong>Loss</strong> (left) and <strong>Duration (seconds)</strong> (right).</figcaption>
+    </figure>
+
+    <figure>
+      <img src="../../images/google-lab-4-train-and-evaluate-a-bigquery-ml-model-with-sql/img03-training-learn-rate.png" alt="BigQuery ML Training metrics tab showing the Learn rate line graph across iterations 0 to 8.">
+      <figcaption>Figure 2: The third chart on the <strong>Training metrics</strong> tab &mdash; <strong>Learn rate</strong> across iterations <code class="inline">0</code> to <code class="inline">8</code>.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="graph-1-loss">
+    <h2>2. Graph 1: Loss (Log Loss Across Iterations)</h2>
+    <ul>
+      <li><strong>X-axis (<code class="inline">Iteration</code>):</strong> The gradient-descent step number, from Iteration <code class="inline">0</code> to Iteration <code class="inline">8</code> (9 total iterations). By default, BigQuery ML allows up to <code class="inline">max_iterations = 20</code>, but stops early as soon as relative loss improvement falls below <code class="inline">min_rel_progress = 0.01</code> (1%).</li>
+      <li><strong>Y-axis (<code class="inline">Loss</code>):</strong> For <code class="inline">model_type = 'logistic_reg'</code>, this is <strong>Log Loss (Binary Cross-Entropy)</strong>:
+        <pre><code>Log Loss = - (1 / N) * SUM[ y * log(p) + (1 - y) * log(1 - p) ]</code></pre>
+        where <code class="inline">y</code> is the true label (<code class="inline">0</code> = no purchase, <code class="inline">1</code> = purchase) and <code class="inline">p</code> is the model's predicted probability of a purchase.
+      </li>
+    </ul>
+
+    <h3>How to Read the Curve in Your Screenshot</h3>
+    <ol>
+      <li><strong>Iteration 0 (Loss &approx; 0.52):</strong> Before the weights are tuned, the model starts near uniform/uninformed probabilities. A binary classifier that guesses 50/50 on every row has a theoretical log loss of <code class="inline">-ln(0.5) = 0.693</code>; after the initial step at Iteration 0, the loss is around <code class="inline">0.52</code>.</li>
+      <li><strong>Iterations 1 to 3 (Loss drops from ~0.52 &rarr; ~0.31 &rarr; ~0.17 &rarr; ~0.095):</strong> The steepest drop happens here. Because roughly 98.5% of sessions have <em>no transaction</em> (<code class="inline">label = 0</code>), the model rapidly learns the baseline purchase rate and the strongest signals (such as high <code class="inline">pageviews</code> and desktop vs. mobile).</li>
+      <li><strong>Iterations 4 to 8 (Loss flattens from ~0.068 &rarr; ~0.046):</strong> The curve bends into a smooth "elbow" and levels out just below <code class="inline">0.05</code> (around <code class="inline">0.046</code>).</li>
+      <li><strong>Why Training Stopped at Iteration 8:</strong> Between Iteration 7 and Iteration 8, the loss changed by less than 1% (<code class="inline">min_rel_progress</code>). BigQuery ML automatically declared <strong>convergence</strong> and stopped at Iteration 8 instead of wasting time and compute running all 20 iterations.</li>
+    </ol>
+
+    <div class="callout good">
+      <strong>Key Takeaway:</strong> A smooth, monotonically decreasing Loss curve that flattens out at the end is the textbook signature of <strong>healthy convergence</strong>. If the curve zig-zagged wildly or went up, the learning rate would be too high.
+    </div>
+  </section>
+
+  <section class="section" id="graph-2-duration">
+    <h2>3. Graph 2: Duration (Seconds per Iteration)</h2>
+    <ul>
+      <li><strong>X-axis (<code class="inline">Iteration</code>):</strong> Each bar corresponds to one training iteration (<code class="inline">0</code> through <code class="inline">8</code>).</li>
+      <li><strong>Y-axis (<code class="inline">Duration (seconds)</code>):</strong> How long that single iteration took to execute in BigQuery's distributed compute engine.</li>
+    </ul>
+
+    <h3>How to Read the Bars in Your Screenshot</h3>
+    <ul>
+      <li><strong>Iteration 0 (~4.3 seconds):</strong> The initial pass sets up the starting weights and computes the initial loss.</li>
+      <li><strong>Iterations 1 to 8 (~5.8 to ~8.8 seconds per bar):</strong> Each subsequent bar takes roughly <strong>6 to 9 seconds</strong> because BigQuery evaluates the gradient across ~800,000+ training sessions (August 2016 – June 2017) and runs a line search to pick the best step size.</li>
+      <li><strong>Total Training Compute Time:</strong> Summing the 9 bars gives roughly <strong>65–70 seconds</strong> of pure iteration compute (plus query initialization, feature encoding, and train/eval split overhead).</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Why Engineers Check Duration:</strong> In BigQuery ML, every additional feature or high-cardinality text column increases the number of one-hot encoded weights, which makes each iteration bar taller. Comparing per-iteration duration helps you estimate how long a larger model (such as <code class="inline">boosted_tree_classifier</code>) will take.
+    </div>
+  </section>
+
+  <section class="section" id="graph-3-learn-rate">
+    <h2>4. Graph 3: Learn Rate (Line Search Step Size)</h2>
+    <ul>
+      <li><strong>X-axis (<code class="inline">Iteration</code>):</strong> Training iteration <code class="inline">0</code> through <code class="inline">8</code>.</li>
+      <li><strong>Y-axis (<code class="inline">Learn rate</code>):</strong> Displayed in scientific notation:
+        <ul>
+          <li><code class="inline">0E0</code> = <strong>0</strong></li>
+          <li><code class="inline">1E1</code> = <strong>10</strong> (<code class="inline">1 &times; 10<sup>1</sup></code>)</li>
+          <li><code class="inline">2E1</code> = <strong>20</strong> (<code class="inline">2 &times; 10<sup>1</sup></code>)</li>
+          <li><code class="inline">3E1</code> = <strong>30</strong> (<code class="inline">3 &times; 10<sup>1</sup></code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Why Does the Learn Rate Go <em>Up</em> Exponentially (0.1 &rarr; 0.2 &rarr; 0.4 &rarr; ... &rarr; 25.6)?</h3>
+    <p>Students who have used PyTorch or TensorFlow often expect learning rates to <em>decay</em> over time and are surprised to see BigQuery ML's learn rate climb to <code class="inline">25.6</code>! Here is why:</p>
+    <ol>
+      <li><strong>Default Strategy is <code class="inline">LINE_SEARCH</code>:</strong> When you do not specify <code class="inline">learn_rate_strategy</code> in <code class="inline">OPTIONS(...)</code>, BigQuery ML defaults to <code class="inline">learn_rate_strategy = 'LINE_SEARCH'</code> with an initial <code class="inline">ls_init_learn_rate = 0.1</code>.</li>
+      <li><strong>Doubling on Successful Steps:</strong> At each iteration, BigQuery ML tests candidate step sizes along the gradient direction. When a step successfully decreases the loss, the line-search algorithm <strong>doubles the learning rate</strong> for the next iteration so it can traverse flat regions of the loss surface faster:
+        <pre><code>Iteration 0: 0.1  (0.01E1)
+Iteration 1: 0.2
+Iteration 2: 0.4
+Iteration 3: 0.8
+Iteration 4: 1.6
+Iteration 5: 3.2
+Iteration 6: 6.4
+Iteration 7: 12.8 &rarr; 25.6 (2.56E1)
+Iteration 8: 25.6 (plateaus as convergence is reached)</code></pre>
+      </li>
+      <li><strong>Plateau at Iteration 7–8 (<code class="inline">25.6</code>, just above <code class="inline">2.5E1</code>):</strong> Near the minimum of the logistic loss curve, the gradient becomes very small (flat slope). A larger multiplier (<code class="inline">25.6</code>) times a tiny gradient still produces a safe, small parameter update, and at Iteration 8 the line search keeps the same <code class="inline">25.6</code> rate before stopping.</li>
+    </ol>
+
+    <div class="callout good">
+      <strong>When Would You Change This?</strong> If you ever see the Loss graph bounce up and down, you can override the automatic line search in SQL with:
+      <code class="inline">OPTIONS(model_type = 'logistic_reg', learn_rate_strategy = 'CONSTANT', learn_rate = 0.01)</code>.
+      For <code class="inline">sample_model</code>, <code class="inline">LINE_SEARCH</code> converged cleanly in 8 iterations without any manual tuning.
+    </div>
+  </section>
+
+  <section class="section" id="table-view">
+    <h2>5. Querying the Exact Numbers with <code class="inline">ML.TRAINING_INFO</code></h2>
+    <p>You can view these exact values either by clicking the <strong>Table</strong> toggle button next to <strong>Graph</strong> at the top-left of the <strong>Training metrics</strong> tab, or by running Query #6 from <code class="inline">bqml.sql</code>:</p>
+    <pre><code>SELECT
+  iteration,
+  ROUND(loss, 4) AS training_loss,
+  ROUND(eval_loss, 4) AS evaluation_loss,
+  ROUND(duration_ms / 1000.0, 2) AS duration_seconds,
+  learn_rate
+FROM ML.TRAINING_INFO(MODEL `bqml_tutorial.sample_model`)
+ORDER BY iteration ASC;</code></pre>
+
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Iteration</th>
+          <th>Approx. Loss</th>
+          <th>Approx. Duration (s)</th>
+          <th>Learn Rate</th>
+          <th>What Is Happening</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>~0.520</td>
+          <td>~4.3 s</td>
+          <td>0.1 / 0.2</td>
+          <td>Initial weights evaluated; loss starts high (~0.52).</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>~0.315</td>
+          <td>~7.6 s</td>
+          <td>0.4</td>
+          <td>First major gradient step; learns baseline class imbalance.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>~0.172</td>
+          <td>~7.8 s</td>
+          <td>0.8</td>
+          <td>Rapid loss reduction; line search doubles step size.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>~0.098</td>
+          <td>~5.8 s</td>
+          <td>1.6</td>
+          <td>Loss drops below 0.10.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>~0.068</td>
+          <td>~8.4 s</td>
+          <td>3.2</td>
+          <td>Entering the "elbow" of the loss curve.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>~0.055</td>
+          <td>~8.8 s</td>
+          <td>6.4</td>
+          <td>Fine-tuning feature weights (<code class="inline">pageviews</code>, <code class="inline">country</code>, <code class="inline">os</code>, <code class="inline">is_mobile</code>).</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>~0.049</td>
+          <td>~8.5 s</td>
+          <td>12.8</td>
+          <td>Gradients are now very small; step multiplier doubles again.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>~0.047</td>
+          <td>~7.5 s</td>
+          <td>25.6</td>
+          <td>Near minimum log loss (~0.047).</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>~0.046</td>
+          <td>~8.7 s</td>
+          <td>25.6</td>
+          <td>Relative improvement &lt; 1% (<code class="inline">min_rel_progress</code>); training stops automatically.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="checklist">
+    <h2>6. Quick Diagnostic Checklist for Students</h2>
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>What to Check in the 3 Graphs</th>
+          <th>Verdict for <code class="inline">sample_model</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Did the model converge?</strong></td>
+          <td>Does the <strong>Loss</strong> curve decrease smoothly and flatten out before hitting the 20-iteration cap?</td>
+          <td><strong>Yes</strong> &mdash; converged at Iteration 8 with Loss &approx; <code class="inline">0.046</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Does a low Loss (~0.046) mean the model finds every buyer?</strong></td>
+          <td>No! When 98.5% of sessions have 0 purchases, predicting small probabilities gives a very low average Log Loss even if recall at the 0.5 threshold is low (~11.1%).</td>
+          <td><strong>Always check the Evaluation tab / <code class="inline">ML.EVALUATE</code></strong> for Precision, Recall, and ROC AUC after checking Loss.</td>
+        </tr>
+        <tr>
+          <td><strong>Was compute time stable?</strong></td>
+          <td>Are the <strong>Duration</strong> bars roughly uniform (~4–9s) without a runaway spike?</td>
+          <td><strong>Yes</strong> &mdash; ~4.3s to ~8.8s per iteration.</td>
+        </tr>
+        <tr>
+          <td><strong>Did automatic line search work?</strong></td>
+          <td>Did <strong>Learn rate</strong> scale smoothly without causing the Loss curve to spike upward?</td>
+          <td><strong>Yes</strong> &mdash; doubled cleanly up to <code class="inline">25.6</code> (<code class="inline">2.56E1</code>) and plateaued.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>
