@@ -250,6 +250,8 @@ This exercise takes approximately **45** minutes.
 
 1. In `week4/cloud_comparison.md`, note for BigQuery ML and Azure Automated ML: the steps to a first model, the time to a first model, how metrics are shown, how predictions are served, and what you could not control. The datasets differ, so compare the workflow, not the accuracy.
 
+   For a complete visual guide to the four Azure Machine Learning MLflow evaluation plots (Raw Confusion Matrix, Normalized Confusion Matrix, Precision-Recall Curve, and ROC Curve) generated in [mslearn-aml-cli Lab 04](https://microsoftlearning.github.io/mslearn-aml-cli/Instructions/Labs/04-use-mlflow-jobs.html), open [confusion-matrix-pr-roc-tutorial.html](confusion-matrix-pr-roc-tutorial.html) in Microsoft Edge.
+
    Save all statements in `week4/bqml.sql` in your repository.
 
 The complete `bqml.sql` file:
