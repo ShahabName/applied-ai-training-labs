@@ -52,7 +52,8 @@ not a general-purpose autonomous agent.
 
 [All student labs](../../../../README.md) |
 [Prerequisite: Google Lab 1](../01-GAIS-Lab-JSON-Schema/README.md) |
-[Prerequisite: 01-Python-Lab-RAG](../../01-Python/01-Python-Lab-RAG/README.md)
+[Prerequisite: 01-Python-Lab-RAG](../../01-Python/01-Python-Lab-RAG/README.md) |
+[Next: Google Lab 3](../03-GAIS-Lab-Function-Calling/README.md)
 
 Complete the steps in your separate portfolio repository. Reuse the documents,
 evaluation set and environment from Python Lab 1 and the key from Google Lab 1.

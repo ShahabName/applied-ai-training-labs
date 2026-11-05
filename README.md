@@ -23,11 +23,14 @@ labs/student/
 ├── 02-Google-AI-Studio/
 │   ├── 00-GAIS-Lab-Setup-Google-Gemini/
 │   ├── 01-GAIS-Lab-JSON-Schema/
-│   └── 02-GAIS-Lab-Embedding-File-Search/
+│   ├── 02-GAIS-Lab-Embedding-File-Search/
+│   ├── 03-GAIS-Lab-Function-Calling/
+│   └── 04-GAIS-Lab-BigQuery-ML/
 ├── 03-AWS/
 │   ├── 00-AWS-Lab-Setup-AWS/
 │   ├── 01-AWS-Lab-bedrock/
-│   └── 01a-AWS-Lab-Bedrock-BedTimeStory/
+│   ├── 01a-AWS-Lab-Bedrock-BedTimeStory/
+│   └── 03-AWS-Lab-SageMaker-AI/
 └── images/
 ```
 
@@ -44,14 +47,18 @@ use and links to these learning briefs.
 | [00-AWS-Lab-Setup-AWS](labs/student/03-AWS/00-AWS-Lab-Setup-AWS/README.md) | 45 minutes | Setup |
 | [01-AWS-Lab-bedrock](labs/student/03-AWS/01-AWS-Lab-bedrock/README.md) | 45 to 60 minutes | 91 |
 | [01a-AWS-Lab-Bedrock-BedTimeStory](labs/student/03-AWS/01a-AWS-Lab-Bedrock-BedTimeStory/README.md) | 20 minutes | Extension |
+| [03-AWS-Lab-SageMaker-AI (instructor demo)](labs/student/03-AWS/03-AWS-Lab-SageMaker-AI/README.md) | 20 to 30 minutes plus discussion | 337 |
 | [00-GAIS-Lab-Setup-Google-Gemini](labs/student/02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) | 30 minutes | Setup |
 | [01-GAIS-Lab-JSON-Schema](labs/student/02-Google-AI-Studio/01-GAIS-Lab-JSON-Schema/README.md) | 45 to 60 minutes | 90 |
 | [02-GAIS-Lab-Embedding-File-Search](labs/student/02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
+| [03-GAIS-Lab-Function-Calling](labs/student/02-Google-AI-Studio/03-GAIS-Lab-Function-Calling/README.md) | 45 to 60 minutes | 232 |
+| [04-GAIS-Lab-BigQuery-ML](labs/student/02-Google-AI-Studio/04-GAIS-Lab-BigQuery-ML/README.md) | 45 to 60 minutes | 335 |
 
-The Google sequence is setup, JSON Schema, then Embedding/File Search. Complete
-the Python RAG lab before File Search: it supplies the documents and evaluation
-set. Python RAG's retrieval and evaluation are local; its optional answer
-generation uses Gemini and requires the Google access setup.
+The Google sequence is setup, JSON Schema, Embedding/File Search, Function
+Calling, then BigQuery ML. Complete the Python RAG lab before File Search: it
+supplies the documents and evaluation set. Python RAG's retrieval and evaluation
+are local; its optional answer generation uses Gemini and requires the Google
+access setup.
 
 Each lab has its own folder and full README instructions, viewable directly on
 GitHub like 00-Setup-Lab. The folders contain course instructions, not your
@@ -77,10 +84,10 @@ limits before using your own account. Budget alerts do not cap spending.
 
 These instructions are for your separate work/submission repository. Do not put
 keys, account details, or your completed work into this distribution repository.
-The three category setup labs, four original hands-on labs and the AWS
-bedtime-story extension are released. The extension follows the Bedrock
-playground and requires separate approval for its Sydney/GPT OSS boundary.
-Later practical labs remain unpublished.
+The three category setup labs, six hands-on labs, the AWS bedtime-story
+extension, and the AWS SageMaker AI instructor demo are released. The extension
+follows the Bedrock playground and requires separate approval for its
+Sydney/GPT OSS boundary. Later practical labs remain unpublished.
 
 ## Course Schedule
 
