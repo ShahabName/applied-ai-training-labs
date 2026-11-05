@@ -150,9 +150,12 @@ Google AI Studio is Google's web tool for trying Gemini models and managing API 
    load_dotenv()  # reads GEMINI_API_KEY from the .env file
    client = genai.Client()
 
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
+
    start = time.perf_counter()
    interaction = client.interactions.create(
-       model="gemini-3.8-flash",
+       model=MODEL,
        input="Explain in two sentences what an AI engineer does.",
    )
    print(interaction.output_text)
@@ -182,7 +185,8 @@ Use the same prompts as in the Foundry chat lab so that the comparison is fair.
    from dotenv import load_dotenv
    from google import genai
 
-   MODEL = "gemini-3.8-flash"
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
    RUNS = 3
 
    PROMPTS = {
@@ -243,7 +247,8 @@ A response schema makes the model return JSON in an exact shape. You still valid
    from google import genai
    from pydantic import BaseModel, Field, ValidationError
 
-   MODEL = "gemini-3.8-flash"
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
 
 
    class Review(BaseModel):

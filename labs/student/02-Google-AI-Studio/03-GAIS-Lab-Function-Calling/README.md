@@ -117,7 +117,8 @@ This exercise takes approximately **45** minutes.
    from dotenv import load_dotenv
    from google import genai
 
-   MODEL = "gemini-3.8-flash"
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
 
    # Fixed demo data, so results are repeatable and no other API key is needed.
    WEATHER = {"dubai": {"temp_c": 31, "condition": "sunny"},

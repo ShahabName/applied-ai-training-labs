@@ -231,7 +231,8 @@ An embedding is a list of numbers. Texts with similar meaning get vectors that p
    from dotenv import load_dotenv
    from google import genai
 
-   MODEL = "gemini-3.8-flash"
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
    STORE_FILE = Path("store.txt")  # remembers the store name between runs
 
    load_dotenv()

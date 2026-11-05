@@ -243,7 +243,10 @@ This exercise takes approximately **75** minutes.
    from sentence_transformers import SentenceTransformer
 
    EMBED_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-   GEMINI_MODEL = "gemini-3.8-flash"
+   # GEMINI_MODEL = "gemini-3.8-flash"
+   # MODEL = "gemini-3.8-flash"
+   MODEL = "gemini-3.1-flash-lite"
+   GEMINI_MODEL = MODEL
 
    with open("chunks.json", encoding="utf-8") as f:
        records = json.load(f)

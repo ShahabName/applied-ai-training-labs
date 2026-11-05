@@ -139,9 +139,12 @@ pip install -U google-genai pydantic python-dotenv</span></code></pre>
 load_dotenv</span><span class="pun">()</span><span class="pln">  </span><span class="com"># reads GEMINI_API_KEY from the .env file</span><span class="pln">
 client </span><span class="pun">=</span><span class="pln"> genai</span><span class="pun">.</span><span class="pln">Client</span><span class="pun">()</span><span class="pln">
 
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
+
 start </span><span class="pun">=</span><span class="pln"> time</span><span class="pun">.</span><span class="pln">perf_counter</span><span class="pun">()</span><span class="pln">
 interaction </span><span class="pun">=</span><span class="pln"> client</span><span class="pun">.</span><span class="pln">interactions</span><span class="pun">.</span><span class="pln">create</span><span class="pun">(</span><span class="pln">
-    model</span><span class="pun">=</span><span class="str">"gemini-3.8-flash"</span><span class="pun">,</span><span class="pln">
+    model</span><span class="pun">=</span><span class="pln">MODEL</span><span class="pun">,</span><span class="pln">
     </span><span class="typ">input</span><span class="pun">=</span><span class="str">"Explain in two sentences what an AI engineer does."</span><span class="pun">,</span><span class="pln">
 </span><span class="pun">)</span><span class="pln">
 </span><span class="typ">print</span><span class="pun">(</span><span class="pln">interaction</span><span class="pun">.</span><span class="pln">output_text</span><span class="pun">)</span><span class="pln">
@@ -164,7 +167,8 @@ interaction </span><span class="pun">=</span><span class="pln"> client</span><sp
 </span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
 </span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
 
-MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
 RUNS </span><span class="pun">=</span><span class="pln"> </span><span class="lit">3</span><span class="pln">
 
 PROMPTS </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
@@ -220,7 +224,8 @@ client </span><span class="pun">=</span><span class="pln"> genai</span><span cla
 </span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
 </span><span class="kwd">from</span><span class="pln"> pydantic </span><span class="kwd">import</span><span class="pln"> BaseModel</span><span class="pun">,</span><span class="pln"> Field</span><span class="pun">,</span><span class="pln"> ValidationError
 
-MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
 
 
 </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Review</span><span class="pun">(</span><span class="pln">BaseModel</span><span class="pun">):</span><span class="pln">
@@ -518,7 +523,10 @@ OVERLAP </span><span class="pun">=</span><span class="pln"> </span><span class="
 </span><span class="kwd">from</span><span class="pln"> sentence_transformers </span><span class="kwd">import</span><span class="pln"> SentenceTransformer
 
 EMBED_MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span><span class="pln">
-GEMINI_MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># GEMINI_MODEL = "gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
+GEMINI_MODEL </span><span class="pun">=</span><span class="pln"> MODEL
 
 </span><span class="kwd">with</span><span class="pln"> </span><span class="typ">open</span><span class="pun">(</span><span class="str">"chunks.json"</span><span class="pun">,</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">"utf-8"</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> f</span><span class="pun">:</span><span class="pln">
     records </span><span class="pun">=</span><span class="pln"> json</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="pln">f</span><span class="pun">)</span><span class="pln">
@@ -785,7 +793,8 @@ vectors </span><span class="pun">=</span><span class="pln"> vectors </span><span
 </span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
 </span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
 
-MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
 STORE_FILE </span><span class="pun">=</span><span class="pln"> Path</span><span class="pun">(</span><span class="str">"store.txt"</span><span class="pun">)</span><span class="pln">  </span><span class="com"># remembers the store name between runs</span><span class="pln">
 
 load_dotenv</span><span class="pun">()</span><span class="pln">
@@ -913,7 +922,8 @@ pip install -U google-genai python-dotenv pytest
 </span><span class="kwd">from</span><span class="pln"> dotenv </span><span class="kwd">import</span><span class="pln"> load_dotenv
 </span><span class="kwd">from</span><span class="pln"> google </span><span class="kwd">import</span><span class="pln"> genai
 
-MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.8-flash"</span><span class="pln">
+</span><span class="com"># MODEL = "gemini-3.8-flash"</span><span class="pln">
+MODEL </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gemini-3.1-flash-lite"</span><span class="pln">
 
 </span><span class="com"># Fixed demo data, so results are repeatable and no other API key is needed.</span><span class="pln">
 WEATHER </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="str">"dubai"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="str">"temp_c"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">31</span><span class="pun">,</span><span class="pln"> </span><span class="str">"condition"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"sunny"</span><span class="pun">},</span><span class="pln">
