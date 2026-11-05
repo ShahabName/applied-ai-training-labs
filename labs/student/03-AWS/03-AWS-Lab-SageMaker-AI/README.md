@@ -95,15 +95,35 @@ When you are ready, continue below to start the exercise.
 
 ## Amazon SageMaker AI walkthrough (instructor demo)
 
-In this demo, the instructor tours Amazon SageMaker AI, the AWS counterpart of Azure Machine Learning: a domain with a user profile, SageMaker Studio, a JupyterLab space, a managed training job, the model registry and endpoints. Students map each concept to Azure and Google Cloud in the three-cloud table.
+In this demo, the instructor tours Amazon SageMaker AI, the AWS counterpart of Azure Machine Learning: a domain with a user profile, SageMaker Studio, a JupyterLab space, a managed training job, the model registry and endpoints. Students set up `week3\AWS` locally, run `train.py` in a virtual environment, and map each cloud concept to Azure and Google Cloud in the three-cloud table.
 
 This exercise takes approximately **30** minutes.
+
+## Set up the project
+
+1. In VS Code, open your portfolio repository and create the folder `week3\AWS`. Right-click the folder and select **Open in Integrated Terminal** (or run the commands below from your repository root to create and enter `week3\AWS`):
+
+   ```powershell
+   New-Item -ItemType Directory -Force -Path week3\AWS
+   Set-Location week3\AWS
+   ```
+
+2. Create and activate a virtual environment, install `scikit-learn` and `joblib`, and create a `.gitignore` file so the virtual environment and generated model artefacts are not committed to Git:
+
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+   pip install -U scikit-learn joblib
+   Set-Content .gitignore ".venv/`nmodel/"
+   ```
+
+   On macOS or Linux use `source .venv/bin/activate` instead of `.venv\Scripts\Activate.ps1`.
 
 ## Test the training script locally first
 
 A managed training job runs a script on a fresh instance. Test the script on a laptop before paying for an instance.
 
-1. Create `train.py` (it uses the breast cancer dataset that ships with scikit-learn, so no upload is needed):
+1. Inside `week3\AWS`, create `train.py` (it uses the breast cancer dataset that ships with scikit-learn, so no upload is needed):
 
    ```python
    """Train a scikit-learn classifier. The same script runs on your laptop and as a SageMaker training job."""
@@ -143,7 +163,15 @@ A managed training job runs a script on a fresh instance. Test the script on a l
        main()
    ```
 
-2. In a virtual environment with `scikit-learn` and `joblib` installed, run it twice:
+2. Ensure your virtual environment is started in the terminal (if it is not already active from the setup step, activate it now):
+
+   ```powershell
+   .venv\Scripts\Activate.ps1
+   ```
+
+   On macOS or Linux run `source .venv/bin/activate`.
+
+3. In a virtual environment with `scikit-learn` and `joblib` installed, run it twice:
 
    ```powershell
    python train.py
@@ -227,7 +255,7 @@ The same machine learning concepts exist on every cloud under different names. L
 
 ### End the lab
 
-Students commit the completed three-cloud table in `week4/cloud_comparison.md`.
+Students commit `week3/AWS/train.py`, `week3/AWS/.gitignore`, and the completed three-cloud table in `week4/cloud_comparison.md`.
 
 ### How this lab was tested
 

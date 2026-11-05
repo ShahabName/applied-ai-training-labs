@@ -1330,12 +1330,24 @@ TOOLS </span><span class="pun">=</span><span class="pln"> </span><span class="pu
   <p><strong>Trainer note</strong>: Practice the demo once before class and create the domain about 15 minutes early: quick setup takes several minutes. If quick setup fails (for example because of a missing default VPC), show screenshots you prepared instead of debugging live.</p>
 </blockquote>
 <p>Now, when you're ready, go to the next page to start the exercise.</p></div><div class="page"><div class="page-label">Page 2 of 2</div><h1 id="lab-a3-amazon-sagemaker-ai-walkthrough-instructor-demo">Amazon SageMaker AI walkthrough (instructor demo)</h1>
-<p>In this demo, the instructor tours Amazon SageMaker AI, the AWS counterpart of Azure Machine Learning: a domain with a user profile, SageMaker Studio, a JupyterLab space, a managed training job, the model registry and endpoints. Students map each concept to Azure and Google Cloud in the three-cloud table.</p>
+<p>In this demo, the instructor tours Amazon SageMaker AI, the AWS counterpart of Azure Machine Learning: a domain with a user profile, SageMaker Studio, a JupyterLab space, a managed training job, the model registry and endpoints. Students set up <code class="inline-value">week3\AWS</code> locally, run <code class="inline-value">train.py</code> in a virtual environment, and map each cloud concept to Azure and Google Cloud in the three-cloud table.</p>
 <p>This exercise takes approximately <strong>30</strong> minutes.</p>
+<h2 id="lab-a3-set-up-the-project">Set up the project</h2>
+<ol class="taskList">
+<li class="task-list-item" id="lab-a3-setup0"><p>In VS Code, open your portfolio repository and create the folder <span class="typeText" title="Type Text">week3\AWS</span>. Right-click the folder and select <strong>Open in Integrated Terminal</strong> (or run the commands below from your repository root to create and enter <code class="inline-value">week3\AWS</code>):</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">New-Item -ItemType Directory -Force -Path week3\AWS
+Set-Location week3\AWS</span></code></pre></li>
+<li class="task-list-item" id="lab-a3-setup1"><p>Create and activate a virtual environment, install <code class="inline-value">scikit-learn</code> and <code class="inline-value">joblib</code>, and create a <code class="inline-value">.gitignore</code> file so the virtual environment and generated model artefacts are not committed to Git:</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -U scikit-learn joblib
+Set-Content .gitignore </span><span class="str">".venv/`nmodel/"</span></code></pre>
+<p>On macOS or Linux use <code class="inline-value">source .venv/bin/activate</code> instead of <code class="inline-value">.venv\Scripts\Activate.ps1</code>.</p></li>
+</ol>
 <h2 id="lab-a3-test-the-training-script-locally-first">Test the training script locally first</h2>
 <p>A managed training job runs a script on a fresh instance. Test the script on a laptop before paying for an instance.</p>
 <ol class="taskList">
-<li class="task-list-item" id="lab-a3-taskIndex0"><p>Create <code class="inline-value">train.py</code> (it uses the breast cancer dataset that ships with scikit-learn, so no upload is needed):</p>
+<li class="task-list-item" id="lab-a3-taskIndex0"><p>Inside <code class="inline-value">week3\AWS</code>, create <code class="inline-value">train.py</code> (it uses the breast cancer dataset that ships with scikit-learn, so no upload is needed):</p>
 <div class="code-lang">python</div><pre><code class="python language-python prettyprint prettyprinted"><span class="str">"""Train a scikit-learn classifier. The same script runs on your laptop and as a SageMaker training job."""</span><span class="pln">
 </span><span class="kwd">import</span><span class="pln"> argparse
 </span><span class="kwd">import</span><span class="pln"> os
@@ -1371,6 +1383,9 @@ TOOLS </span><span class="pun">=</span><span class="pln"> </span><span class="pu
 
 </span><span class="kwd">if</span><span class="pln"> __name__ </span><span class="pun">==</span><span class="pln"> </span><span class="str">"__main__"</span><span class="pun">:</span><span class="pln">
     main</span><span class="pun">()</span><span class="pln"></span></code></pre></li>
+<li class="task-list-item" id="lab-a3-taskIndex0b"><p>Ensure your virtual environment is started in the terminal (if it is not already active from the setup step, activate it now):</p>
+<div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">.venv\Scripts\Activate.ps1</span></code></pre>
+<p>On macOS or Linux run <code class="inline-value">source .venv/bin/activate</code>.</p></li>
 <li class="task-list-item" id="lab-a3-taskIndex1"><p>In a virtual environment with <code class="inline-value">scikit-learn</code> and <code class="inline-value">joblib</code> installed, run it twice:</p>
 <div class="code-lang">powershell</div><pre><code class="powershell language-powershell prettyprint prettyprinted"><span class="pln">python train</span><span class="pun">.</span><span class="pln">py
 python train</span><span class="pun">.</span><span class="pln">py </span><span class="pun">-</span><span class="pln">-C 0</span><span class="pun">.</span><span class="pln">1</span></code></pre>
@@ -1431,7 +1446,7 @@ estimator</span><span class="pun">.</span><span class="pln">fit</span><span clas
 <li class="task-list-item" id="lab-a3-taskIndex14"><p>Open <a class="icon-link external-link" href="https://console.aws.amazon.com/billing/" target="_blank" rel="noopener">Billing and Cost Management</a> and check <strong>Bills</strong> and <strong>Credits</strong>.</p></li>
 </ol>
 <h3 id="lab-a3-end-the-lab">End the lab</h3>
-<p>Students commit the completed three-cloud table in <code class="inline-value">week4/cloud_comparison.md</code>.</p>
+<p>Students commit <code class="inline-value">week3/AWS/train.py</code>, <code class="inline-value">week3/AWS/.gitignore</code>, and the completed three-cloud table in <code class="inline-value">week4/cloud_comparison.md</code>.</p>
 <h3 id="lab-a3-how-this-lab-was-tested">How this lab was tested</h3>
 <p>On 2026-10-09 <code class="inline-value">train.py</code> was run locally as shown (scikit-learn 1.9). The estimator parameters and the <code class="inline-value">1.4-2</code> framework version were checked against the SageMaker Python SDK 2.257.6 package. Console steps need a signed-in account and are described, not shown.</p></div></section>
 </main>
