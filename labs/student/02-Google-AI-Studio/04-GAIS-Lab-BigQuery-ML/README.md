@@ -182,11 +182,26 @@ This exercise takes approximately **45** minutes.
 
 2. Compare your result with Google's tutorial run, which reports values close to these:
 
+   ![BigQuery ML.EVALUATE query results showing precision, recall, accuracy, f1_score, log_loss and roc_auc.](../../images/google-lab-4-train-and-evaluate-a-bigquery-ml-model-with-sql/img04-evaluation-metrics.png)
+
    | precision | recall | accuracy | f1_score | log_loss | roc_auc |
    | --- | --- | --- | --- | --- | --- |
    | 0.469 | 0.111 | 0.985 | 0.179 | 0.046 | 0.982 |
 
    Is this a good model? Purchases are rare, so a model that always says "no purchase" is also about 98% accurate. Recall says the model finds only about one buyer in nine. ROC AUC is high, so the ranking of sessions is useful, even if the default 0.5 threshold is not. Training on earlier months and testing on a later month mirrors real use.
+
+   ### Plain-English guide to the six evaluation metrics
+
+   For a complete non-technical walkthrough with everyday analogies, open [evaluation-metrics-tutorial.html](evaluation-metrics-tutorial.html) in Microsoft Edge:
+
+   | Metric | Your Result | Plain-English Meaning |
+   | --- | --- | --- |
+   | **`precision`** | `0.469` (**46.9%**) | **Quality of alarms:** When the model flags a visitor as a *Buyer*, it is right almost half the time (47 out of 100 flags are real buyers). |
+   | **`recall`** | `0.111` (**11.1%**) | **Share of real buyers caught:** Out of all actual buyers who visited in July 2017, the model caught about 1 in 9 at the default 50% cutoff. |
+   | **`accuracy`** | `0.985` (**98.5%**) | **Overall right guesses (can be misleading!):** Because 98.5% of visitors don't buy anything, simply guessing *"No purchase"* every time is also 98.5% accurate. |
+   | **`f1_score`** | `0.179` (**17.9%**) | **Combined balance of Precision and Recall:** A strict average that stays low whenever either Precision or Recall is low. |
+   | **`log_loss`** | `0.046` (*Lower is better, 0 = perfect*) | **Confidence penalty:** Measures how well-calibrated the model's probability percentages are, heavily penalizing confident wrong guesses. |
+   | **`roc_auc`** | `0.982` (**98.2%**) | **Ranking superpower:** If you pick one real buyer and one non-buyer at random, the model gives the real buyer a higher score **98.2% of the time**. |
 
 ## Predict
 
