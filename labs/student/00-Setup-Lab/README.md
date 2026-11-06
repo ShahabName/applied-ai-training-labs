@@ -50,7 +50,8 @@ later agent tools. This setup does not build or run an autonomous agent.
 [All student labs](../../../README.md) |
 [Python setup](../01-Python/00-Python-Lab-Setup-Python/README.md) |
 [AWS setup](../03-AWS/00-AWS-Lab-Setup-AWS/README.md) |
-[Google AI Studio setup](../02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md)
+[Google AI Studio setup](../02-Google-AI-Studio/00-GAIS-Lab-Setup-Google-Gemini/README.md) |
+[Jupyter Data Science setup](../04-DataScience-By-Jupyter-Notebooks/00-DSJN-Lab-Setup/README.md)
 
 Prepare a reproducible workspace for the Service Operations Copilot portfolio using invented retailer tickets. Complete this readiness gate before the four required cloud challenges. No model, paid service, shared helper, or later challenge is required here. You need a supported laptop, permission to install development tools, your college identity for the course, and a personal GitHub account. A credit offer is not an eligibility guarantee.
 

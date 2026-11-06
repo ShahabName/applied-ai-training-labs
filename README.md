@@ -31,6 +31,9 @@ labs/student/
 │   ├── 01-AWS-Lab-bedrock/
 │   ├── 01a-AWS-Lab-Bedrock-BedTimeStory/
 │   └── 03-AWS-Lab-SageMaker-AI/
+├── 04-DataScience-By-Jupyter-Notebooks/
+│   ├── 00-DSJN-Lab-Setup/
+│   └── 01-DSJN-Data-Science-Using-Jupyter-Notebook/
 └── images/
 ```
 
@@ -53,6 +56,8 @@ use and links to these learning briefs.
 | [02-GAIS-Lab-Embedding-File-Search](labs/student/02-Google-AI-Studio/02-GAIS-Lab-Embedding-File-Search/README.md) | 45 minutes | 141 |
 | [03-GAIS-Lab-Function-Calling](labs/student/02-Google-AI-Studio/03-GAIS-Lab-Function-Calling/README.md) | 45 to 60 minutes | 232 |
 | [04-GAIS-Lab-BigQuery-ML](labs/student/02-Google-AI-Studio/04-GAIS-Lab-BigQuery-ML/README.md) | 45 to 60 minutes | 335 |
+| [00-DSJN-Lab-Setup](labs/student/04-DataScience-By-Jupyter-Notebooks/00-DSJN-Lab-Setup/README.md) | 30 minutes | Setup |
+| [01-DSJN-Data-Science-Using-Jupyter-Notebook](labs/student/04-DataScience-By-Jupyter-Notebooks/01-DSJN-Data-Science-Using-Jupyter-Notebook/README.md) | 45 to 60 minutes | Data Science & Jupyter |
 
 The Google sequence is setup, JSON Schema, Embedding/File Search, Function
 Calling, then BigQuery ML. Complete the Python RAG lab before File Search: it
